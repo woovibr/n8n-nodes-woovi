@@ -1,0 +1,20 @@
+{
+	"node": "n8n-nodes-base.Woovi",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Sales"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://developers.openpix.com.br/docs/apis/api-getting-started"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://developers.openpix.com.br/api"
+			}
+		]
+	}
+}
