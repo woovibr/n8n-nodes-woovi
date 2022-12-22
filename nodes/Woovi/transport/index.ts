@@ -1,4 +1,12 @@
-import { IHookFunctions, IExecuteFunctions, ILoadOptionsFunctions, IHttpRequestMethods, IDataObject, GenericValue, IHttpRequestOptions } from 'n8n-workflow';
+import {
+	GenericValue,
+	IDataObject,
+	IExecuteFunctions,
+	IHookFunctions,
+	IHttpRequestMethods,
+	IHttpRequestOptions,
+	ILoadOptionsFunctions,
+} from 'n8n-workflow';
 
 export async function apiRequest(
 	this: IHookFunctions | IExecuteFunctions | ILoadOptionsFunctions,
@@ -10,14 +18,14 @@ export async function apiRequest(
 	const credentials = await this.getCredentials('WooviApi');
 
 	const getQs = () => {
-		if(!query) {
-			return {}
+		if (!query) {
+			return {};
 		}
 
 		return {
 			qs: query,
-		}
-	}
+		};
+	};
 
 	const options: IHttpRequestOptions = {
 		method,
@@ -26,7 +34,7 @@ export async function apiRequest(
 		url: `${credentials.baseUrl}/openpix/v1/${endpoint}`,
 		headers: {
 			// todo: remove this and user httpRequestWithAuthorization
-			'Authorization': credentials.Authorization,
+			Authorization: credentials.Authorization,
 		},
 	};
 
