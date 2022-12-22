@@ -36,7 +36,7 @@ export class Woovi implements INodeType {
 				type: 'number',
 				default: '',
 				placeholder: 'charge value into cents',
-				description: 'chargeValue into cents',
+				description: 'ChargeValue into cents',
 			},
 			{
 				displayName: 'CorrelationID',
@@ -44,8 +44,8 @@ export class Woovi implements INodeType {
 				type: 'string',
 				default: '',
 				placeholder: 'correlationID',
-				description: 'unique identifier for the charge',
-			}
+				description: 'Unique identifier for the charge',
+			},
 		],
 	};
 
