@@ -17,7 +17,7 @@ export class Woovi implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'WooviApi',
+				name: 'wooviApi',
 				required: true,
 			},
 		],
