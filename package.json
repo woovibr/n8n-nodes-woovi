@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-woovi",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "n8n nodes for Woovi",
   "keywords": [
     "n8n-community-node-package"
