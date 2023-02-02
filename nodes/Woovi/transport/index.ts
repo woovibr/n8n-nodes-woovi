@@ -15,7 +15,7 @@ export async function apiRequest(
 	body: IDataObject | GenericValue | GenericValue[] = {},
 	query: IDataObject = {},
 ) {
-	const credentials = await this.getCredentials('WooviApi');
+	const credentials = await this.getCredentials('wooviApi');
 
 	const getQs = () => {
 		if (!query) {
@@ -25,8 +25,8 @@ export async function apiRequest(
 		return {
 			qs: query,
 		};
-	};
-
+	}
+;
 	const options: IHttpRequestOptions = {
 		method,
 		body,
