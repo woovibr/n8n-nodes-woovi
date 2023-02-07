@@ -4,7 +4,7 @@ import { apiRequest } from './transport';
 export class Woovi implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Woovi',
-		name: 'Woovi',
+		name: 'woovi',
 		icon: 'file:woovi.svg',
 		group: ['transform'],
 		version: 1,
@@ -61,7 +61,7 @@ export class Woovi implements INodeType {
 
 		const executionData = this.helpers.constructExecutionMetaData(
 			this.helpers.returnJsonArray(responseData),
-			{itemData: {item: 1}}
+			{itemData: {item: 1}},
 		);
 
 		operationResult = executionData;
