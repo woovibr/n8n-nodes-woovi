@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+		"skipLibCheck": true,
     "lib": [
       "es2017",
       "es2019"
