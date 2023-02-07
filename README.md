@@ -1,6 +1,6 @@
 # n8n-nodes-woovi
 
-![Woovi N8N logo](./static/img/woovi-n8n.png)
+![Woovi N8N logo](img/woovi-n8n.png)
 
 [![NPM Version](https://badge.fury.io/js/n8n-nodes-woovi.svg?style=flat)](https://npmjs.org/package/n8n-nodes-woovi)
 
