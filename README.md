@@ -6,7 +6,7 @@
 
 [![https://nodei.co/npm/n8n-nodes-woovi.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/n8n-nodes-woovi.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/n8n-nodes-woovi)
 
-n8n nodes for create charges and payments with Woovi
+n8n nodes for create charges and payments with [Woovi](https://woovi.com)
 
 ## How to use
 
@@ -22,7 +22,7 @@ n8n nodes for create charges and payments with Woovi
 
 To get started install the package in your n8n root directory:
 
-`npm install n8n-nodes-discord`
+`npm install n8n-nodes-woovi`
 
 ### Setup
 
