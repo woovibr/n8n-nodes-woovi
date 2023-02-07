@@ -61,7 +61,7 @@ export class Woovi implements INodeType {
 
 		const executionData = this.helpers.constructExecutionMetaData(
 			this.helpers.returnJsonArray(responseData),
-			'charge',
+			{itemData: {item: 1}}
 		);
 
 		operationResult = executionData;
