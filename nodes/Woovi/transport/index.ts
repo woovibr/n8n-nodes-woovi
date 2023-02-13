@@ -35,6 +35,7 @@ export async function apiRequest(
 		headers: {
 			// todo: remove this and user httpRequestWithAuthorization
 			Authorization: credentials.Authorization,
+			platform: 'N8N',
 		},
 	};
 
