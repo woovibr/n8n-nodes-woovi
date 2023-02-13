@@ -1,4 +1,4 @@
-import { IDataObject, IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription, NodeOperationError } from 'n8n-workflow';
+import { IDataObject, IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription, NodeApiError, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from './transport';
 
 export class Woovi implements INodeType {
@@ -57,7 +57,12 @@ export class Woovi implements INodeType {
 			correlationID: this.getNodeParameter('correlationID', 0),
 		} as IDataObject;
 
-		const responseData = await apiRequest.call(this, 'POST', 'charge', body);
+		let responseData;
+		try {
+			responseData = await apiRequest.call(this, 'POST', '/charge', body);
+		} catch (error) {
+			throw new NodeApiError(this.getNode(), error);
+		}
 
 		const executionData = this.helpers.constructExecutionMetaData(
 			this.helpers.returnJsonArray(responseData),
