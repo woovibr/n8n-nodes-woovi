@@ -1,4 +1,4 @@
-import {
+import type {
 	GenericValue,
 	IDataObject,
 	IExecuteFunctions,
@@ -25,8 +25,7 @@ export async function apiRequest(
 		return {
 			qs: query,
 		};
-	}
-;
+	};
 	const options: IHttpRequestOptions = {
 		method,
 		body,

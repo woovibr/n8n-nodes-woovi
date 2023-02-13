@@ -1,8 +1,4 @@
-import {
-	IAuthenticateGeneric,
-	ICredentialType,
-	INodeProperties,
-} from 'n8n-workflow';
+import type { IAuthenticateGeneric, ICredentialType, INodeProperties } from 'n8n-workflow';
 
 export class WooviApi implements ICredentialType {
 	name = 'wooviApi';
@@ -29,7 +25,7 @@ export class WooviApi implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				'Authorization': '={{$credentials.Authorization}}',
+				Authorization: '={{$credentials.Authorization}}',
 			},
 		},
 	};
