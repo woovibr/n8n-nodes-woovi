@@ -1,6 +1,11 @@
-import { IDataObject, IExecuteFunctions, INodeExecutionData, INodePropertyOptions, INodeType, INodeTypeDescription, NodeApiError, NodeOperationError } from 'n8n-workflow';
+import { NodeApiError } from 'n8n-workflow';
+import type {
+	ILoadOptionsFunctions,
+	INodePropertyOptions,
+	INodeType,
+	INodeTypeDescription,
+} from 'n8n-workflow';
 import { apiRequest } from './transport';
-import { ILoadOptionsFunctions } from 'n8n-core';
 
 export class WooviTrigger implements INodeType {
 	description: INodeTypeDescription = {
