@@ -1,18 +1,13 @@
-import { IHookFunctions, NodeApiError } from 'n8n-workflow';
-import type {
-	ILoadOptionsFunctions,
-	INodePropertyOptions,
-	INodeType,
-	INodeTypeDescription,
-} from 'n8n-workflow';
+import { IDataObject, IExecuteFunctions, IHookFunctions, INodeExecutionData, INodePropertyOptions, INodeType, INodeTypeDescription, IWebhookFunctions, IWebhookResponseData, NodeApiError, NodeOperationError } from 'n8n-workflow';
 import { apiRequest } from './transport';
+import { ILoadOptionsFunctions } from 'n8n-core';
 
 export class WooviTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Woovi Trigger',
 		name: 'wooviTrigger',
 		icon: 'file:woovi.svg',
-		group: ['transform'],
+		group: ['trigger'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Handle Woovi Events via Webhook',
@@ -46,7 +41,7 @@ export class WooviTrigger implements INodeType {
 		],
 		properties: [
 			{
-				displayName: 'Event or Name or ID',
+				displayName: 'Event Names or Name or ID',
 				name: 'events',
 				type: 'options',
 				required: true,
@@ -58,48 +53,6 @@ export class WooviTrigger implements INodeType {
 				options: [],
 			},
 		],
-	};
-
-	webhookMethods = {
-		default: {
-			async create(this: IHookFunctions): Promise<boolean> {
-				let webhook;
-				const webhookUrl = this.getNodeWebhookUrl('default');
-				const events = this.getNodeParameter('events', []) as string[];
-				const body = {
-					name: 'N8N Webhook',
-					url: webhookUrl,
-					event: events,
-					isActive: true,
-				};
-
-				try {
-						webhook = await apiRequest.call(this, 'POST', '/webhook', body);
-				} catch (error) {
-					throw error;
-				}
-
-				if (webhook.id === undefined) {
-					return false;
-				}
-				const webhookData = this.getWorkflowStaticData('node');
-				webhookData.webhookId = webhook.id as string;
-				return true;
-			},
-
-			async delete(this: IHookFunctions): Promise<boolean> {
-				const webhookData = this.getWorkflowStaticData('node');
-				if (webhookData.webhookId !== undefined) {
-					try {
-							await apiRequest.call(this, 'DELETE', '/webhook', {});
-					} catch (error) {
-						return false;
-					}
-					delete webhookData.webhookId;
-				}
-				return true;
-			},
-		},
 	};
 
 	methods = {
@@ -133,4 +86,59 @@ export class WooviTrigger implements INodeType {
 			},
 		},
 	};
+	webhookMethods = {
+		default: {
+			async create(this: IHookFunctions): Promise<boolean> {
+				let webhook;
+				const webhookUrl = this.getNodeWebhookUrl('default');
+
+				const events = this.getNodeParameter('events', []) as string[];
+				const body = {
+					name: 'N8N Webhook',
+					url: webhookUrl,
+					event: events,
+					isActive: true,
+				};
+
+				try {
+						webhook = await apiRequest.call(this, 'POST', 'webhook?validate=false', {
+							webhook:body
+						});
+				} catch (error) {
+					throw new NodeApiError(this.getNode(), error);
+				}
+
+				if (webhook.id === undefined) {
+					return false;
+				}
+				const webhookData = this.getWorkflowStaticData('node');
+				webhookData.webhookId = webhook.id as string;
+
+				console.dir({webhook, webhookData}, {depth: null, colors: true});
+				return true;
+			},
+
+			async delete(this: IHookFunctions): Promise<boolean> {
+				const webhookData = this.getWorkflowStaticData('node');
+				console.dir({webhookData}, {depth: null, colors: true});
+				if (webhookData.webhookId !== undefined) {
+					try {
+							await apiRequest.call(this, 'DELETE', `webhook/${webhookData.webhookId}`, {});
+					} catch (error) {
+						return false;
+					}
+					delete webhookData.webhookId;
+				}
+				return true;
+			},
+		},
+	};
+
+	async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
+		const req = this.getRequestObject();
+
+		return {
+			workflowData: [this.helpers.returnJsonArray(req.body)],
+		};
+	}
 }
