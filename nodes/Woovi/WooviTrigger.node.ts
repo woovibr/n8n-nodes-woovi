@@ -76,11 +76,8 @@ export class WooviTrigger implements INodeType {
 				try {
 						webhook = await apiRequest.call(this, 'POST', '/webhook', body);
 				} catch (error) {
-					console.log(error)
 					throw error;
 				}
-
-				console.dir({webhook}, {depth: null})
 
 				if (webhook.id === undefined) {
 					return false;
