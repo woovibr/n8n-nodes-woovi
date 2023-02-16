@@ -46,13 +46,12 @@ export class WooviTrigger implements INodeType {
 		],
 		properties: [
 			{
-				displayName: 'Event Names or IDs',
+				displayName: 'Event or Name or ID',
 				name: 'events',
 				type: 'options',
 				required: true,
-				default: [],
-				description:
-					'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
+				default: '',
+				description: 'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
 				typeOptions: {
 					loadOptionsMethod: 'getEvents',
 				},

@@ -10,6 +10,7 @@
     "n8n-workflow": "^0.136.1"
   },
   "devDependencies": {
+    "@types/node": "^18.13.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint-plugin-n8n-nodes-base": "^1.11.0",
     "gulp": "^4.0.2",
