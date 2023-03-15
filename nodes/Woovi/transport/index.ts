@@ -30,7 +30,7 @@ export async function apiRequest(
 		method,
 		body,
 		...getQs(),
-		url: `${credentials.baseUrl}/openpix/v1/${endpoint}`,
+		url: `${credentials.baseUrl}/v1/${endpoint}`,
 		headers: {
 			// todo: remove this and user httpRequestWithAuthorization
 			Authorization: credentials.Authorization,
