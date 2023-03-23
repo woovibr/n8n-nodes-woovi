@@ -18,7 +18,7 @@ export class WooviApi implements ICredentialType {
 			displayName: 'Base URL',
 			name: 'baseUrl',
 			type: 'string',
-			default: 'https://api.openpix.com.br/api',
+			default: 'https://api.woovi.com/api',
 		},
 	];
 	authenticate: IAuthenticateGeneric = {

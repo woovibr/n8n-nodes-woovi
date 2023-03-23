@@ -29,7 +29,7 @@ export class Woovi implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: 'https://api.openpix.com.br/api',
+			baseURL: 'https://api.woovi.com/api',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
