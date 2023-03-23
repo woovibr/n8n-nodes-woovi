@@ -1,6 +1,14 @@
-import { IDataObject, IExecuteFunctions, IHookFunctions, INodeExecutionData, INodePropertyOptions, INodeType, INodeTypeDescription, IWebhookFunctions, IWebhookResponseData, NodeApiError, NodeOperationError } from 'n8n-workflow';
+import {
+	IHookFunctions,
+	ILoadOptionsFunctions,
+	INodePropertyOptions,
+	INodeType,
+	INodeTypeDescription,
+	IWebhookFunctions,
+	IWebhookResponseData,
+	NodeApiError,
+} from 'n8n-workflow';
 import { apiRequest } from './transport';
-import { ILoadOptionsFunctions } from 'n8n-core';
 
 export class WooviTrigger implements INodeType {
 	description: INodeTypeDescription = {
@@ -46,7 +54,8 @@ export class WooviTrigger implements INodeType {
 				type: 'options',
 				required: true,
 				default: '',
-				description: 'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
+				description:
+					'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
 				typeOptions: {
 					loadOptionsMethod: 'getEvents',
 				},
@@ -101,9 +110,9 @@ export class WooviTrigger implements INodeType {
 				};
 
 				try {
-						webhook = await apiRequest.call(this, 'POST', 'webhook?validate=false', {
-							webhook:body,
-						});
+					webhook = await apiRequest.call(this, 'POST', 'webhook?validate=false', {
+						webhook: body,
+					});
 				} catch (error) {
 					throw new NodeApiError(this.getNode(), error);
 				}
@@ -114,16 +123,16 @@ export class WooviTrigger implements INodeType {
 				const webhookData = this.getWorkflowStaticData('node');
 				webhookData.webhookId = webhook.id as string;
 
-				console.dir({webhook, webhookData}, {depth: null, colors: true});
+				console.dir({ webhook, webhookData }, { depth: null, colors: true });
 				return true;
 			},
 
 			async delete(this: IHookFunctions): Promise<boolean> {
 				const webhookData = this.getWorkflowStaticData('node');
-				console.dir({webhookData}, {depth: null, colors: true});
+				console.dir({ webhookData }, { depth: null, colors: true });
 				if (webhookData.webhookId !== undefined) {
 					try {
-							await apiRequest.call(this, 'DELETE', `webhook/${webhookData.webhookId}`, {});
+						await apiRequest.call(this, 'DELETE', `webhook/${webhookData.webhookId}`, {});
 					} catch (error) {
 						return false;
 					}
