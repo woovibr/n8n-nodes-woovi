@@ -72,6 +72,7 @@ export class WooviTrigger implements INodeType {
 				// TODO: Check if make sense the * event
 				const returnData: INodePropertyOptions[] = [];
 				let response;
+
 				try {
 					const endpoint = '/webhook/events';
 					response = await apiRequest.call(this, 'GET', endpoint);
@@ -91,16 +92,48 @@ export class WooviTrigger implements INodeType {
 						description: eventDescription,
 					});
 				}
+
 				return returnData;
 			},
 		},
 	};
 	webhookMethods = {
 		default: {
-			async create(this: IHookFunctions): Promise<boolean> {
-				let webhook;
+			async checkExists(this: IHookFunctions): Promise<boolean> {
 				const webhookUrl = this.getNodeWebhookUrl('default');
 
+				let result;
+
+				try {
+					result = await apiRequest.call(
+						this,
+						'GET',
+						'/webhook',
+						{},
+						{
+							url: webhookUrl,
+						},
+					);
+				} catch (error) {
+					throw new NodeApiError(this.getNode(), error);
+				}
+
+				const { webhooks } = result;
+
+				if (webhooks.length) {
+					const [webhook] = webhooks;
+					const webhookData = this.getWorkflowStaticData('node');
+
+					webhookData.webhookId = webhook.id;
+
+					return true;
+				}
+
+				return false;
+			},
+
+			async create(this: IHookFunctions): Promise<boolean> {
+				const webhookUrl = this.getNodeWebhookUrl('default');
 				const events = this.getNodeParameter('events', []) as string[];
 				const body = {
 					name: 'N8N Webhook',
@@ -108,6 +141,8 @@ export class WooviTrigger implements INodeType {
 					event: events,
 					isActive: true,
 				};
+
+				let webhook;
 
 				try {
 					webhook = await apiRequest.call(this, 'POST', '/webhook?validate=false', {
@@ -120,24 +155,26 @@ export class WooviTrigger implements INodeType {
 				if (webhook.id === undefined) {
 					return false;
 				}
+
 				const webhookData = this.getWorkflowStaticData('node');
 				webhookData.webhookId = webhook.id as string;
 
-				console.dir({ webhook, webhookData }, { depth: null, colors: true });
 				return true;
 			},
 
 			async delete(this: IHookFunctions): Promise<boolean> {
 				const webhookData = this.getWorkflowStaticData('node');
-				console.dir({ webhookData }, { depth: null, colors: true });
+
 				if (webhookData.webhookId !== undefined) {
 					try {
 						await apiRequest.call(this, 'DELETE', `/webhook/${webhookData.webhookId}`, {});
 					} catch (error) {
 						return false;
 					}
+
 					delete webhookData.webhookId;
 				}
+
 				return true;
 			},
 		},
