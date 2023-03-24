@@ -73,7 +73,7 @@ export class WooviTrigger implements INodeType {
 				const returnData: INodePropertyOptions[] = [];
 				let response;
 				try {
-					const endpoint = 'webhook/events';
+					const endpoint = '/webhook/events';
 					response = await apiRequest.call(this, 'GET', endpoint);
 				} catch (error) {
 					throw new NodeApiError(this.getNode(), error);
@@ -110,7 +110,7 @@ export class WooviTrigger implements INodeType {
 				};
 
 				try {
-					webhook = await apiRequest.call(this, 'POST', 'webhook?validate=false', {
+					webhook = await apiRequest.call(this, 'POST', '/webhook?validate=false', {
 						webhook: body,
 					});
 				} catch (error) {
@@ -132,7 +132,7 @@ export class WooviTrigger implements INodeType {
 				console.dir({ webhookData }, { depth: null, colors: true });
 				if (webhookData.webhookId !== undefined) {
 					try {
-						await apiRequest.call(this, 'DELETE', `webhook/${webhookData.webhookId}`, {});
+						await apiRequest.call(this, 'DELETE', `/webhook/${webhookData.webhookId}`, {});
 					} catch (error) {
 						return false;
 					}
