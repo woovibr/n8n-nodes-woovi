@@ -5,7 +5,7 @@ tmp
 dist
 npm-debug.log*
 .vscode/launch.json
-package-lock.json
+.eslintcache
 yarn-error.log
 .env*
 
