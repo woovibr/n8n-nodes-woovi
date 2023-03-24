@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-woovi",
   "description": "n8n nodes for Woovi",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0",
   "author": {
     "name": "Eduardo Maciel de Matos",
     "email": "eduardo.maciel@woovi.com"
