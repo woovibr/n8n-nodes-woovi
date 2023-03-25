@@ -38,13 +38,18 @@ it('should create a charge', async () => {
       '000201010212261030014br.gov.bcb.pix2581api.openpix.com.br/openpix/testing?transactionID=12ffab389d6f4c21958e9b7f66201135520400005303986540510.005802BR59136009Sao_Paulo6229052512ffab389d6f4c21958e9b7f663045C2A',
   };
 
-  nock('https://api.woovi.com/api').post('/v1/charge').reply(200, apiResult);
+  const scope = nock('https://api.woovi.com/api')
+    .post('/v1/charge', {
+      value: 1000,
+      correlationID: '12345',
+    })
+    .matchHeader('Authorization', 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS')
+    .reply(200, apiResult);
 
   const credentialsHelper = new CredentialsHelper({
     wooviApi: {
       baseUrl: 'https://api.woovi.com/api',
-      Authorization:
-        'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS1hYjk5LWY4MDhhYzkxNDIwOTpDbGllbnRfU2VjcmV0X2N0U2RMRkQrUExwYTFWZ1Q0TW85SkNnOEFZS0JiV3BPOSsyb1A5UjJsZ3M9',
+      Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS',
     },
   });
 
@@ -59,9 +64,13 @@ it('should create a charge', async () => {
 
   const [nodeResult] = nodeResults;
 
+  console.dir({ nodeResult }, { depth: null });
+
   expect(nodeResult.executionStatus).toBe('success');
 
   const data = nodeResult.data?.main[0]?.[0].json;
 
   expect(data).toEqual(apiResult);
+
+  expect(scope.isDone()).toBe(true);
 });
