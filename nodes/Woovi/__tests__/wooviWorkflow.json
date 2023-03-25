@@ -1,0 +1,52 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "64876e00-9080-4f4d-817a-0d5c7e3350e0",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [500, 360]
+    },
+    {
+      "parameters": {
+        "chargeValue": 1000,
+        "correlationID": "12345"
+      },
+      "id": "44ebe8c5-2062-40b5-833c-381d04ee9e99",
+      "name": "Woovi",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [700, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Woovi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "f8b70320-3541-4bd8-af5a-f6e69f7e3e2c",
+  "id": "1",
+  "meta": {
+    "instanceId": "b01e4ebf540954d4c29a722da7612e76b42b29f3ac53bdcb88b7b04aa2e98756"
+  },
+  "tags": []
+}
