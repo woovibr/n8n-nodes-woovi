@@ -8,5 +8,6 @@ npm-debug.log*
 .eslintcache
 yarn-error.log
 .env*
+.jest-cache
 
 n8n-nodes-woovi*.tgz

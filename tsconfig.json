@@ -2,7 +2,6 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "lib": ["es2017", "es2019"],
-    "types": ["node"],
     "module": "commonjs",
     "noImplicitAny": true,
     "removeComments": true,
@@ -17,10 +16,5 @@
     "esModuleInterop": true,
     "useUnknownInCatchVariables": false
   },
-  "include": [
-    "credentials/**/*",
-    "nodes/**/*",
-    "nodes/**/*.json",
-    "package.json"
-  ]
+  "include": ["**/*.ts"]
 }
