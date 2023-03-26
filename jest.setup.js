@@ -1,1 +1,3 @@
-require('nock').disableNetConnect();
+import nock from 'nock';
+
+nock.disableNetConnect();
