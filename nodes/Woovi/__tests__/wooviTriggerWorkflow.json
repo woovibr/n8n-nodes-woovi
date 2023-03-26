@@ -1,0 +1,35 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "events": "OPENPIX:CHARGE_CREATED"
+      },
+      "id": "48465b68-19d5-4784-9caf-07e6f2a37478",
+      "name": "Woovi Trigger",
+      "type": "n8n-nodes-woovi.wooviTrigger",
+      "typeVersion": 1,
+      "position": [
+        620,
+        420
+      ],
+      "webhookId": "f1eea6b0-4181-4131-b1d6-b57ac9c81b53",
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {},
+  "versionId": "4b2850f3-d52b-4090-b13c-3e3b93439058",
+  "id": "1",
+  "meta": {
+    "instanceId": "b01e4ebf540954d4c29a722da7612e76b42b29f3ac53bdcb88b7b04aa2e98756"
+  },
+  "tags": []
+}

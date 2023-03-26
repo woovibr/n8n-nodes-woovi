@@ -12,7 +12,6 @@ import { WooviTrigger } from '../nodes/Woovi/WooviTrigger.node';
 export class NodeTypesClass implements INodeTypes {
   nodeTypes: INodeTypeData = {};
   getByName(nodeType: string): INodeType | IVersionedNodeType {
-    console.log(nodeType);
     return this.nodeTypes[nodeType].type;
   }
 

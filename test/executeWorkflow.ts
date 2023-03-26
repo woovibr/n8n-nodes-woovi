@@ -77,17 +77,18 @@ export const executeWorkflow = async ({
     timezone: 'America/New_York',
     webhookBaseUrl: 'webhook',
     webhookWaitingBaseUrl: 'webhook-waiting',
-    webhookTestBaseUrl: 'webhook-test',
+    webhookTestBaseUrl: 'https://localhost:80',
     userId: '123',
   };
 
-  const workflowExecute = new WorkflowExecute(additionalData, 'manual');
+  const workflowExecute = new WorkflowExecute(additionalData, 'cli');
 
   const executionData = await workflowExecute.run(workflow);
-  const result = await waitPromise.promise();
 
   return {
-    result,
+    workflow,
+    waitPromise,
     executionData,
+    additionalData,
   };
 };
