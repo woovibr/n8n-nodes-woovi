@@ -24,7 +24,6 @@
     "n8n-nodes-base": "^0.219.0",
     "nock": "^13.3.0",
     "prettier": "^2.7.1",
-    "tslint": "^6.1.2",
     "typescript": "~4.9.5"
   },
   "files": [
@@ -60,8 +59,8 @@
     "build": "tsc -p tsconfig.build.json && gulp build:icons",
     "dev": "tsc -p tsconfig.build.json --watch",
     "format": "prettier nodes credentials --write",
-    "lint": "tslint -p tsconfig.json -c tslint.json && eslint nodes credentials package.json",
-    "lintfix": "tslint --fix -p tsconfig.json -c tslint.json && eslint nodes credentials package.json --fix",
+    "lint": "eslint nodes credentials package.json",
+    "lint:fix": "eslint nodes credentials package.json --fix",
     "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json",
     "prettier": "prettier --write",
     "release:major": "npm version major && git push --follow-tags",
