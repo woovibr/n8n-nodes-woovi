@@ -20,8 +20,8 @@ export class Woovi implements INodeType {
     defaults: {
       name: 'Woovi',
     },
-    inputs: ['main'],
-    outputs: ['main'],
+    inputs: [NodeConnectionType.Main],
+    outputs: [NodeConnectionType.Main],
     credentials: [
       {
         name: 'wooviApi',

@@ -25,7 +25,7 @@ export class WooviTrigger implements INodeType {
       name: 'Woovi Trigger',
     },
     inputs: [],
-    outputs: ['main'],
+    outputs: [NodeConnectionType.Main],
     credentials: [
       {
         name: 'wooviApi',
