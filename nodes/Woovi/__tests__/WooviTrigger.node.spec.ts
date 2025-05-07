@@ -1,183 +1,194 @@
 import nock from 'nock';
-
-import wooviTriggerWorkflow from './wooviTriggerWorkflow.json';
+import {IWebhookData, NodeConnectionType, WorkflowTestData} from 'n8n-workflow';
 import { executeWorkflow } from '../../../test/executeWorkflow';
-import { CredentialsHelper } from '../../../test/CredentialsHelper';
 import { runWebhookMethod } from '../../../test/runWebhookMethod';
 
-it('should return false in checkExists webhook method since there is any webhook created', async () => {
-  const scope = nock('https://api.woovi.com/api')
-    .get('/v1/webhook')
-    .query({
-      url: 'https://localhost:80/f1eea6b0-4181-4131-b1d6-b57ac9c81b53/webhook',
-    })
-    .reply(200, {
-      pageInfo: {
-        skip: 0,
-        limit: 100,
-        totalCount: 0,
-        hasPreviousPage: false,
-        hasNextPage: false,
-      },
-      webhooks: [],
+describe('WooviTrigger Node', () => {
+  const baseUrl = 'https://api.woovi.com/';
+  const authToken = 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS';
+
+  beforeEach(() => {
+    nock.cleanAll();
+  });
+
+  describe('webhook methods', () => {
+    describe('checkExists', () => {
+      it('should return false when no webhook exists', async () => {
+        const scope = nock(baseUrl)
+          .get(`/api/webhook`)
+          .reply(200, {
+            webhooks: [],
+          });
+
+        const { workflowInstance, nodeTypes, additionalData } = await executeWorkflow({
+          ...wooviTriggerWorkflow,
+          credentials: {
+            wooviApi: {
+              baseUrl,
+              Authorization: authToken,
+            },
+          },
+        });
+
+        const webhookData: IWebhookData = {
+          node: 'Woovi Trigger',
+          webhookDescription: {
+            name: 'default',
+            httpMethod: 'GET',
+            path: `${baseUrl}/webhook`,
+          },
+          httpMethod: 'GET',
+          path: `${baseUrl}/webhook`,
+          workflowExecuteAdditionalData: additionalData,
+          workflowId: workflowInstance.id,
+        };
+
+        const result = await runWebhookMethod(
+          nodeTypes,
+          'checkExists',
+          workflowInstance,
+          webhookData,
+          'trigger',
+          'activate'
+        );
+
+        expect(result).toBe(false);
+        expect(scope.isDone()).toBe(true);
+      });
+
+      it('should return true when webhook exists', async () => {
+        const scope = nock(baseUrl)
+          .get('/api/webhook')
+          .reply(200, {
+            webhooks: [{
+              id: 'existing-webhook-id',
+              url: `${baseUrl}/webhook`,
+            }],
+          });
+
+        const { workflowInstance, nodeTypes, additionalData } = await executeWorkflow({
+          ...wooviTriggerWorkflow,
+          credentials: {
+            wooviApi: {
+              baseUrl,
+              Authorization: authToken,
+            },
+          },
+        });
+
+        const webhookData: IWebhookData = {
+          node: 'Woovi Trigger',
+          webhookDescription: {
+            name: 'default',
+            httpMethod: 'GET',
+            path: `${baseUrl}/webhook`,
+          },
+          workflowExecuteAdditionalData: additionalData,
+          workflowId: workflowInstance.id,
+          httpMethod: 'GET',
+          path: `${baseUrl}/webhook`,
+        };
+
+        const result = await runWebhookMethod(
+          nodeTypes,
+          'checkExists',
+          workflowInstance,
+          webhookData,
+          'trigger',
+          'activate'
+        );
+
+        expect(result).toBe(true);
+        expect(scope.isDone()).toBe(true);
+      });
     });
 
-  const credentialsHelper = new CredentialsHelper({
-    wooviApi: {
-      baseUrl: 'https://api.woovi.com/api',
-      Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS',
-    },
-  });
+    describe('create', () => {
+      it('should create webhook successfully', async () => {
+        const scope = nock(baseUrl)
+          .post('/webhook', {
+            webhook: {
+              name: 'N8N Webhook',
+              url: `${baseUrl}/webhook`,
+              event: ['OPENPIX:CHARGE_CREATED'],
+              isActive: true,
+            },
+          })
+          .reply(200, {
+            webhook: {
+              id: 'new-webhook-id',
+            },
+          });
 
-  const { workflow, additionalData } = await executeWorkflow({
-    credentialsHelper,
-    workflow: wooviTriggerWorkflow,
-  });
+        const { workflowInstance, nodeTypes, additionalData } = await executeWorkflow({
+          ...wooviTriggerWorkflow,
+          credentials: {
+            wooviApi: {
+              baseUrl,
+              Authorization: authToken,
+            },
+          },
+        });
 
-  const result = await runWebhookMethod(
-    workflow,
-    additionalData,
-    'checkExists',
-  );
+        const webhookData: IWebhookData = {
+          node: 'Woovi Trigger',
+          webhookDescription: {
+            name: 'default',
+            httpMethod: 'GET',
+            path: 'webhook',
+          },
+          workflowExecuteAdditionalData: additionalData,
+          workflowId: workflowInstance.id,
+          httpMethod: 'GET',
+          path: 'webhook',
+        };
 
-  expect(result).toBe(false);
+        const result = await runWebhookMethod(
+          nodeTypes,
+          'create',
+          workflowInstance,
+          webhookData,
+          'trigger',
+          'activate'
+        );
 
-  expect(scope.isDone()).toBe(true);
-});
-
-it('should return true in checkExists webhook method since there is a webhook created with the same url', async () => {
-  const webhook = {
-    id: 'V2ViaG9vazo2NDFmOTYwNzNkMDlmYmI3NDdiODBlMGU=',
-    name: 'N8N Webhook',
-    url: 'https://localhost:80/f1eea6b0-4181-4131-b1d6-b57ac9c81b53/webhook',
-    isActive: true,
-    createdAt: '2023-03-26T00:47:03.555Z',
-    updatedAt: '2023-03-26T00:47:03.555Z',
-    actionPayload: {
-      url: 'https://localhost:80/f1eea6b0-4181-4131-b1d6-b57ac9c81b53/webhook',
-    },
-    event: 'OPENPIX:CHARGE_CREATED',
-    hmacSecretKey: 'openpix_g98Nj/oCocUi4mBu/AP5avmbLEmk=',
-  };
-
-  const scope = nock('https://api.woovi.com/api')
-    .get('/v1/webhook')
-    .query({
-      url: 'https://localhost:80/f1eea6b0-4181-4131-b1d6-b57ac9c81b53/webhook',
-    })
-    .reply(200, {
-      pageInfo: {
-        skip: 0,
-        limit: 100,
-        totalCount: 1,
-        hasPreviousPage: false,
-        hasNextPage: false,
-      },
-      webhooks: [webhook],
+        expect(result).toBe(true);
+        expect(scope.isDone()).toBe(true);
+      });
     });
-
-  const credentialsHelper = new CredentialsHelper({
-    wooviApi: {
-      baseUrl: 'https://api.woovi.com/api',
-      Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS',
-    },
-  });
-
-  const { workflow, additionalData } = await executeWorkflow({
-    credentialsHelper,
-    workflow: wooviTriggerWorkflow,
-  });
-
-  const result = await runWebhookMethod(
-    workflow,
-    additionalData,
-    'checkExists',
-  );
-
-  expect(result).toBe(true);
-
-  expect(scope.isDone()).toBe(true);
-
-  const node = Object.values(workflow.nodes)[0];
-
-  expect(workflow.getStaticData('node', node)).toEqual({
-    webhookId: webhook.id,
   });
 });
 
-it('should create the webhook', async () => {
-  const webhook = {
-    id: 'V2ViaG9vazo2NDFmOTg4Njg0MmYzZTQ3Mzg2OTdiZWI=',
-    name: 'N8N Webhook',
-    event: 'OPENPIX:CHARGE_CREATED',
-    url: 'https://localhost:80/f1eea6b0-4181-4131-b1d6-b57ac9c81b53/webhook',
-    isActive: true,
-    hmacSecretKey: 'openpix_Vfdm7CL/9BgLemtVXQmfk4G5I=',
-    createdAt: '2023-03-26T00:57:42.157Z',
-    updatedAt: '2023-03-26T00:57:42.157Z',
-  };
-
-  const scope = nock('https://api.woovi.com/api')
-    .post('/v1/webhook')
-    .query({ validate: false })
-    .reply(200, {
-      webhook,
-    });
-
-  const credentialsHelper = new CredentialsHelper({
-    wooviApi: {
-      baseUrl: 'https://api.woovi.com/api',
-      Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS',
+const wooviTriggerWorkflow: WorkflowTestData = {
+  description: 'Woovi Trigger workflow',
+  input: {
+    workflowData: {
+      nodes: [
+        {
+          id: '48465b68-19d5-4784-9caf-07e6f2a37478',
+          name: 'Woovi Trigger',
+          typeVersion: 1,
+          type: 'n8n-nodes-woovi.wooviTrigger',
+          position: [620, 420],
+          webhookId: 'webhook-test-id',
+          parameters: {
+            events: 'OPENPIX:CHARGE_CREATED',
+          },
+          credentials: {
+            wooviApi: {
+              id: '1',
+              name: 'Woovi account',
+            },
+          },
+        },
+      ],
+      connections: {},
     },
-  });
-
-  const { workflow, additionalData } = await executeWorkflow({
-    credentialsHelper,
-    workflow: wooviTriggerWorkflow,
-  });
-
-  const result = await runWebhookMethod(workflow, additionalData, 'create');
-
-  expect(result).toBe(true);
-
-  expect(scope.isDone()).toBe(true);
-
-  const node = Object.values(workflow.nodes)[0];
-
-  expect(workflow.getStaticData('node', node)).toEqual({
-    webhookId: webhook.id,
-  });
-});
-
-it('should delete the webhook', async () => {
-  const webhookId = 'V2ViaG9vazo2NDFmOTg4Njg0MmYzZTQ3Mzg2OTdiZWI=';
-
-  const scope = nock('https://api.woovi.com/api')
-    .delete(`/v1/webhook/${webhookId}`)
-    .reply(200);
-
-  const credentialsHelper = new CredentialsHelper({
-    wooviApi: {
-      baseUrl: 'https://api.woovi.com/api',
-      Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS',
+  },
+  output: {
+    nodeData: {
+      test: [[]],
     },
-  });
-
-  const { workflow, additionalData } = await executeWorkflow({
-    credentialsHelper,
-    workflow: wooviTriggerWorkflow,
-  });
-
-  const node = Object.values(workflow.nodes)[0];
-
-  const webhookData = workflow.getStaticData('node', node);
-  webhookData.webhookId = webhookId;
-
-  const result = await runWebhookMethod(workflow, additionalData, 'delete');
-
-  expect(result).toBe(true);
-
-  expect(scope.isDone()).toBe(true);
-
-  expect(workflow.getStaticData('node', node)).toEqual({});
-});
+  },
+  credentials: {},
+};

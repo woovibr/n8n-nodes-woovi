@@ -7,7 +7,6 @@ import {
   IWebhookFunctions,
   IWebhookResponseData,
   NodeApiError,
-  NodeConnectionType,
 } from 'n8n-workflow';
 import { apiRequest } from './transport';
 
@@ -24,8 +23,10 @@ export class WooviTrigger implements INodeType {
     defaults: {
       name: 'Woovi Trigger',
     },
-    inputs: [],
-    outputs: [NodeConnectionType.Main],
+    inputs: `={{main}}`,
+    inputNames: [],
+    outputs: `={{main}}`,
+    outputNames: ['main'],
     credentials: [
       {
         name: 'wooviApi',
@@ -43,8 +44,8 @@ export class WooviTrigger implements INodeType {
     webhooks: [
       {
         name: 'default',
-        httpMethod: 'POST',
-        reponseMode: 'onReceived',
+        httpMethod: 'GET',
+        responseMode: 'onReceived',
         path: 'webhook',
       },
     ],
@@ -55,8 +56,7 @@ export class WooviTrigger implements INodeType {
         type: 'options',
         required: true,
         default: '',
-        description:
-          'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+        description: 'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
         typeOptions: {
           loadOptionsMethod: 'getEvents',
         },
@@ -104,9 +104,7 @@ export class WooviTrigger implements INodeType {
     default: {
       async checkExists(this: IHookFunctions): Promise<boolean> {
         const webhookUrl = this.getNodeWebhookUrl('default');
-
         let result;
-
         try {
           result = await apiRequest.call(
             this,

@@ -1,94 +1,128 @@
+import path from 'node:path';
+import {existsSync} from 'node:fs';
+import callsites from 'callsites';
+import {mock} from 'jest-mock-extended';
+
 import {
-  createDeferredPromise,
-  ICredentialsHelper,
-  IExecuteWorkflowInfo,
-  IRun,
-  ITaskData,
-  IWorkflowBase,
-  IWorkflowExecuteAdditionalData,
-  IWorkflowExecuteHooks,
-  LoggerProxy,
-  Workflow,
-  WorkflowHooks,
+    createDeferredPromise,
+    Workflow,
+    WorkflowTestData,
+    IWorkflowBase,
+    IRun,
+    IRunExecutionData,
+    IWorkflowExecuteAdditionalData,
+    UnexpectedError,
 } from 'n8n-workflow';
-import { WorkflowExecute } from 'n8n-core';
-import { nodeTypes } from './NodeTypesClass';
 
-export type ExecuteWorkflowArgs = {
-  workflow: any;
-  credentialsHelper: ICredentialsHelper;
-};
+import {
+    ExecutionLifecycleHooks,
+    WorkflowExecute,
+} from 'n8n-core';
 
-export const executeWorkflow = async ({
-  credentialsHelper,
-  ...args
-}: ExecuteWorkflowArgs) => {
-  LoggerProxy.init({
-    debug() {},
-    error() {},
-    info() {},
-    log() {},
-    verbose() {},
-    warn() {},
-  });
+import {LoadNodesAndCredentials} from './LoadNodesAndCredentials';
+import {NodeTypes} from './NodeTypes';
+import {CredentialTypes} from './CredentialTypes';
+import {CredentialsHelper} from './CredentialsHelper';
 
-  const workflow = new Workflow({
-    id: 'test',
-    active: true,
-    connections: args.workflow.connections,
-    nodes: args.workflow.nodes as any,
-    nodeTypes,
-  });
+export const executeWorkflow = async (testData: WorkflowTestData) => {
 
-  const waitPromise = await createDeferredPromise<IRun>();
-  const nodeExecutionOrder: string[] = [];
+    const testDir: string = path.dirname(callsites()[1].getFileName()!);
+    const packagePaths: string[] = [];
+    packagePaths.unshift(packageDir(testDir));
 
-  const hookFunctions = {
-    nodeExecuteAfter: [
-      async (nodeName: string, data: ITaskData): Promise<void> => {
+    const loadNodesAndCredentials = new LoadNodesAndCredentials(packagePaths);
+    await loadNodesAndCredentials.init();
+
+    const credentialTypes = new CredentialTypes(loadNodesAndCredentials);
+    const credentialsHelper = new CredentialsHelper(credentialTypes);
+    credentialsHelper.setCredentials(testData.credentials!);
+
+    const nodeTypes = new NodeTypes(loadNodesAndCredentials);
+
+    const executionMode = testData.trigger?.mode ?? 'manual';
+    const workflowData = testData.input.workflowData;
+    const {connections, nodes, settings} = workflowData;
+    const workflowInput = {
+        id: 'test',
+        nodes,
+        connections,
+        nodeTypes,
+        settings,
+        active: false,
+    };
+    const workflowInstance = new Workflow(workflowInput);
+
+    const workflowBaseInput: IWorkflowBase = {
+        id: '1',
+        name: '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        active: true,
+        nodes: [],
+        connections: {},
+    };
+
+    const hooks = new ExecutionLifecycleHooks('trigger', '1', workflowBaseInput);
+
+    const nodeExecutionOrder: string[] = [];
+    hooks.addHandler('nodeExecuteAfter', (nodeName) => {
         nodeExecutionOrder.push(nodeName);
-      },
-    ],
-    workflowExecuteAfter: [
-      async (fullRunData: IRun): Promise<void> => {
-        waitPromise.resolve(fullRunData);
-      },
-    ],
-  } satisfies IWorkflowExecuteHooks;
+    });
 
-  const workflowData: IWorkflowBase = {
-    name: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    active: true,
-    nodes: [],
-    connections: {},
-  };
+    const waitPromise = createDeferredPromise<IRun>();
+    hooks.addHandler('workflowExecuteAfter', (fullRunData) => waitPromise.resolve(fullRunData));
 
-  const additionalData: IWorkflowExecuteAdditionalData = {
-    credentialsHelper,
-    hooks: new WorkflowHooks(hookFunctions, 'trigger', '1', workflowData),
-    executeWorkflow: async (
-      workflowInfo: IExecuteWorkflowInfo,
-    ): Promise<any> => {},
-    sendMessageToUI: (message: string) => {},
-    restApiUrl: '',
-    encryptionKey: 'test',
-    timezone: 'America/New_York',
-    webhookBaseUrl: 'webhook',
-    webhookWaitingBaseUrl: 'webhook-waiting',
-    webhookTestBaseUrl: 'https://localhost:80',
-    userId: '123',
-  };
+    const additionalData = mock<IWorkflowExecuteAdditionalData>({
+        hooks,
+        // Get from node.parameters
+        currentNodeParameters: undefined,
+        webhookBaseUrl: 'https://api.woovi.com/api',
+        webhookWaitingBaseUrl: 'webhook-waiting',
+        webhookTestBaseUrl: 'https://api.woovi.com/api',
+        userId: '123',
+    });
+    additionalData.credentialsHelper = credentialsHelper;
+    additionalData.webhookBaseUrl = "https://api.woovi.com/api";
 
-  const workflowExecute = new WorkflowExecute(additionalData, 'cli');
+    let executionData: IRun;
 
-  const executionData = await workflowExecute.run(workflow);
+    const runExecutionData: IRunExecutionData = {
+        resultData: {
+            runData: {},
+        },
+        executionData: {
+            metadata: {},
+            contextData: {},
+            waitingExecution: {},
+            waitingExecutionSource: null,
+            nodeExecutionStack: [
+                {
+                    node: workflowInstance.getStartNode()!,
+                    data: {
+                        main: [[testData.trigger?.input ?? {json: {}}]],
+                    },
+                    source: null,
+                },
+            ],
+        },
+    };
 
-  return {
-    workflow,
-    waitPromise,
-    executionData,
-    additionalData,
-  };
-};
+    const workflowExecute = new WorkflowExecute(additionalData, executionMode, runExecutionData);
+    executionData = await workflowExecute.processRunExecutionData(workflowInstance);
+
+    const result = await waitPromise.promise;
+
+    return {executionData, result, nodeExecutionOrder, workflowInstance, workflowData, nodeTypes, additionalData};
+}
+
+function packageDir(testDir: string) {
+    let packageDir = testDir;
+    while (packageDir !== '/') {
+        if (existsSync(path.join(packageDir, 'package.json'))) break;
+        packageDir = path.dirname(packageDir);
+    }
+    if (packageDir === '/') {
+        throw new UnexpectedError('Invalid package');
+    }
+    return packageDir;
+}

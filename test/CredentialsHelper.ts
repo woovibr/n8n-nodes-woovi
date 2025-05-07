@@ -1,59 +1,77 @@
-import { Credentials } from 'n8n-core';
-import {
-  ICredentialDataDecryptedObject,
-  ICredentialsHelper,
-  IHttpRequestHelper,
-  IHttpRequestOptions,
-  INode,
-  INodeCredentialsDetails,
+import { ICredentialsHelper } from 'n8n-workflow';
+import type {
+	ICredentialDataDecryptedObject,
+	IHttpRequestHelper,
+	IHttpRequestOptions,
+	INode,
+	INodeCredentialsDetails,
+	IWorkflowExecuteAdditionalData,
 } from 'n8n-workflow';
 
+import { Credentials } from 'n8n-core';
+import { CredentialTypes } from './CredentialTypes';
+
 export class CredentialsHelper extends ICredentialsHelper {
-  constructor(
-    private credentials: Record<string, ICredentialDataDecryptedObject>,
-  ) {
-    super('');
-  }
+	private credentialsMap: Record<string, ICredentialDataDecryptedObject> = {};
 
-  async authenticate(
-    credentials: ICredentialDataDecryptedObject,
-    typeName: string,
-    requestParams: IHttpRequestOptions,
-  ): Promise<IHttpRequestOptions> {
-    return requestParams;
-  }
+	constructor(private readonly credentialTypes: CredentialTypes) {
+		super();
+	}
 
-  async preAuthentication(
-    helpers: IHttpRequestHelper,
-    credentials: ICredentialDataDecryptedObject,
-    typeName: string,
-    node: INode,
-    credentialsExpired: boolean,
-  ): Promise<ICredentialDataDecryptedObject | undefined> {
-    return undefined;
-  }
+	setCredentials(credentialsMap: Record<string, ICredentialDataDecryptedObject>) {
+		this.credentialsMap = credentialsMap;
+	}
 
-  getParentTypes(name: string): string[] {
-    return [];
-  }
+	getCredentialsProperties() {
+		return [];
+	}
 
-  async getDecrypted(
-    nodeCredentials: INodeCredentialsDetails,
-    type: string,
-  ): Promise<ICredentialDataDecryptedObject> {
-    return this.credentials[type];
-  }
+	async authenticate(
+		credentials: ICredentialDataDecryptedObject,
+		typeName: string,
+		requestParams: IHttpRequestOptions,
+	): Promise<IHttpRequestOptions> {
+		const credentialType = this.credentialTypes.getByName(typeName);
+		if (typeof credentialType.authenticate === 'function') {
+			return await credentialType.authenticate(credentials, requestParams);
+		}
+		return requestParams;
+	}
 
-  async getCredentials(
-    nodeCredentials: INodeCredentialsDetails,
-    type: string,
-  ): Promise<Credentials> {
-    return new Credentials({ id: null, name: '' }, '', [], '');
-  }
+	async preAuthentication(
+		_helpers: IHttpRequestHelper,
+		_credentials: ICredentialDataDecryptedObject,
+		_typeName: string,
+		_node: INode,
+		_credentialsExpired: boolean,
+	): Promise<ICredentialDataDecryptedObject | undefined> {
+		return undefined;
+	}
 
-  async updateCredentials(
-    nodeCredentials: INodeCredentialsDetails,
-    type: string,
-    data: ICredentialDataDecryptedObject,
-  ): Promise<void> {}
+	getParentTypes(_name: string): string[] {
+		return [];
+	}
+
+	async getDecrypted(
+		_additionalData: IWorkflowExecuteAdditionalData,
+		_nodeCredentials: INodeCredentialsDetails,
+		type: string,
+	): Promise<ICredentialDataDecryptedObject> {
+		return this.credentialsMap[type] ?? {};
+	}
+
+	async getCredentials(
+		_nodeCredentials: INodeCredentialsDetails,
+		_type: string,
+	): Promise<Credentials> {
+		return new Credentials({ id: null, name: '' }, '', '');
+	}
+
+	async updateCredentials(
+		_nodeCredentials: INodeCredentialsDetails,
+		_type: string,
+		_data: ICredentialDataDecryptedObject,
+	): Promise<void> {}
+
 }
+
