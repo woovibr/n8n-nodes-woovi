@@ -13,9 +13,15 @@ describe('WooviTrigger Node', () => {
 
   describe('webhook methods', () => {
     describe('checkExists', () => {
-      it('should return false when no webhook exists', async () => {
+      test('should return false when no webhook exists', async () => {
         const scope = nock(baseUrl)
           .get(`/api/webhook`)
+          .reply(200, {
+            webhooks: [],
+          });
+
+        const authScope = nock(baseUrl)
+          .get(`/api`)
           .reply(200, {
             webhooks: [],
           });
@@ -35,10 +41,10 @@ describe('WooviTrigger Node', () => {
           webhookDescription: {
             name: 'default',
             httpMethod: 'GET',
-            path: `${baseUrl}/webhook`,
+            path: `${baseUrl}/api/webhook`,
           },
           httpMethod: 'GET',
-          path: `${baseUrl}/webhook`,
+          path: `${baseUrl}/api/webhook`,
           workflowExecuteAdditionalData: additionalData,
           workflowId: workflowInstance.id,
         };
@@ -56,7 +62,7 @@ describe('WooviTrigger Node', () => {
         expect(scope.isDone()).toBe(true);
       });
 
-      it('should return true when webhook exists', async () => {
+      test('should return true when webhook exists', async () => {
         const scope = nock(baseUrl)
           .get('/api/webhook')
           .reply(200, {
@@ -104,7 +110,7 @@ describe('WooviTrigger Node', () => {
     });
 
     describe('create', () => {
-      it('should create webhook successfully', async () => {
+      test('should create webhook successfully', async () => {
         const scope = nock(baseUrl)
           .post('/webhook', {
             webhook: {
