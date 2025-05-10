@@ -1,14 +1,12 @@
 import {
-  IHookFunctions,
+  IExecuteFunctions,
   ILoadOptionsFunctions,
   INodePropertyOptions,
   INodeType,
-  INodeTypeDescription,
-  IWebhookFunctions,
+  INodeTypeDescription, IWebhookFunctions,
   IWebhookResponseData,
-  NodeApiError,
 } from 'n8n-workflow';
-import { apiRequest } from './transport';
+import * as events from 'node:events';
 
 export class WooviTrigger implements INodeType {
   description: INodeTypeDescription = {
@@ -19,7 +17,6 @@ export class WooviTrigger implements INodeType {
     version: 1,
     subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
     description: 'Handle Woovi Events via Webhook',
-
     defaults: {
       name: 'Woovi Trigger',
     },
@@ -47,6 +44,7 @@ export class WooviTrigger implements INodeType {
         httpMethod: 'GET',
         responseMode: 'onReceived',
         path: 'webhook',
+        nodeType: 'webhook'
       },
     ],
     properties: [
@@ -56,7 +54,8 @@ export class WooviTrigger implements INodeType {
         type: 'options',
         required: true,
         default: '',
-        description: 'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+        description:
+          'The event to listen to. Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
         typeOptions: {
           loadOptionsMethod: 'getEvents',
         },
@@ -67,128 +66,69 @@ export class WooviTrigger implements INodeType {
 
   methods = {
     loadOptions: {
-      // Get all the events types to display them to user so that he can
-      // select them easily
+      // Get all the events types to display them to user so that he can select them easily
       async getEvents(
         this: ILoadOptionsFunctions,
       ): Promise<INodePropertyOptions[]> {
-        // TODO: Check if make sense the * event
-        const returnData: INodePropertyOptions[] = [];
-        let response;
+        const events = [
+          {
+            name: 'OPENPIX:CHARGE_CREATED',
+            value: 'OPENPIX:CHARGE_CREATED',
+            description: 'New charge created',
+          },
+          {
+            name: 'OPENPIX:CHARGE_COMPLETED',
+            value: 'OPENPIX:CHARGE_COMPLETED',
+            description: 'Charge completed is when a charge is fully paid',
+          },
+          {
+            name: 'OPENPIX:CHARGE_EXPIRED',
+            value: 'OPENPIX:CHARGE_EXPIRED',
+            description:
+              'Charge expired is when a charge is not fully paid and expired',
+          },
+          {
+            name: 'OPENPIX:TRANSACTION_RECEIVED',
+            value: 'OPENPIX:TRANSACTION_RECEIVED',
+            description: 'New PIX transaction received',
+          },
+          {
+            name: 'OPENPIX:TRANSACTION_REFUND_RECEIVED',
+            value: 'OPENPIX:TRANSACTION_REFUND_RECEIVED',
+            description: 'New PIX transaction refund received or refunded',
+          },
+          {
+            name: 'OPENPIX:MOVEMENT_CONFIRMED',
+            value: 'OPENPIX:MOVEMENT_CONFIRMED',
+            description:
+              'Payment confirmed is when the pix transaction related to the payment gets confirmed',
+          },
+          {
+            name: 'OPENPIX:MOVEMENT_FAILED',
+            value: 'OPENPIX:MOVEMENT_FAILED',
+            description:
+              'Payment failed is when the payment gets approved and a error occurs',
+          },
+          {
+            name: 'OPENPIX:MOVEMENT_REMOVED',
+            value: 'OPENPIX:MOVEMENT_REMOVED',
+            description: 'Payment was removed by a user',
+          },
+          {
+            name: 'ALL',
+            value: 'ALL',
+            description: 'Handle on all events',
+          },
+        ];
 
-        try {
-          const endpoint = '/webhook/events';
-          response = await apiRequest.call(this, 'GET', endpoint);
-        } catch (error) {
-          throw new NodeApiError(this.getNode(), error);
-        }
-
-        for (const event of response.events) {
-          const eventName = event.name;
-          const eventId = event.name;
-          // TODO: Add description
-          const eventDescription = event.name;
-
-          returnData.push({
-            name: eventName,
-            value: eventId,
-            description: eventDescription,
-          });
-        }
-
-        return returnData;
-      },
-    },
-  };
-  webhookMethods = {
-    default: {
-      async checkExists(this: IHookFunctions): Promise<boolean> {
-        const webhookUrl = this.getNodeWebhookUrl('default');
-        let result;
-        try {
-          result = await apiRequest.call(
-            this,
-            'GET',
-            '/webhook',
-            {},
-            {
-              url: webhookUrl,
-            },
-          );
-        } catch (error) {
-          throw new NodeApiError(this.getNode(), error);
-        }
-
-        const { webhooks } = result;
-
-        if (webhooks.length) {
-          const [webhook] = webhooks;
-          const webhookData = this.getWorkflowStaticData('node');
-
-          webhookData.webhookId = webhook.id;
-
-          return true;
-        }
-
-        return false;
-      },
-
-      async create(this: IHookFunctions): Promise<boolean> {
-        const webhookUrl = this.getNodeWebhookUrl('default');
-        const events = this.getNodeParameter('events', []) as string[];
-        const body = {
-          name: 'N8N Webhook',
-          url: webhookUrl,
-          event: events,
-          isActive: true,
-        };
-
-        let result;
-
-        try {
-          result = await apiRequest.call(
-            this,
-            'POST',
-            '/webhook?validate=false',
-            {
-              webhook: body,
-            },
-          );
-        } catch (error) {
-          throw new NodeApiError(this.getNode(), error);
-        }
-
-        const { webhook } = result;
-
-        if (webhook.id === undefined) {
-          return false;
-        }
-
-        const webhookData = this.getWorkflowStaticData('node');
-        webhookData.webhookId = webhook.id as string;
-
-        return true;
-      },
-
-      async delete(this: IHookFunctions): Promise<boolean> {
-        const webhookData = this.getWorkflowStaticData('node');
-
-        if (webhookData.webhookId !== undefined) {
-          try {
-            await apiRequest.call(
-              this,
-              'DELETE',
-              `/webhook/${webhookData.webhookId}`,
-              {},
-            );
-          } catch (error) {
-            return false;
-          }
-
-          delete webhookData.webhookId;
-        }
-
-        return true;
+        return events.map((event) => {
+          const node: INodePropertyOptions = {
+            name: event.name,
+            value: event.value!,
+            description: event.description,
+          };
+          return node;
+        });
       },
     },
   };

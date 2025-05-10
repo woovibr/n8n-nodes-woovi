@@ -14,3 +14,4 @@ function copyIcons() {
 
   return src(credSource).pipe(dest(credDestination));
 }
+

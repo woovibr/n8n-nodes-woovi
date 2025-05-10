@@ -1,8 +1,8 @@
 {
-  "node": "n8n-nodes-base.Woovi",
+  "node": "n8n-nodes-woovi.Woovi",
   "nodeVersion": "1.0",
   "codexVersion": "1.0",
-  "categories": ["Sales"],
+  "categories": ["sales", "pix", "payment"],
   "resources": {
     "credentialDocumentation": [
       {

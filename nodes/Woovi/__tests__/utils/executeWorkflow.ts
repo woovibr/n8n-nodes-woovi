@@ -19,10 +19,10 @@ import {
     WorkflowExecute,
 } from 'n8n-core';
 
-import {LoadNodesAndCredentials} from './LoadNodesAndCredentials';
-import {NodeTypes} from './NodeTypes';
-import {CredentialTypes} from './CredentialTypes';
-import {CredentialsHelper} from './CredentialsHelper';
+import {LoadNodesAndCredentials} from '../../../../test/LoadNodesAndCredentials';
+import {NodeTypes} from '../../../../test/NodeTypes';
+import {CredentialTypes} from '../../../../test/CredentialTypes';
+import {CredentialsHelper} from '../../../../test/CredentialsHelper';
 
 export const executeWorkflow = async (testData: WorkflowTestData) => {
 

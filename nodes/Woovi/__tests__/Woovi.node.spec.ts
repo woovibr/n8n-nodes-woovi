@@ -1,6 +1,6 @@
 import nock from 'nock';
-import {executeWorkflow} from '../../../test/executeWorkflow';
-import {chargeResult, chargeWithCustomBaseUrlResult, wooviWorkflow, workflowWithoutValue} from "./__mocks__";
+import {executeWorkflow} from './utils/executeWorkflow';
+import {chargeResult, chargeWithCustomBaseUrlResult, wooviWorkflow } from "./__mocks__";
 
 describe("Woovi node", () => {
   test('should create a charge', async () => {

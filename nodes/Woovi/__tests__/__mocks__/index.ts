@@ -10,7 +10,7 @@ export const wooviWorkflow = {
           id: "44ebe8c5-2062-40b5-833c-381d04ee9e99",
           name: "Woovi",
           typeVersion: 1,
-          type: "n8n-nodes-woovi.woovi",
+          type: "n8n-nodes-woovi-test.woovi",
           position: [700, 360] as [number, number],
           parameters: {
             chargeValue: 1000,
