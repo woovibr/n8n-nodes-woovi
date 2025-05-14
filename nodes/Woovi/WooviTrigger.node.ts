@@ -1,12 +1,11 @@
 import {
-  IExecuteFunctions,
   ILoadOptionsFunctions,
   INodePropertyOptions,
   INodeType,
-  INodeTypeDescription, IWebhookFunctions,
+  INodeTypeDescription,
+  IWebhookFunctions,
   IWebhookResponseData,
 } from 'n8n-workflow';
-import * as events from 'node:events';
 
 export class WooviTrigger implements INodeType {
   description: INodeTypeDescription = {
@@ -24,27 +23,13 @@ export class WooviTrigger implements INodeType {
     inputNames: [],
     outputs: `={{main}}`,
     outputNames: ['main'],
-    credentials: [
-      {
-        name: 'wooviApi',
-        required: true,
-      },
-    ],
-    requestDefaults: {
-      baseURL: 'https://api.woovi.com/api',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'n8n',
-      },
-    },
     webhooks: [
       {
         name: 'default',
-        httpMethod: 'GET',
+        httpMethod: 'POST',
         responseMode: 'onReceived',
         path: 'webhook',
-        nodeType: 'webhook'
+        nodeType: 'webhook',
       },
     ],
     properties: [
@@ -135,9 +120,29 @@ export class WooviTrigger implements INodeType {
 
   async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
     const req = this.getRequestObject();
+    const configuredEvent = this.getNodeParameter('events') as string;
+    const acceptedEvents = ["ALL", configuredEvent]
 
+    if (acceptedEvents.includes(req.body.event)) {
+      return {
+        workflowData: [[{ json: req.body }]],
+        webhookResponse: {
+          statusCode: 200,
+          body: {
+            success: true,
+            message: `event ${req.body.event} received!`,
+          },
+        },
+      };
+    }
     return {
-      workflowData: [this.helpers.returnJsonArray(req.body)],
+      webhookResponse: {
+        statusCode: 422,
+        body: {
+          success: true,
+          message: 'event type not accepted',
+        },
+      },
     };
   }
 }
