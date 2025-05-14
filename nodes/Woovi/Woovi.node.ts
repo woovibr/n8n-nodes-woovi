@@ -1,12 +1,6 @@
-import { NodeApiError } from 'n8n-workflow';
-import type {
-  IDataObject,
-  IExecuteFunctions,
-  INodeExecutionData,
-  INodeType,
-  INodeTypeDescription,
-} from 'n8n-workflow';
-import { apiRequest } from './transport';
+import type {IDataObject, IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription,} from 'n8n-workflow';
+import {NodeApiError} from 'n8n-workflow';
+import {apiRequest} from './transport';
 
 export class Woovi implements INodeType {
   description: INodeTypeDescription = {
@@ -20,8 +14,10 @@ export class Woovi implements INodeType {
     defaults: {
       name: 'Woovi',
     },
-    inputs: ['main'],
-    outputs: ['main'],
+    inputs: `={{main}}`,
+    inputNames: ['main'],
+    outputs: `={{main}}`,
+    outputNames: ['main'],
     credentials: [
       {
         name: 'wooviApi',
@@ -71,12 +67,10 @@ export class Woovi implements INodeType {
       throw new NodeApiError(this.getNode(), error);
     }
 
-    const executionData = this.helpers.constructExecutionMetaData(
+    operationResult = this.helpers.constructExecutionMetaData(
       this.helpers.returnJsonArray(responseData),
-      { itemData: { item: 1 } },
+      {itemData: {item: 1}},
     );
-
-    operationResult = executionData;
 
     return [operationResult];
   }
