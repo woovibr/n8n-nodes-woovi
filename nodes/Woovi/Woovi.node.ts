@@ -14,9 +14,9 @@ export class Woovi implements INodeType {
     defaults: {
       name: 'Woovi',
     },
-    inputs: `={{main}}`,
+    inputs: ['main'],
     inputNames: ['main'],
-    outputs: `={{main}}`,
+    outputs: ['main'],
     outputNames: ['main'],
     credentials: [
       {

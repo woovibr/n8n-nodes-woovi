@@ -19,9 +19,9 @@ export class WooviTrigger implements INodeType {
     defaults: {
       name: 'Woovi Trigger',
     },
-    inputs: `={{main}}`,
+    inputs: [],
     inputNames: [],
-    outputs: `={{main}}`,
+    outputs: ['main'],
     outputNames: ['main'],
     webhooks: [
       {
