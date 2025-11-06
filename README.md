@@ -36,6 +36,25 @@ To get started install the package in your n8n root directory:
 
 - [Woovi API](https://developers.woovi.com/docs/apis/api-getting-started)
 
+## Using implemented routes in n8n
+
+The package currently implements two primary integrations for n8n:
+
+- Create charge (POST /charge) — available as the `Woovi` node
+- Webhook listener for Woovi events — available as the `Woovi Trigger` node
+
+**Implemented endpoints:**
+
+| Endpoint | Method | n8n Node | Required fields / Parameters | Short usage | Example output |
+|---|---:|---|---|---|---|
+| `/v1/charge` | POST | `Woovi` | `Value` (number, cents) — required; `CorrelationID` (string) — optional | Create a charge (dynamic PIX / payment link). Configure **Woovi API** credentials, set `Value` and optional `CorrelationID`, then execute the `Woovi` node. | `charge.identifier`, `charge.status`, `charge.paymentLinkUrl`, `charge.brCode`, `charge.pixKey`, `expiresIn` |
+| `/webhook` (webhook listener) | POST (webhook) | `Woovi Trigger` | `events` (dropdown) — choose a specific event or `ALL` | Receive Woovi events (charge created/completed, transaction received, refunds, movement updates). Add `Woovi Trigger`, choose event(s), enable the workflow to expose the webhook URL, then configure Woovi to post to that URL. | Full event payload in node output JSON (field names depend on event) |
+
+Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
+
+Tip: select `ALL` to receive every event and branch inside the workflow by inspecting the event payload's `event` field.
+
+
 ## Contributing
 
 1. Fork it (<https://github.com/entria/n8n-nodes-woovi/fork>)
