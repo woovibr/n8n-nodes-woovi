@@ -43,17 +43,12 @@ The package currently implements two primary integrations for n8n:
 - Create charge (POST /charge) — available as the `Woovi` node
 - Webhook listener for Woovi events — available as the `Woovi Trigger` node
 
-**Available features:**
+**Implemented endpoints:**
 
-| Endpoint | Method | n8n Node | Required fields | Short usage |
-|---|---:|---|---|---|
-| `/v1/charge` | POST | `Woovi` | `Value` (number, cents) — required; `CorrelationID` (string) — optional | Create a charge (dynamic PIX or payment link). Add the `Woovi` node, configure **Woovi API** credentials, set `Value` and optional `CorrelationID`, then run the node. The node issues a POST /charge to the Woovi API and returns the API response as JSON. |
-
-Example output fields: `charge.identifier`, `charge.status`, `charge.paymentLinkUrl`, `charge.brCode`, `charge.pixKey`, `expiresIn`.
-
-| Endpoint | Method | n8n Node | Parameters | Short usage |
-|---|---:|---|---|---|
-| `/webhook` (webhook listener) | POST (webhook) | `Woovi Trigger` | `events` (dropdown) — choose a specific event or `ALL` | Receive Woovi events (e.g., charge created/completed, transaction received). Add the `Woovi Trigger` node, pick the event(s) to listen for, then enable the workflow to expose the webhook URL. Configure Woovi to send events to that URL. The trigger outputs the incoming event body as JSON for downstream processing. |
+| Endpoint | Method | n8n Node | Required fields / Parameters | Short usage | Example output |
+|---|---:|---|---|---|---|
+| `/v1/charge` | POST | `Woovi` | `Value` (number, cents) — required; `CorrelationID` (string) — optional | Create a charge (dynamic PIX / payment link). Configure **Woovi API** credentials, set `Value` and optional `CorrelationID`, then execute the `Woovi` node. | `charge.identifier`, `charge.status`, `charge.paymentLinkUrl`, `charge.brCode`, `charge.pixKey`, `expiresIn` |
+| `/webhook` (webhook listener) | POST (webhook) | `Woovi Trigger` | `events` (dropdown) — choose a specific event or `ALL` | Receive Woovi events (charge created/completed, transaction received, refunds, movement updates). Add `Woovi Trigger`, choose event(s), enable the workflow to expose the webhook URL, then configure Woovi to post to that URL. | Full event payload in node output JSON (field names depend on event) |
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
 
