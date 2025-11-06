@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: n8n
+      POSTGRES_USER: n8n
+      POSTGRES_PASSWORD: n8n
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  n8n:
+    image: n8nio/n8n:latest
+    depends_on:
+      - db
+    ports:
+      - '5678:5678'
+    environment:
+      # Database config (Postgres)
+      DB_TYPE: postgres
+      DB_POSTGRESDB_HOST: db
+      DB_POSTGRESDB_PORT: '5432'
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_USER: n8n
+      DB_POSTGRESDB_PASSWORD: n8n
+
+      # Web server
+      N8N_PORT: '5678'
+
+      # Basic auth (optional) - set to true to enable
+      N8N_BASIC_AUTH_ACTIVE: 'true'
+      N8N_BASIC_AUTH_USER: user
+      N8N_BASIC_AUTH_PASSWORD: changeme
+
+      # Important: allow function access if your custom nodes use external libraries
+      NODE_FUNCTION_ALLOW_BUILTIN: fs,path,os
+      NODE_FUNCTION_ALLOW_EXTERNAL: axios,request,crypto
+
+      # Where n8n stores runtime data in the container
+      N8N_USER_FOLDER: /home/node/.n8n
+
+    volumes:
+      # Mount the repository's built `dist` output into n8n's custom nodes folder.
+      # You must run the build locally (see below) so `./dist` exists before starting the containers.
+      - ./dist:/home/node/.n8n/custom
+
+      # Persist n8n user data
+      - n8n-data:/home/node/.n8n
+
+    restart: unless-stopped
+
+# Optional helper service that can build the repository inside a container and place the output
+# into a named volume. This is helpful if you don't want to build locally. Uncomment and use if desired.
+# builder:
+#   image: node:18
+#   working_dir: /workspace
+#   volumes:
+#     - ./:/workspace:cached
+#     - dist-output:/workspace/dist
+#   command: ['sh', '-lc', 'npm ci && npm run build && cp -r dist /workspace/dist']
+#   depends_on:
+#     - db
+
+volumes:
+  db-data:
+  n8n-data:
+  # dist-output: # if using the builder approach
+
+# Notes:
+# - This compose expects you to run the repository build locally first so your built nodes exist under ./dist.
+#   Run `pnpm install` (or `npm ci`) then `pnpm build` (or `npm run build`) in the repo root.
+# - After the build, start the stack with: `docker-compose up -d`.
+# - Open n8n at: http://localhost:5678 (use the basic auth credentials declared above).
+# - If your custom nodes don't appear, ensure the folder structure inside `./dist` matches what n8n expects.
+#   Typically after `tsc` + build the JS files live under `dist/nodes/...` and mounting `./dist` into
+#   `/home/node/.n8n/custom` makes them available. If needed, adjust the mount target to `/home/node/.n8n/custom/nodes`.
