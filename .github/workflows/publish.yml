@@ -34,9 +34,22 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Verify package metadata
+        run: |
+          node <<'NODE'
+          const pkg = require('./package.json');
+          if (pkg.name !== 'n8n-nodes-woovi') {
+            throw new Error(`Unexpected package name: ${pkg.name}`);
+          }
+          if (!pkg.version) {
+            throw new Error('Package version is missing');
+          }
+          console.log(`Preparing to publish ${pkg.name}@${pkg.version}`);
+          NODE
+
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "Publishing package to npm from repository root"
-          npm publish --access public
+          echo "Publishing n8n-nodes-woovi to npm"
+          pnpm publish --access public --registry https://registry.npmjs.org/ --no-git-checks
