@@ -9,7 +9,14 @@ const config: Config = {
   resetModules: false,
   rootDir: "./",
   setupFiles: ["./jest.setup.ts"],
-  testPathIgnorePatterns: ["/node_modules/", './dist', '__generated__'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/dist',
+    '__generated__',
+    '<rootDir>/nodes/Woovi/__tests__/__mocks__',
+    '<rootDir>/nodes/Woovi/__tests__/helpers',
+    '<rootDir>/nodes/Woovi/__tests__/utils',
+  ],
   testRegex: ['(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts|tsx)?$'],
   testEnvironment: "node",
   transformIgnorePatterns: ["/node_modules/(?!callsites)/", "\\.pnp\\.[^\\\/]+$"],
@@ -19,6 +26,7 @@ const config: Config = {
 //    "^.+\\.(js|ts|tsx)?$" : ["ts-jest",{}],
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  modulePathIgnorePatterns: ['<rootDir>/dist'],
   // ...createDefaultPreset()
 };
 
