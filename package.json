@@ -34,6 +34,10 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "homepage": "https://woovi.com/",
   "keywords": [
     "n8n-community-node-package",
