@@ -9,6 +9,7 @@ export interface ExecuteContextOptions {
   credentials: { baseUrl: string; Authorization: string };
   response?: unknown;
   error?: unknown;
+  items?: INodeExecutionData[];
 }
 
 export interface MockExecuteContext extends IDataObject {
@@ -23,6 +24,7 @@ export interface MockExecuteContext extends IDataObject {
   getNodeParameter: (name: string, itemIndex: number, fallback?: unknown) => unknown;
   getCredentials: <T>(name: string) => Promise<T>;
   getNode: () => IDataObject;
+  getInputData: () => INodeExecutionData[];
   lastRequestOptions?: IHttpRequestOptions;
 }
 
@@ -31,6 +33,7 @@ export const createExecuteContext = ({
   credentials,
   response,
   error,
+  items,
 }: ExecuteContextOptions): MockExecuteContext => {
   const context: Partial<MockExecuteContext> = {};
 
@@ -46,6 +49,14 @@ export const createExecuteContext = ({
   };
 
   context.getNode = () => ({ name: 'Woovi' });
+
+  context.getInputData = () => {
+    if (items && items.length > 0) {
+      return items;
+    }
+
+    return [{ json: {} }];
+  };
 
   const requestWithAuthentication = jest.fn(async (_name: string, options: IHttpRequestOptions) => {
     context.lastRequestOptions = options;

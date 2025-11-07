@@ -1,6 +1,7 @@
-import type {IDataObject, IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription,} from 'n8n-workflow';
+import type {IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription,} from 'n8n-workflow';
 import {NodeApiError} from 'n8n-workflow';
-import {apiRequest} from './transport';
+
+import {wooviOperations} from './operations';
 
 export class Woovi implements INodeType {
   description: INodeTypeDescription = {
@@ -182,76 +183,41 @@ export class Woovi implements INodeType {
   };
 
   async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    let operationResult: INodeExecutionData[];
+    const items = this.getInputData();
+    const returnData: INodeExecutionData[] = [];
 
-    const resource = this.getNodeParameter('resource', 0) as string;
-    const operation = this.getNodeParameter('operation', 0) as string;
+    for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+      try {
+        const resource = this.getNodeParameter('resource', itemIndex) as string;
+        const operation = this.getNodeParameter('operation', itemIndex) as string;
 
-    let responseData: any;
-    try {
-      if (resource === 'charge' && operation === 'create') {
-        const body = {
-          value: this.getNodeParameter('chargeValue', 0),
-          correlationID: this.getNodeParameter('correlationID', 0),
-        } as IDataObject;
-        responseData = await apiRequest.call(this, 'POST', '/charge', body);
-      } else if (resource === 'subaccount') {
-        // Subaccount operations
-        if (operation === 'listSubaccounts') {
-          responseData = await apiRequest.call(this, 'GET', '/subaccount');
-        } else if (operation === 'getSubaccount') {
-          const id = this.getNodeParameter('subaccountId', 0) as string;
-          responseData = await apiRequest.call(this, 'GET', `/subaccount/${id}`);
-        } else if (operation === 'createSubaccount') {
-          const pixKey = this.getNodeParameter('subaccountPixKey', 0) as string;
-          const name = this.getNodeParameter('subaccountName', 0) as string || undefined;
-          const body: IDataObject = {};
-          if (pixKey) body.pixKey = pixKey;
-          if (name) body.name = name;
-          responseData = await apiRequest.call(this, 'POST', '/subaccount', body);
-        } else if (operation === 'withdrawSubaccount') {
-          const id = this.getNodeParameter('subaccountId', 0) as string;
-          const value = this.getNodeParameter('amount', 0) as number;
-          responseData = await apiRequest.call(this, 'POST', `/subaccount/${id}/withdraw`, { value });
-        } else if (operation === 'debitSubaccount') {
-          const id = this.getNodeParameter('subaccountId', 0) as string;
-          const value = this.getNodeParameter('amount', 0) as number;
-          const description = this.getNodeParameter('operationDescription', 0) as string || undefined;
-          const body: IDataObject = { value };
-          if (description) body.description = description;
-          responseData = await apiRequest.call(this, 'POST', `/subaccount/${id}/debit`, body);
-        } else if (operation === 'deleteSubaccount') {
-          const id = this.getNodeParameter('subaccountId', 0) as string;
-          responseData = await apiRequest.call(this, 'DELETE', `/subaccount/${id}`);
-        } else if (operation === 'transferSubaccounts') {
-          const value = this.getNodeParameter('amount', 0) as number;
-          const fromPixKey = this.getNodeParameter('fromPixKey', 0) as string;
-          const toPixKey = this.getNodeParameter('toPixKey', 0) as string;
-          const correlationID = this.getNodeParameter('correlationID', 0, '') as string;
-          const description = this.getNodeParameter('operationDescription', 0, '') as string;
-          const body: IDataObject = { value };
-          if (fromPixKey) body.fromPixKey = fromPixKey;
-          if (toPixKey) body.toPixKey = toPixKey;
-          if (correlationID) body.correlationID = correlationID;
-          if (description) body.description = description;
-          responseData = await apiRequest.call(this, 'POST', `/subaccount/transfer`, body);
-        } else {
-          throw new NodeApiError(this.getNode(), { message: `Unsupported subaccount operation: ${operation}` });
+        const handler = wooviOperations[resource]?.[operation];
+
+        if (!handler) {
+          throw new NodeApiError(this.getNode(), { message: `Unsupported resource/operation: ${resource}/${operation}` });
         }
-      } else {
-        throw new NodeApiError(this.getNode(), { message: `Unsupported resource/operation: ${resource}/${operation}` });
+
+        const responseData = await handler.call(this, itemIndex);
+
+        const executionData = this.helpers.constructExecutionMetaData(
+          this.helpers.returnJsonArray(responseData),
+          { itemData: { item: itemIndex } },
+        );
+
+        returnData.push(...executionData);
+      } catch (error) {
+        if (error instanceof NodeApiError) {
+          throw error;
+        }
+
+        const errObj = (error && typeof error === 'object' && 'message' in (error as any))
+          ? { message: (error as any).message }
+          : { message: String(error) };
+
+        throw new NodeApiError(this.getNode(), errObj);
       }
-    } catch (error) {
-      // Normalize error to a JsonObject for NodeApiError
-      const errObj = (error && typeof error === 'object' && 'message' in (error as any)) ? { message: (error as any).message } : { message: String(error) };
-      throw new NodeApiError(this.getNode(), errObj);
     }
 
-    operationResult = this.helpers.constructExecutionMetaData(
-      this.helpers.returnJsonArray(responseData),
-      {itemData: {item: 1}},
-    );
-
-    return [operationResult];
+    return [returnData];
   }
 }
