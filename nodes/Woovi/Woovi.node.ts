@@ -1,7 +1,12 @@
-import type {IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription,} from 'n8n-workflow';
-import {NodeApiError} from 'n8n-workflow';
+import type {
+  IExecuteFunctions,
+  INodeExecutionData,
+  INodeType,
+  INodeTypeDescription,
+} from 'n8n-workflow';
+import { NodeApiError } from 'n8n-workflow';
 
-import {wooviOperations} from './operations';
+import { wooviOperations } from './operations';
 
 export class Woovi implements INodeType {
   description: INodeTypeDescription = {
@@ -41,6 +46,7 @@ export class Woovi implements INodeType {
         options: [
           { name: 'Charge', value: 'charge' },
           { name: 'Subaccount', value: 'subaccount' },
+          { name: 'Customer', value: 'customer' },
         ],
         default: 'charge',
       },
@@ -56,7 +62,14 @@ export class Woovi implements INodeType {
           { name: 'Withdraw from Subaccount', value: 'withdrawSubaccount' },
           { name: 'Debit Subaccount', value: 'debitSubaccount' },
           { name: 'Delete Subaccount', value: 'deleteSubaccount' },
-          { name: 'Transfer between Subaccounts', value: 'transferSubaccounts' },
+          {
+            name: 'Transfer between Subaccounts',
+            value: 'transferSubaccounts',
+          },
+          {
+            name: 'Create Customer',
+            value: 'createCustomer',
+          },
         ],
         default: 'create',
       },
@@ -82,7 +95,7 @@ export class Woovi implements INodeType {
         description: 'Unique identifier for the charge',
         displayOptions: {
           show: {
-            resource: ['charge', 'subaccount'],
+            resource: ['charge', 'subaccount', 'customer'],
             operation: ['create', 'transferSubaccounts'],
           },
         },
@@ -97,7 +110,12 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['subaccount'],
-            operation: ['getSubaccount', 'withdrawSubaccount', 'debitSubaccount', 'deleteSubaccount'],
+            operation: [
+              'getSubaccount',
+              'withdrawSubaccount',
+              'debitSubaccount',
+              'deleteSubaccount',
+            ],
           },
         },
       },
@@ -110,7 +128,11 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['subaccount'],
-            operation: ['withdrawSubaccount', 'debitSubaccount', 'transferSubaccounts'],
+            operation: [
+              'withdrawSubaccount',
+              'debitSubaccount',
+              'transferSubaccounts',
+            ],
           },
         },
       },
@@ -179,6 +201,81 @@ export class Woovi implements INodeType {
           },
         },
       },
+      {
+        displayName: 'Name',
+        name: 'name',
+        type: 'string',
+        default: '',
+        description: 'Name of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['createCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'taxID',
+        name: 'taxID',
+        type: 'string',
+        default: '',
+        description: 'Tax ID of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['createCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'Email',
+        name: 'email',
+        type: 'string',
+        default: '',
+        description: 'Email of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['createCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'Phone',
+        name: 'phone',
+        type: 'string',
+        default: '',
+        description: 'Phone number of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['createCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'Address',
+        name: 'address',
+        type: 'collection',
+        default: {
+          zipcode: '',
+          street: '',
+          number: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          country: '',
+          complement: '',
+        },
+        description:
+          'Address is optional, but if provided, all fields except complement must be filled',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['createCustomer'],
+          },
+        },
+      },
     ],
   };
 
@@ -189,12 +286,17 @@ export class Woovi implements INodeType {
     for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
       try {
         const resource = this.getNodeParameter('resource', itemIndex) as string;
-        const operation = this.getNodeParameter('operation', itemIndex) as string;
+        const operation = this.getNodeParameter(
+          'operation',
+          itemIndex,
+        ) as string;
 
         const handler = wooviOperations[resource]?.[operation];
 
         if (!handler) {
-          throw new NodeApiError(this.getNode(), { message: `Unsupported resource/operation: ${resource}/${operation}` });
+          throw new NodeApiError(this.getNode(), {
+            message: `Unsupported resource/operation: ${resource}/${operation}`,
+          });
         }
 
         const responseData = await handler.call(this, itemIndex);
@@ -210,9 +312,10 @@ export class Woovi implements INodeType {
           throw error;
         }
 
-        const errObj = (error && typeof error === 'object' && 'message' in (error as any))
-          ? { message: (error as any).message }
-          : { message: String(error) };
+        const errObj =
+          error && typeof error === 'object' && 'message' in (error as any)
+            ? { message: (error as any).message }
+            : { message: String(error) };
 
         throw new NodeApiError(this.getNode(), errObj);
       }

@@ -2,12 +2,27 @@ import type { IDataObject, IExecuteFunctions } from 'n8n-workflow';
 
 import { apiRequest } from '../transport';
 
-export async function transferSubaccounts(this: IExecuteFunctions, itemIndex: number) {
+export async function transferSubaccounts(
+  this: IExecuteFunctions,
+  itemIndex: number,
+) {
   const value = this.getNodeParameter('amount', itemIndex) as number;
-  const fromPixKey = this.getNodeParameter('fromPixKey', itemIndex, '') as string;
+  const fromPixKey = this.getNodeParameter(
+    'fromPixKey',
+    itemIndex,
+    '',
+  ) as string;
   const toPixKey = this.getNodeParameter('toPixKey', itemIndex, '') as string;
-  const correlationID = this.getNodeParameter('correlationID', itemIndex, '') as string;
-  const description = this.getNodeParameter('operationDescription', itemIndex, '') as string;
+  const correlationID = this.getNodeParameter(
+    'correlationID',
+    itemIndex,
+    '',
+  ) as string;
+  const description = this.getNodeParameter(
+    'operationDescription',
+    itemIndex,
+    '',
+  ) as string;
 
   const body: IDataObject = { value };
 

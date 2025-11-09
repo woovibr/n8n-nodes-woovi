@@ -4,7 +4,11 @@ import { apiRequest } from '../transport';
 
 export async function createCharge(this: IExecuteFunctions, itemIndex: number) {
   const value = this.getNodeParameter('chargeValue', itemIndex) as number;
-  const correlationID = this.getNodeParameter('correlationID', itemIndex, '') as string;
+  const correlationID = this.getNodeParameter(
+    'correlationID',
+    itemIndex,
+    '',
+  ) as string;
 
   const body: IDataObject = { value };
 
