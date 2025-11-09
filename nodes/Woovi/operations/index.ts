@@ -8,12 +8,22 @@ import { getSubaccount } from './getSubaccount';
 import { listSubaccounts } from './listSubaccounts';
 import { transferSubaccounts } from './transferSubaccounts';
 import { withdrawSubaccount } from './withdrawSubaccount';
+import { createCustomer } from './createCustomer';
 
-export type OperationHandler = (this: IExecuteFunctions, itemIndex: number) => Promise<any>;
+export type OperationHandler = (
+  this: IExecuteFunctions,
+  itemIndex: number,
+) => Promise<any>;
 
-export const wooviOperations: Record<string, Record<string, OperationHandler>> = {
+export const wooviOperations: Record<
+  string,
+  Record<string, OperationHandler>
+> = {
   charge: {
     create: createCharge,
+  },
+  customer: {
+    createCustomer,
   },
   subaccount: {
     listSubaccounts,

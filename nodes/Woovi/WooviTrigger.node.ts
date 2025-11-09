@@ -121,7 +121,7 @@ export class WooviTrigger implements INodeType {
   async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
     const req = this.getRequestObject();
     const configuredEvent = this.getNodeParameter('events') as string;
-    const acceptedEvents = ["ALL", configuredEvent]
+    const acceptedEvents = ['ALL', configuredEvent];
 
     if (acceptedEvents.includes(req.body.event)) {
       return {

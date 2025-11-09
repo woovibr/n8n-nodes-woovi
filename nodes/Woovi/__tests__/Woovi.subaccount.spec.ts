@@ -18,7 +18,9 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
@@ -45,7 +47,9 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
@@ -73,7 +77,9 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
@@ -100,9 +106,13 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
-    expect(context.lastRequestOptions?.url).toBe('https://api.woovi.com/api/v1/subaccount/sub1');
+    expect(context.lastRequestOptions?.url).toBe(
+      'https://api.woovi.com/api/v1/subaccount/sub1',
+    );
     expect(context.lastRequestOptions?.method).toBe('GET');
     expect(result[0][0].json).toEqual(responseData);
   });
@@ -123,9 +133,13 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
-    expect(context.lastRequestOptions?.url).toBe('https://api.woovi.com/api/v1/subaccount/sub1');
+    expect(context.lastRequestOptions?.url).toBe(
+      'https://api.woovi.com/api/v1/subaccount/sub1',
+    );
     expect(context.lastRequestOptions?.method).toBe('DELETE');
     expect(result[0][0].json).toEqual(responseData);
   });
@@ -148,7 +162,9 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.lastRequestOptions).toMatchObject({
       method: 'POST',
@@ -178,7 +194,9 @@ describe('Woovi node - subaccount', () => {
       response: responseData,
     });
 
-    const result = await node.execute.call(context as unknown as IExecuteFunctions);
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.lastRequestOptions).toMatchObject({
       method: 'POST',

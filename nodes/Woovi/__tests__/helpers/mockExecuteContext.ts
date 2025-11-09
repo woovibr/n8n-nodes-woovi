@@ -14,14 +14,23 @@ export interface ExecuteContextOptions {
 
 export interface MockExecuteContext extends IDataObject {
   helpers: {
-    requestWithAuthentication: jest.Mock<Promise<unknown>, [string, IHttpRequestOptions]>;
-    returnJsonArray: (data: IDataObject | IDataObject[]) => INodeExecutionData[];
+    requestWithAuthentication: jest.Mock<
+      Promise<unknown>,
+      [string, IHttpRequestOptions]
+    >;
+    returnJsonArray: (
+      data: IDataObject | IDataObject[],
+    ) => INodeExecutionData[];
     constructExecutionMetaData: (
       data: INodeExecutionData[],
       meta: IDataObject,
     ) => INodeExecutionData[];
   };
-  getNodeParameter: (name: string, itemIndex: number, fallback?: unknown) => unknown;
+  getNodeParameter: (
+    name: string,
+    itemIndex: number,
+    fallback?: unknown,
+  ) => unknown;
   getCredentials: <T>(name: string) => Promise<T>;
   getNode: () => IDataObject;
   getInputData: () => INodeExecutionData[];
@@ -37,7 +46,11 @@ export const createExecuteContext = ({
 }: ExecuteContextOptions): MockExecuteContext => {
   const context: Partial<MockExecuteContext> = {};
 
-  context.getNodeParameter = (name: string, _itemIndex: number, fallback?: unknown) => {
+  context.getNodeParameter = (
+    name: string,
+    _itemIndex: number,
+    fallback?: unknown,
+  ) => {
     if (parameters[name] === undefined) {
       return fallback;
     }
@@ -58,13 +71,15 @@ export const createExecuteContext = ({
     return [{ json: {} }];
   };
 
-  const requestWithAuthentication = jest.fn(async (_name: string, options: IHttpRequestOptions) => {
-    context.lastRequestOptions = options;
-    if (error) {
-      throw error;
-    }
-    return response;
-  });
+  const requestWithAuthentication = jest.fn(
+    async (_name: string, options: IHttpRequestOptions) => {
+      context.lastRequestOptions = options;
+      if (error) {
+        throw error;
+      }
+      return response;
+    },
+  );
 
   context.helpers = {
     requestWithAuthentication,
@@ -72,7 +87,10 @@ export const createExecuteContext = ({
       const entries = Array.isArray(data) ? data : [data];
       return entries.map((entry) => ({ json: entry }));
     },
-    constructExecutionMetaData: (data: INodeExecutionData[], _meta: IDataObject) => data,
+    constructExecutionMetaData: (
+      data: INodeExecutionData[],
+      _meta: IDataObject,
+    ) => data,
   } as MockExecuteContext['helpers'];
 
   return context as MockExecuteContext;

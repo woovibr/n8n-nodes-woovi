@@ -4,7 +4,7 @@ import { Woovi } from '../Woovi.node';
 import { createExecuteContext } from './helpers/mockExecuteContext';
 import { chargeResult, chargeWithCustomBaseUrlResult } from './__mocks__';
 
-describe("Woovi node", () => {
+describe('Woovi node', () => {
   test('should create a charge', async () => {
     const node = new Woovi();
     const context = createExecuteContext({
@@ -21,7 +21,9 @@ describe("Woovi node", () => {
       response: chargeResult,
     });
 
-    const response = await node.execute.call(context as unknown as IExecuteFunctions);
+    const response = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
@@ -52,10 +54,14 @@ describe("Woovi node", () => {
       response: chargeWithCustomBaseUrlResult,
     });
 
-    const response = await node.execute.call(context as unknown as IExecuteFunctions);
+    const response = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
 
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
-    expect(context.lastRequestOptions?.url).toBe('https://api.woovi.com/custom/api/v1/charge');
+    expect(context.lastRequestOptions?.url).toBe(
+      'https://api.woovi.com/custom/api/v1/charge',
+    );
     expect(response[0][0].json).toEqual(chargeWithCustomBaseUrlResult);
   });
 
@@ -75,7 +81,8 @@ describe("Woovi node", () => {
       error: new Error('Invalid request'),
     });
 
-    await expect(node.execute.call(context as unknown as IExecuteFunctions)).rejects.toBeInstanceOf(NodeApiError);
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toBeInstanceOf(NodeApiError);
   });
-
-})
+});

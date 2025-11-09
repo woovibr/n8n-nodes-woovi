@@ -2,7 +2,10 @@ import type { IDataObject, IExecuteFunctions } from 'n8n-workflow';
 
 import { apiRequest } from '../transport';
 
-export async function createSubaccount(this: IExecuteFunctions, itemIndex: number) {
+export async function createSubaccount(
+  this: IExecuteFunctions,
+  itemIndex: number,
+) {
   const pixKey = this.getNodeParameter('subaccountPixKey', itemIndex) as string;
   const name = this.getNodeParameter('subaccountName', itemIndex, '') as string;
 
