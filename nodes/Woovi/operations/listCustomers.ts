@@ -4,7 +4,12 @@ import { apiRequest } from '../transport';
 
 export async function listCustomers(
   this: IExecuteFunctions,
-  _itemIndex: number,
+  itemIndex: number,
 ) {
-  return apiRequest.call(this, 'GET', '/customer');
+  const limit = this.getNodeParameter('limit', itemIndex);
+  const skip = this.getNodeParameter('skip', itemIndex);
+
+  const urlParams = `?limit=${limit ?? 20}&skip=${skip ?? 0}`;
+
+  return apiRequest.call(this, 'GET', `/customer${urlParams}`);
 }
