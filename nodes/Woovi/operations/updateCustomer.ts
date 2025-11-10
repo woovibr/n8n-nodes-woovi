@@ -6,37 +6,36 @@ import {
 
 import { apiRequest } from '../transport';
 
-export async function createCustomer(
+export async function updateCustomer(
   this: IExecuteFunctions,
   itemIndex: number,
 ) {
-  const name = this.getNodeParameter('name', itemIndex) as string;
-  const taxID = this.getNodeParameter('taxID', itemIndex) as string;
-  const email = this.getNodeParameter('email', itemIndex, '') as string;
-  const phone = this.getNodeParameter('phone', itemIndex, '') as string;
   const correlationID = this.getNodeParameter(
     'correlationID',
     itemIndex,
-    '',
   ) as string;
+  const name = this.getNodeParameter('name', itemIndex, '') as string;
+  const taxID = this.getNodeParameter('taxID', itemIndex, '') as string;
+  const email = this.getNodeParameter('email', itemIndex, '') as string;
+  const phone = this.getNodeParameter('phone', itemIndex, '') as string;
   const address = this.getNodeParameter('address', itemIndex) as IDataObject;
 
-  const body: IDataObject = { name };
+  const body: IDataObject = {};
 
-  if (!taxID && !email && !phone) {
+  if (!correlationID) {
     throw new NodeOperationError(
       this.getNode(),
-      'Um desses campos taxID, email, ou phone deve ser fornecido',
+      'O campo correlationID é obrigatório',
       { itemIndex },
     );
   }
 
-  if (taxID) {
-    body.taxID = taxID;
+  if (name) {
+    body.name = name;
   }
 
-  if (correlationID) {
-    body.correlationID = correlationID;
+  if (taxID) {
+    body.taxID = taxID;
   }
 
   if (email) {
@@ -67,5 +66,5 @@ export async function createCustomer(
     body.address = address;
   }
 
-  return apiRequest.call(this, 'POST', '/customer', body);
+  return apiRequest.call(this, 'PATCH', `/customer/${correlationID}`, body);
 }

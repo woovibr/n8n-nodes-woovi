@@ -78,6 +78,10 @@ export class Woovi implements INodeType {
             name: 'Create Customer',
             value: 'createCustomer',
           },
+          {
+            name: 'Update Customer',
+            value: 'updateCustomer',
+          },
         ],
         default: 'create',
       },
@@ -104,7 +108,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['charge', 'subaccount', 'customer'],
-            operation: ['create', 'transferSubaccounts'],
+            operation: ['create', 'transferSubaccounts', 'updateCustomer'],
           },
         },
       },
@@ -218,7 +222,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -231,7 +235,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -244,7 +248,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -257,7 +261,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -338,7 +342,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
