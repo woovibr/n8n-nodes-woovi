@@ -237,6 +237,30 @@ describe('Woovi node - customer', () => {
     expect(result[0][0].json).toEqual(responseData);
   });
 
+  test('should throw a error if dont pass id in get a customer', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'customer',
+        operation: 'getCustomer',
+        id: '',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/O campo id é obrigatório/);
+  });
+
   test('should update a customer', async () => {
     const node = new Woovi();
     const responseData = {

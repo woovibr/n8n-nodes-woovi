@@ -347,7 +347,7 @@ export class Woovi implements INodeType {
         },
       },
       {
-        displayName: 'Correlation ID or Tax ID',
+        displayName: 'Id: Correlation ID or Tax ID',
         name: 'id',
         type: 'string',
         default: '',
