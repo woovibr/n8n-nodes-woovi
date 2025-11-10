@@ -67,8 +67,20 @@ export class Woovi implements INodeType {
             value: 'transferSubaccounts',
           },
           {
+            name: 'List Customers',
+            value: 'listCustomers',
+          },
+          {
+            name: 'Get Customer',
+            value: 'getCustomer',
+          },
+          {
             name: 'Create Customer',
             value: 'createCustomer',
+          },
+          {
+            name: 'Update Customer',
+            value: 'updateCustomer',
           },
         ],
         default: 'create',
@@ -96,7 +108,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['charge', 'subaccount', 'customer'],
-            operation: ['create', 'transferSubaccounts'],
+            operation: ['create', 'transferSubaccounts', 'updateCustomer'],
           },
         },
       },
@@ -210,7 +222,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -223,7 +235,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -236,7 +248,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -249,7 +261,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
           },
         },
       },
@@ -267,12 +279,83 @@ export class Woovi implements INodeType {
           country: '',
           complement: '',
         },
+        options: [
+          {
+            displayName: 'Zipcode',
+            name: 'zipcode',
+            type: 'string',
+            default: '',
+            description: 'Postal code',
+          },
+          {
+            displayName: 'Street',
+            name: 'street',
+            type: 'string',
+            default: '',
+            description: 'Street name',
+          },
+          {
+            displayName: 'Number',
+            name: 'number',
+            type: 'string',
+            default: '',
+            description: 'Street number',
+          },
+          {
+            displayName: 'Neighborhood',
+            name: 'neighborhood',
+            type: 'string',
+            default: '',
+            description: 'Neighborhood/District',
+          },
+          {
+            displayName: 'City',
+            name: 'city',
+            type: 'string',
+            default: '',
+            description: 'City name',
+          },
+          {
+            displayName: 'State',
+            name: 'state',
+            type: 'string',
+            default: '',
+            description: 'State/Province',
+          },
+          {
+            displayName: 'Country',
+            name: 'country',
+            type: 'string',
+            default: '',
+            description: 'Country',
+          },
+          {
+            displayName: 'Complement',
+            name: 'complement',
+            type: 'string',
+            default: '',
+            description: 'Additional address information (optional)',
+          },
+        ],
         description:
           'Address is optional, but if provided, all fields except complement must be filled',
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer'],
+            operation: ['createCustomer', 'updateCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'Id: Correlation ID or Tax ID',
+        name: 'id',
+        type: 'string',
+        default: '',
+        description: 'Correlation ID or Tax ID of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['getCustomer'],
           },
         },
       },
