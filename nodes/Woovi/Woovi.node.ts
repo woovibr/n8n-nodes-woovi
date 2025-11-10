@@ -47,6 +47,7 @@ export class Woovi implements INodeType {
           { name: 'Charge', value: 'charge' },
           { name: 'Subaccount', value: 'subaccount' },
           { name: 'Customer', value: 'customer' },
+          { name: 'Refund', value: 'refund' },
         ],
         default: 'charge',
       },
@@ -82,6 +83,7 @@ export class Woovi implements INodeType {
             name: 'Update Customer',
             value: 'updateCustomer',
           },
+          { name: 'List Refunds', value: 'listRefunds' },
         ],
         default: 'create',
       },
@@ -382,8 +384,8 @@ export class Woovi implements INodeType {
         description: 'Number of items to skip',
         displayOptions: {
           show: {
-            resource: ['customer'],
-            operation: ['listCustomers'],
+            resource: ['customer', 'refund'],
+            operation: ['listCustomers', 'listRefunds'],
           },
         },
       },
