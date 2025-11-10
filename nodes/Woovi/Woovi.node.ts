@@ -359,6 +359,34 @@ export class Woovi implements INodeType {
           },
         },
       },
+      {
+        displayName: 'Limit',
+        name: 'limit',
+        type: 'number',
+        default: 20,
+        placeholder: '20',
+        description: 'Number of items to return',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['listCustomers'],
+          },
+        },
+      },
+      {
+        displayName: 'Skip',
+        name: 'skip',
+        type: 'number',
+        default: 0,
+        placeholder: '0',
+        description: 'Number of items to skip',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['listCustomers'],
+          },
+        },
+      },
     ],
   };
 

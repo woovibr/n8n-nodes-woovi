@@ -164,7 +164,7 @@ describe('Woovi node - customer', () => {
     ).rejects.toThrow(/Endereço incompleto/);
   });
 
-  test('should list customers', async () => {
+  test('should list customers with pagination', async () => {
     const node = new Woovi();
     const responseData = [
       {
@@ -178,10 +178,13 @@ describe('Woovi node - customer', () => {
         email: 'jane@example.com',
       },
     ];
+
     const context = createExecuteContext({
       parameters: {
         resource: 'customer',
         operation: 'listCustomers',
+        limit: 10,
+        skip: 0,
       },
       credentials: {
         baseUrl: 'https://api.woovi.com/api',
@@ -197,7 +200,7 @@ describe('Woovi node - customer', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'GET',
-      url: 'https://api.woovi.com/api/v1/customer',
+      url: 'https://api.woovi.com/api/v1/customer?limit=10&skip=0',
     });
     expect(result[0].map((item) => item.json)).toEqual(responseData);
   });
