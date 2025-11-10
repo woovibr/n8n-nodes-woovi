@@ -13,6 +13,7 @@ import { listCustomers } from './listCustomers';
 import { getSubaccount } from './getSubaccount';
 import { updateCustomer } from './updateCustomer';
 import { listRefunds } from './listRefunds';
+import { getRefund } from './getRefund';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -43,5 +44,6 @@ export const wooviOperations: Record<
   },
   refund: {
     listRefunds,
+    getRefund,
   },
 };
