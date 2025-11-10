@@ -71,6 +71,10 @@ export class Woovi implements INodeType {
             value: 'listCustomers',
           },
           {
+            name: 'Get Customer',
+            value: 'getCustomer',
+          },
+          {
             name: 'Create Customer',
             value: 'createCustomer',
           },
@@ -335,6 +339,19 @@ export class Woovi implements INodeType {
           show: {
             resource: ['customer'],
             operation: ['createCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'Correlation ID or Tax ID',
+        name: 'id',
+        type: 'string',
+        default: '',
+        description: 'Correlation ID or Tax ID of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['getCustomer'],
           },
         },
       },

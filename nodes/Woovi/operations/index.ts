@@ -4,12 +4,13 @@ import { createCharge } from './createCharge';
 import { createSubaccount } from './createSubaccount';
 import { debitSubaccount } from './debitSubaccount';
 import { deleteSubaccount } from './deleteSubaccount';
-import { getSubaccount } from './getSubaccount';
+import { getCustomer } from './getCustomer';
 import { listSubaccounts } from './listSubaccounts';
 import { transferSubaccounts } from './transferSubaccounts';
 import { withdrawSubaccount } from './withdrawSubaccount';
 import { createCustomer } from './createCustomer';
 import { listCustomers } from './listCustomers';
+import { getSubaccount } from './getSubaccount';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -25,6 +26,7 @@ export const wooviOperations: Record<
   },
   customer: {
     listCustomers,
+    getCustomer,
     createCustomer,
   },
   subaccount: {
