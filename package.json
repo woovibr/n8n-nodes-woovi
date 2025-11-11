@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-woovi",
   "description": "n8n nodes for Woovi",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "dependencies": {
     "callsites": "^4.2.0",
     "jest-mock-extended": "4.0.0-beta1",
