@@ -85,6 +85,7 @@ export class Woovi implements INodeType {
           },
           { name: 'List Refunds', value: 'listRefunds' },
           { name: 'Get Refund', value: 'getRefund' },
+          { name: 'Create Refund', value: 'createRefund' },
         ],
         default: 'create',
       },
@@ -363,6 +364,76 @@ export class Woovi implements INodeType {
         },
       },
       {
+        displayName: 'Id: CorrelationID or RefundID',
+        name: 'id',
+        type: 'string',
+        default: '',
+        description: 'CorrelationID or RefundID of the refund',
+        displayOptions: {
+          show: {
+            resource: ['refund'],
+            operation: ['getRefund'],
+          },
+        },
+      },
+      {
+        displayName: 'value',
+        name: 'value',
+        type: 'number',
+        default: '',
+        placeholder: 'refund value into cents',
+        description: 'Refund value into cents',
+        displayOptions: {
+          show: {
+            resource: ['refund'],
+            operation: ['createRefund'],
+          },
+        },
+      },
+      {
+        displayName: 'Transaction End To End ID',
+        name: 'transactionEndToEndId',
+        type: 'string',
+        default: '',
+        placeholder: 'transaction end to end id',
+        description:
+          'Your transaction ID, or endToEnd ID, to keep track of this refund',
+        displayOptions: {
+          show: {
+            resource: ['refund'],
+            operation: ['createRefund'],
+          },
+        },
+      },
+      {
+        displayName: 'Correlation ID',
+        name: 'correlationID',
+        type: 'string',
+        default: '',
+        placeholder: 'correlationID',
+        description: 'Unique identifier for the refund',
+        displayOptions: {
+          show: {
+            resource: ['refund'],
+            operation: ['createRefund'],
+          },
+        },
+      },
+      {
+        displayName: 'Refund comment',
+        name: 'comment',
+        type: 'string',
+        default: '',
+        placeholder: 'comment',
+        description: 'Comment for the refund',
+        displayOptions: {
+          show: {
+            resource: ['refund'],
+            operation: ['createRefund'],
+          },
+        },
+      },
+      {
         displayName: 'Limit',
         name: 'limit',
         type: 'number',
@@ -371,8 +442,8 @@ export class Woovi implements INodeType {
         description: 'Number of items to return',
         displayOptions: {
           show: {
-            resource: ['customer'],
-            operation: ['listCustomers'],
+            resource: ['customer', 'refund'],
+            operation: ['listCustomers', 'listRefunds'],
           },
         },
       },
