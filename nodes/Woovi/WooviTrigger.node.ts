@@ -14,7 +14,7 @@ export class WooviTrigger implements INodeType {
     icon: 'file:woovi.svg',
     group: ['trigger'],
     version: 1,
-    subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+    subtitle: '={{$parameter["events"]}}',
     description: 'Handle Woovi Events via Webhook',
     defaults: {
       name: 'Woovi Trigger',
