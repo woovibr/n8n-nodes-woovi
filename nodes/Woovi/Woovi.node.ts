@@ -88,6 +88,7 @@ export class Woovi implements INodeType {
           { name: 'Get Refund', value: 'getRefund' },
           { name: 'Create Refund', value: 'createRefund' },
           { name: 'List Invoices', value: 'listInvoices' },
+          { name: 'Cancel Invoice', value: 'cancelInvoice' },
         ],
         default: 'create',
       },
@@ -488,6 +489,21 @@ export class Woovi implements INodeType {
           show: {
             resource: ['invoice'],
             operation: ['listInvoices'],
+          },
+        },
+      },
+      {
+        displayName: 'Correlation ID',
+        name: 'correlationID',
+        type: 'string',
+        required: true,
+        default: '',
+        placeholder: 'correlation-id-123',
+        description: 'Unique identifier of the invoice to cancel',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['cancelInvoice'],
           },
         },
       },
