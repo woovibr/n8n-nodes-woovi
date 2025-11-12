@@ -48,6 +48,7 @@ export class Woovi implements INodeType {
           { name: 'Subaccount', value: 'subaccount' },
           { name: 'Customer', value: 'customer' },
           { name: 'Refund', value: 'refund' },
+          { name: 'Invoice', value: 'invoice' },
         ],
         default: 'charge',
       },
@@ -86,6 +87,7 @@ export class Woovi implements INodeType {
           { name: 'List Refunds', value: 'listRefunds' },
           { name: 'Get Refund', value: 'getRefund' },
           { name: 'Create Refund', value: 'createRefund' },
+          { name: 'List Invoices', value: 'listInvoices' },
         ],
         default: 'create',
       },
@@ -442,8 +444,8 @@ export class Woovi implements INodeType {
         description: 'Number of items to return',
         displayOptions: {
           show: {
-            resource: ['customer', 'refund'],
-            operation: ['listCustomers', 'listRefunds'],
+            resource: ['customer', 'refund', 'invoice'],
+            operation: ['listCustomers', 'listRefunds', 'listInvoices'],
           },
         },
       },
@@ -456,8 +458,36 @@ export class Woovi implements INodeType {
         description: 'Number of items to skip',
         displayOptions: {
           show: {
-            resource: ['customer', 'refund'],
-            operation: ['listCustomers', 'listRefunds'],
+            resource: ['customer', 'refund', 'invoice'],
+            operation: ['listCustomers', 'listRefunds', 'listInvoices'],
+          },
+        },
+      },
+      {
+        displayName: 'Start Date',
+        name: 'start',
+        type: 'string',
+        default: '',
+        placeholder: '2021-01-01',
+        description: 'Filter invoices by start date (format: YYYY-MM-DD)',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['listInvoices'],
+          },
+        },
+      },
+      {
+        displayName: 'End Date',
+        name: 'end',
+        type: 'string',
+        default: '',
+        placeholder: '2021-01-01',
+        description: 'Filter invoices by end date (format: YYYY-MM-DD)',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['listInvoices'],
           },
         },
       },
