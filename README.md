@@ -73,6 +73,7 @@ The package currently implements two primary integrations for n8n:
 |  `/v1/invoice`  | GET | `Woovi` | `limit` (number) — optional (default: 20); `skip` (number) — optional (default: 0); `start` (string, format: YYYY-MM-DD) — optional; `end` (string, format: YYYY-MM-DD) — optional | List invoices of the company. Use `resource=invoice` + `operation=listInvoices` and optionally filter by date range | Array of invoice objects
 |  `/v1/invoice/{correlationID}/cancel`  | POST | `Woovi` | `correlationID` (string) — required | Cancel an invoice. Use `resource=invoice` + `operation=cancelInvoice` and provide the invoice `correlationID` | Operation result (success/info)
 |  `/v1/invoice/{correlationID}/pdf`  | GET | `Woovi` | `correlationID` (string) — required | Get invoice PDF. Use `resource=invoice` + `operation=getInvoicePdf` and provide the invoice `correlationID` | PDF file data
+|  `/v1/invoice/{correlationID}/xml`  | GET | `Woovi` | `correlationID` (string) — required | Get invoice XML. Use `resource=invoice` + `operation=getInvoiceXml` and provide the invoice `correlationID` | XML file data
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
 

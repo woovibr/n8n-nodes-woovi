@@ -90,6 +90,7 @@ export class Woovi implements INodeType {
           { name: 'List Invoices', value: 'listInvoices' },
           { name: 'Cancel Invoice', value: 'cancelInvoice' },
           { name: 'Get Invoice PDF', value: 'getInvoicePdf' },
+          { name: 'Get Invoice XML', value: 'getInvoiceXml' },
         ],
         default: 'create',
       },
@@ -504,7 +505,7 @@ export class Woovi implements INodeType {
         displayOptions: {
           show: {
             resource: ['invoice'],
-            operation: ['cancelInvoice', 'getInvoicePdf'],
+            operation: ['cancelInvoice', 'getInvoicePdf', 'getInvoiceXml'],
           },
         },
       },
