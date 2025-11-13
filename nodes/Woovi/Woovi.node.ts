@@ -48,6 +48,7 @@ export class Woovi implements INodeType {
           { name: 'Subaccount', value: 'subaccount' },
           { name: 'Customer', value: 'customer' },
           { name: 'Refund', value: 'refund' },
+          { name: 'Installment', value: 'installment' },
         ],
         default: 'charge',
       },
@@ -86,6 +87,7 @@ export class Woovi implements INodeType {
           { name: 'List Refunds', value: 'listRefunds' },
           { name: 'Get Refund', value: 'getRefund' },
           { name: 'Create Refund', value: 'createRefund' },
+          { name: 'Get Installment', value: 'getInstallment' },
         ],
         default: 'create',
       },
@@ -373,6 +375,19 @@ export class Woovi implements INodeType {
           show: {
             resource: ['refund'],
             operation: ['getRefund'],
+          },
+        },
+      },
+      {
+        displayName: 'Id: globalID or endToEndId',
+        name: 'id',
+        type: 'string',
+        default: '',
+        description: 'GlobalID or endToEndId of the installment',
+        displayOptions: {
+          show: {
+            resource: ['installment'],
+            operation: ['getInstallment'],
           },
         },
       },

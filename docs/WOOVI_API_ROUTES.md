@@ -19,6 +19,7 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Company
 - Customer
 - Dispute
+- Installments
 - Partner (request access)
 - Payment (request access)
 - Pix Key
@@ -259,6 +260,76 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Path: /api/v1/dispute
 - Descrição: Lista disputas (filtros por start/end)
 - Payload: query `start`, `end`, headers `Authorization`
+
+---
+
+## Installments
+
+### Get an Installment
+- Método: GET
+- Path: /api/v1/installments/{id}
+- Descrição: Recupera parcela por globalID ou endToEndId
+- Payload:
+  - Path params: `id` (string) — globalID ou endToEndId da parcela
+  - Query: —
+  - Body: —
+  - Headers: `Authorization: <AppID>` (obrigatório)
+
+#### Exemplo com cURL
+
+```bash
+curl -X GET 'https://api.woovi.com/api/v1/installments/GI_123456789' \
+  -H 'Authorization: <AppID>' \
+  -H 'Content-Type: application/json'
+```
+
+#### Exemplo com Node.js (fetch)
+
+```javascript
+const fetch = require('node-fetch');
+
+async function getInstallment(id) {
+  const response = await fetch(`https://api.woovi.com/api/v1/installments/${encodeURIComponent(id)}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': '<AppID>',
+      'Content-Type': 'application/json'
+    }
+  });
+  
+  const data = await response.json();
+  return data;
+}
+
+// Exemplo de uso com globalID
+getInstallment('GI_123456789')
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
+// Exemplo de uso com endToEndId
+getInstallment('E12345678912345678901234567890AB')
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+#### Resposta de Sucesso (200 OK)
+
+```json
+{
+  "installment": {
+    "globalID": "GI_123456789",
+    "endToEndId": "E12345678912345678901234567890AB",
+    "value": 10000,
+    "status": "ACTIVE",
+    "correlationID": "installment-123",
+    "customer": {
+      "name": "John Doe",
+      "taxID": "12345678900"
+    },
+    "createdAt": "2025-11-10T10:00:00Z"
+  }
+}
+```
 
 ---
 
