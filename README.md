@@ -74,6 +74,7 @@ The package currently implements two primary integrations for n8n:
 |  `/v1/invoice/{correlationID}/cancel`  | POST | `Woovi` | `correlationID` (string) — required | Cancel an invoice. Use `resource=invoice` + `operation=cancelInvoice` and provide the invoice `correlationID` | Operation result (success/info)
 |  `/v1/invoice/{correlationID}/pdf`  | GET | `Woovi` | `correlationID` (string) — required | Get invoice PDF. Use `resource=invoice` + `operation=getInvoicePdf` and provide the invoice `correlationID` | PDF file data
 |  `/v1/invoice/{correlationID}/xml`  | GET | `Woovi` | `correlationID` (string) — required | Get invoice XML. Use `resource=invoice` + `operation=getInvoiceXml` and provide the invoice `correlationID` | XML file data
+|  `/v1/invoice`  | POST | `Woovi` | `billingDate` (string, ISO 8601) — required; `correlationID` (string) — required; **one of:** `charge` (string) OR `value` (number) — required; `description` (string) — optional; `customerId` (string) — optional; `customer` (object with taxID, name, email, phone, address) — optional (if provided, all customer fields are required) | Create a new invoice. Use `resource=invoice` + `operation=createInvoice` and provide required fields | Operation result (success/info)
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
 
