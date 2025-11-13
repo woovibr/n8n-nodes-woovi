@@ -9,7 +9,9 @@ export async function listCustomers(
   const limit = this.getNodeParameter('limit', itemIndex);
   const skip = this.getNodeParameter('skip', itemIndex);
 
-  const urlParams = `?limit=${limit ?? 20}&skip=${skip ?? 0}`;
+  const params = new URLSearchParams();
+  params.append('limit', String(limit ?? 20));
+  params.append('skip', String(skip ?? 0));
 
-  return apiRequest.call(this, 'GET', `/customer${urlParams}`);
+  return apiRequest.call(this, 'GET', `/customer?${params.toString()}`);
 }

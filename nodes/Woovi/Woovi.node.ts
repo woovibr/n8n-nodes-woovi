@@ -48,6 +48,7 @@ export class Woovi implements INodeType {
           { name: 'Subaccount', value: 'subaccount' },
           { name: 'Customer', value: 'customer' },
           { name: 'Refund', value: 'refund' },
+          { name: 'Invoice', value: 'invoice' },
         ],
         default: 'charge',
       },
@@ -55,8 +56,26 @@ export class Woovi implements INodeType {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['charge'],
+          },
+        },
+        options: [{ name: 'Create Charge', value: 'create' }],
+        default: 'create',
+      },
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['subaccount'],
+          },
+        },
         options: [
-          { name: 'Create Charge', value: 'create' },
           { name: 'List Subaccounts', value: 'listSubaccounts' },
           { name: 'Get Subaccount', value: 'getSubaccount' },
           { name: 'Create/Retrieve Subaccount', value: 'createSubaccount' },
@@ -67,32 +86,68 @@ export class Woovi implements INodeType {
             name: 'Transfer between Subaccounts',
             value: 'transferSubaccounts',
           },
-          {
-            name: 'List Customers',
-            value: 'listCustomers',
+        ],
+        default: 'listSubaccounts',
+      },
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['customer'],
           },
-          {
-            name: 'Get Customer',
-            value: 'getCustomer',
+        },
+        options: [
+          { name: 'List Customers', value: 'listCustomers' },
+          { name: 'Get Customer', value: 'getCustomer' },
+          { name: 'Create Customer', value: 'createCustomer' },
+          { name: 'Update Customer', value: 'updateCustomer' },
+        ],
+        default: 'listCustomers',
+      },
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['refund'],
           },
-          {
-            name: 'Create Customer',
-            value: 'createCustomer',
-          },
-          {
-            name: 'Update Customer',
-            value: 'updateCustomer',
-          },
+        },
+        options: [
           { name: 'List Refunds', value: 'listRefunds' },
           { name: 'Get Refund', value: 'getRefund' },
           { name: 'Create Refund', value: 'createRefund' },
         ],
-        default: 'create',
+        default: 'listRefunds',
+      },
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+          },
+        },
+        options: [
+          { name: 'List Invoices', value: 'listInvoices' },
+          { name: 'Cancel Invoice', value: 'cancelInvoice' },
+          { name: 'Get Invoice PDF', value: 'getInvoicePdf' },
+          { name: 'Get Invoice XML', value: 'getInvoiceXml' },
+          { name: 'Create Invoice', value: 'createInvoice' },
+        ],
+        default: 'listInvoices',
       },
       {
         displayName: 'Value',
         name: 'chargeValue',
         type: 'number',
+        required: true,
         default: '',
         placeholder: 'charge value into cents',
         description: 'ChargeValue into cents',
@@ -120,6 +175,7 @@ export class Woovi implements INodeType {
         displayName: 'Subaccount ID',
         name: 'subaccountId',
         type: 'string',
+        required: true,
         default: '',
         placeholder: 'subaccount id',
         description: 'Subaccount id (used by get/withdraw/debit/delete)',
@@ -139,6 +195,7 @@ export class Woovi implements INodeType {
         displayName: 'Amount',
         name: 'amount',
         type: 'number',
+        required: true,
         default: 0,
         description: 'Amount in cents for withdraw/debit/transfer',
         displayOptions: {
@@ -156,6 +213,7 @@ export class Woovi implements INodeType {
         displayName: 'Pix Key',
         name: 'subaccountPixKey',
         type: 'string',
+        required: true,
         default: '',
         description: 'Pix key for create/retrieve subaccount',
         displayOptions: {
@@ -182,6 +240,7 @@ export class Woovi implements INodeType {
         displayName: 'To Pix Key',
         name: 'toPixKey',
         type: 'string',
+        required: true,
         default: '',
         description: 'Destination pix key for transfer',
         displayOptions: {
@@ -195,6 +254,7 @@ export class Woovi implements INodeType {
         displayName: 'From Pix Key',
         name: 'fromPixKey',
         type: 'string',
+        required: true,
         default: '',
         description: 'Source pix key for transfer',
         displayOptions: {
@@ -221,12 +281,26 @@ export class Woovi implements INodeType {
         displayName: 'Name',
         name: 'name',
         type: 'string',
+        required: true,
         default: '',
         description: 'Name of the customer',
         displayOptions: {
           show: {
             resource: ['customer'],
-            operation: ['createCustomer', 'updateCustomer'],
+            operation: ['createCustomer'],
+          },
+        },
+      },
+      {
+        displayName: 'Name',
+        name: 'name',
+        type: 'string',
+        default: '',
+        description: 'Name of the customer',
+        displayOptions: {
+          show: {
+            resource: ['customer'],
+            operation: ['updateCustomer'],
           },
         },
       },
@@ -354,6 +428,7 @@ export class Woovi implements INodeType {
         displayName: 'Id: Correlation ID or Tax ID',
         name: 'id',
         type: 'string',
+        required: true,
         default: '',
         description: 'Correlation ID or Tax ID of the customer',
         displayOptions: {
@@ -367,6 +442,7 @@ export class Woovi implements INodeType {
         displayName: 'Id: CorrelationID or RefundID',
         name: 'id',
         type: 'string',
+        required: true,
         default: '',
         description: 'CorrelationID or RefundID of the refund',
         displayOptions: {
@@ -380,6 +456,7 @@ export class Woovi implements INodeType {
         displayName: 'value',
         name: 'value',
         type: 'number',
+        required: true,
         default: '',
         placeholder: 'refund value into cents',
         description: 'Refund value into cents',
@@ -394,6 +471,7 @@ export class Woovi implements INodeType {
         displayName: 'Transaction End To End ID',
         name: 'transactionEndToEndId',
         type: 'string',
+        required: true,
         default: '',
         placeholder: 'transaction end to end id',
         description:
@@ -409,6 +487,7 @@ export class Woovi implements INodeType {
         displayName: 'Correlation ID',
         name: 'correlationID',
         type: 'string',
+        required: true,
         default: '',
         placeholder: 'correlationID',
         description: 'Unique identifier for the refund',
@@ -442,8 +521,8 @@ export class Woovi implements INodeType {
         description: 'Number of items to return',
         displayOptions: {
           show: {
-            resource: ['customer', 'refund'],
-            operation: ['listCustomers', 'listRefunds'],
+            resource: ['customer', 'refund', 'invoice'],
+            operation: ['listCustomers', 'listRefunds', 'listInvoices'],
           },
         },
       },
@@ -456,8 +535,247 @@ export class Woovi implements INodeType {
         description: 'Number of items to skip',
         displayOptions: {
           show: {
-            resource: ['customer', 'refund'],
-            operation: ['listCustomers', 'listRefunds'],
+            resource: ['customer', 'refund', 'invoice'],
+            operation: ['listCustomers', 'listRefunds', 'listInvoices'],
+          },
+        },
+      },
+      {
+        displayName: 'Start Date',
+        name: 'start',
+        type: 'string',
+        default: '',
+        placeholder: '2021-01-01',
+        description: 'Filter invoices by start date (format: YYYY-MM-DD)',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['listInvoices'],
+          },
+        },
+      },
+      {
+        displayName: 'End Date',
+        name: 'end',
+        type: 'string',
+        default: '',
+        placeholder: '2021-01-01',
+        description: 'Filter invoices by end date (format: YYYY-MM-DD)',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['listInvoices'],
+          },
+        },
+      },
+      {
+        displayName: 'Correlation ID',
+        name: 'correlationID',
+        type: 'string',
+        required: true,
+        default: '',
+        placeholder: 'correlation-id-123',
+        description: 'Unique identifier of the invoice',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: [
+              'cancelInvoice',
+              'getInvoicePdf',
+              'getInvoiceXml',
+              'createInvoice',
+            ],
+          },
+        },
+      },
+      {
+        displayName: 'Description',
+        name: 'description',
+        type: 'string',
+        default: '',
+        placeholder: 'Invoice description',
+        description: 'Description of the invoice',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['createInvoice'],
+          },
+        },
+      },
+      {
+        displayName: 'Billing Date',
+        name: 'billingDate',
+        type: 'string',
+        required: true,
+        default: '',
+        placeholder: '2024-01-15T10:00:00Z',
+        description: 'Billing date in ISO 8601 format (YYYY-MM-DDTHH:mm:ssZ)',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['createInvoice'],
+          },
+        },
+      },
+      {
+        displayName: 'Charge ID',
+        name: 'charge',
+        type: 'string',
+        default: '',
+        placeholder: 'charge-id-123',
+        description:
+          'Charge ID (required if Value is not provided). One of Charge or Value must be provided.',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['createInvoice'],
+          },
+        },
+      },
+      {
+        displayName: 'Value',
+        name: 'value',
+        type: 'number',
+        default: 0,
+        placeholder: '1000',
+        description:
+          'Invoice value in cents (required if Charge ID is not provided). One of Charge or Value must be provided.',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['createInvoice'],
+          },
+        },
+      },
+      {
+        displayName: 'Customer ID',
+        name: 'customerId',
+        type: 'string',
+        default: '',
+        placeholder: 'customer-id-123',
+        description:
+          'Existing customer ID (required if Customer object is not provided). One of Customer ID or Customer must be provided.',
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['createInvoice'],
+          },
+        },
+      },
+      {
+        displayName: 'Customer',
+        name: 'customer',
+        type: 'collection',
+        default: {
+          taxID: '',
+          name: '',
+          email: '',
+          phone: '',
+          address: {
+            country: '',
+            zipcode: '',
+            street: '',
+            number: '',
+            state: '',
+          },
+        },
+        placeholder: 'Add Customer',
+        description:
+          'Customer object (required if Customer ID is not provided). All fields are required if provided.',
+        options: [
+          {
+            displayName: 'Tax ID',
+            name: 'taxID',
+            type: 'string',
+            default: '',
+            placeholder: '12345678900',
+            description: 'Customer tax ID (CPF/CNPJ)',
+          },
+          {
+            displayName: 'Name',
+            name: 'name',
+            type: 'string',
+            default: '',
+            placeholder: 'John Doe',
+            description: 'Customer name',
+          },
+          {
+            displayName: 'Email',
+            name: 'email',
+            type: 'string',
+            default: '',
+            placeholder: 'john@example.com',
+            description: 'Customer email',
+          },
+          {
+            displayName: 'Phone',
+            name: 'phone',
+            type: 'string',
+            default: '',
+            placeholder: '+5511999999999',
+            description: 'Customer phone number',
+          },
+          {
+            displayName: 'Address',
+            name: 'address',
+            type: 'collection',
+            default: {
+              country: '',
+              zipcode: '',
+              street: '',
+              number: '',
+              state: '',
+            },
+            placeholder: 'Add Address',
+            description: 'Customer address (all fields required if provided)',
+            options: [
+              {
+                displayName: 'Country',
+                name: 'country',
+                type: 'string',
+                default: '',
+                placeholder: 'BR',
+                description: 'Country code',
+              },
+              {
+                displayName: 'Zipcode',
+                name: 'zipcode',
+                type: 'string',
+                default: '',
+                placeholder: '01310-100',
+                description: 'ZIP code',
+              },
+              {
+                displayName: 'Street',
+                name: 'street',
+                type: 'string',
+                default: '',
+                placeholder: 'Avenida Paulista',
+                description: 'Street name',
+              },
+              {
+                displayName: 'Number',
+                name: 'number',
+                type: 'string',
+                default: '',
+                placeholder: '1000',
+                description: 'Street number',
+              },
+              {
+                displayName: 'State',
+                name: 'state',
+                type: 'string',
+                default: '',
+                placeholder: 'SP',
+                description: 'State code',
+              },
+            ],
+          },
+        ],
+        displayOptions: {
+          show: {
+            resource: ['invoice'],
+            operation: ['createInvoice'],
           },
         },
       },
