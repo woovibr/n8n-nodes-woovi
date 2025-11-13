@@ -25,6 +25,24 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "installment",
+        "operation": "getInstallment",
+        "id": "GI_123456789"
+      },
+      "id": "55fbe9d6-3173-51c6-944d-492e15ff0fa1",
+      "name": "Woovi - Get Installment",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -34,6 +52,17 @@
         [
           {
             "node": "Woovi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Woovi": {
+      "main": [
+        [
+          {
+            "node": "Woovi - Get Installment",
             "type": "main",
             "index": 0
           }
