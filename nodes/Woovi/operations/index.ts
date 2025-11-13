@@ -15,6 +15,7 @@ import { updateCustomer } from './updateCustomer';
 import { listRefunds } from './listRefunds';
 import { getRefund } from './getRefund';
 import { createRefund } from './createRefund';
+import { getInstallment } from './getInstallment';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -47,5 +48,8 @@ export const wooviOperations: Record<
     listRefunds,
     getRefund,
     createRefund,
+  },
+  installment: {
+    getInstallment,
   },
 };
