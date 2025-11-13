@@ -38,7 +38,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'POST',
         url: 'https://api.woovi.com/api/v1/invoice',
@@ -85,7 +87,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'POST',
         url: 'https://api.woovi.com/api/v1/invoice',
@@ -132,7 +136,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'POST',
         url: 'https://api.woovi.com/api/v1/invoice',
@@ -191,7 +197,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'POST',
         url: 'https://api.woovi.com/api/v1/invoice',
@@ -275,7 +283,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'POST',
         url: 'https://api.woovi.com/api/v1/invoice',
@@ -499,7 +509,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'GET',
         url: 'https://api.woovi.com/api/v1/invoice/invoice-123/pdf',
@@ -555,7 +567,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'GET',
         url: 'https://api.woovi.com/api/v1/invoice/invoice-456/xml',
@@ -625,7 +639,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'GET',
         url: 'https://api.woovi.com/api/v1/invoice?limit=20&skip=0',
@@ -663,7 +679,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'GET',
         url: 'https://api.woovi.com/api/v1/invoice?limit=10&skip=10',
@@ -701,7 +719,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'GET',
         url: 'https://api.woovi.com/api/v1/invoice?limit=20&skip=0&start=2025-01-01&end=2025-01-31',
@@ -739,7 +759,9 @@ describe('Woovi node - invoice', () => {
         context as unknown as IExecuteFunctions,
       );
 
-      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+      expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(
+        1,
+      );
       expect(context.lastRequestOptions).toMatchObject({
         method: 'GET',
         url: 'https://api.woovi.com/api/v1/invoice?limit=20&skip=0&start=2025-06-01',
