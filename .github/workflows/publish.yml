@@ -2,8 +2,8 @@ name: Build and Deploy to npm
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - main
 
 permissions:
   id-token: write  # Required for OIDC
