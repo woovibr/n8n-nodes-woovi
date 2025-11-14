@@ -1,59 +1,38 @@
-name: Publish package to npm
+name: Build and Deploy to npm
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 permissions:
   id-token: write  # Required for OIDC
   contents: read
 
 jobs:
-  publish:
-    name: Publish
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          always-auth: true
-
-      - name: Enable pnpm (via Corepack) and install
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm install
-
-      - name: Build
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build project
         run: pnpm run build
-
-      - name: Verify package metadata
+      - name: Authenticate to npm
         run: |
-          node <<'NODE'
-          const pkg = require('./package.json');
-          if (pkg.name !== 'n8n-nodes-woovi') {
-            throw new Error(`Unexpected package name: ${pkg.name}`);
-          }
-          if (!pkg.version) {
-            throw new Error('Package version is missing');
-          }
-          console.log(`Preparing to publish ${pkg.name}@${pkg.version}`);
-          NODE
-
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "Publishing n8n-nodes-woovi to npm"
-          pnpm publish --access public --registry https://registry.npmjs.org/ --no-git-checks
+        run: npm publish
