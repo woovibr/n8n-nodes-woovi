@@ -51,6 +51,7 @@ export class Woovi implements INodeType {
           { name: 'Customer', value: 'customer' },
           { name: 'Refund', value: 'refund' },
           { name: 'Invoice', value: 'invoice' },
+          { name: 'Invoice', value: 'invoice' },
         ],
         default: 'charge',
       },

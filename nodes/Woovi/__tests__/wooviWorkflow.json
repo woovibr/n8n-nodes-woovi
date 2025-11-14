@@ -11,6 +11,8 @@
     },
     {
       "parameters": {
+        "resource": "charge",
+        "operation": "create",
         "chargeValue": 1000,
         "correlationID": "12345"
       },
@@ -25,6 +27,59 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "customer",
+        "operation": "createCustomer",
+        "name": "John Doe",
+        "taxID": "12345678900",
+        "email": "john@example.com",
+        "phone": "+5511999999999",
+        "correlationID": "customer-123",
+        "address": {
+          "zipcode": "01234-567",
+          "street": "Rua das Flores",
+          "number": "123",
+          "neighborhood": "Centro",
+          "city": "São Paulo",
+          "state": "SP",
+          "country": "BR",
+          "complement": "Apto 101"
+        }
+      },
+      "id": "b4f7f4a2-6b8f-4d6c-b4c3-5b8a9ff91234",
+      "name": "Create Customer",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "refund",
+        "operation": "createRefund",
+        "value": "1000",
+        "transactionEndToEndId": "E12345678912345678901234567890AB",
+        "correlationID": "refund-123",
+        "comment": "Refund requested by customer"
+      },
+      "id": "c8a9d6e3-3f1a-4e3b-9b1f-5fd2e8b90123",
+      "name": "Create Refund",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1100, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -33,7 +88,29 @@
       "main": [
         [
           {
-            "node": "Woovi",
+            "node": "Create Charge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Charge": {
+      "main": [
+        [
+          {
+            "node": "Create Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Customer": {
+      "main": [
+        [
+          {
+            "node": "Create Refund",
             "type": "main",
             "index": 0
           }
