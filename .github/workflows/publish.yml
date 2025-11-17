@@ -1,37 +1,30 @@
-name: Build and Deploy to npm
+name: Publish to npm
 
 on:
   push:
     branches:
       - main
 
-permissions:
-  id-token: write  # Required for OIDC
-  contents: read
-
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
         with:
           version: latest
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Build project
-        run: pnpm run build
-      - name: Authenticate to npm
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          npm whoami
-      - name: Publish to npm
-        run: npm publish
+
+      - name: Configure npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build
+
+      - run: npm publish
