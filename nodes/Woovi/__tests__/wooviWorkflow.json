@@ -80,6 +80,24 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "installment",
+        "operation": "getInstallment",
+        "id": "GI_123456789"
+      },
+      "id": "55fbe9d6-3173-51c6-944d-492e15ff0fa1",
+      "name": "Get Installment",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1300, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -88,14 +106,14 @@
       "main": [
         [
           {
-            "node": "Create Charge",
+            "node": "Woovi",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Create Charge": {
+    "Woovi": {
       "main": [
         [
           {
@@ -111,6 +129,17 @@
         [
           {
             "node": "Create Refund",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Refund": {
+      "main": [
+        [
+          {
+            "node": "Get Installment",
             "type": "main",
             "index": 0
           }

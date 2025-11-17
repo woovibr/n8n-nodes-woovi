@@ -5,6 +5,7 @@ import { subaccountProperties } from './Subaccount.node';
 import { customerProperties } from './Customer.node';
 import { refundProperties } from './Refund.node';
 import { invoiceProperties } from './Invoice.node';
+import { installmentProperties } from './Installment.node';
 
 export const wooviNodesProperties: INodeProperties[] = [
   ...chargeProperties,
@@ -12,4 +13,5 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...customerProperties,
   ...refundProperties,
   ...invoiceProperties,
+  ...installmentProperties,
 ];

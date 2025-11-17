@@ -15,6 +15,7 @@ import { updateCustomer } from './updateCustomer';
 import { listRefunds } from './listRefunds';
 import { getRefund } from './getRefund';
 import { createRefund } from './createRefund';
+import { getInstallment } from './getInstallment';
 import { listInvoices } from './listInvoices';
 import { cancelInvoice } from './cancelInvoice';
 import { getInvoicePdf } from './getInvoicePdf';
@@ -52,6 +53,9 @@ export const wooviOperations: Record<
     listRefunds,
     getRefund,
     createRefund,
+  },
+  installment: {
+    getInstallment,
   },
   invoice: {
     listInvoices,
