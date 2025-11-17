@@ -16,6 +16,11 @@ import { listRefunds } from './listRefunds';
 import { getRefund } from './getRefund';
 import { createRefund } from './createRefund';
 import { getInstallment } from './getInstallment';
+import { listInvoices } from './listInvoices';
+import { cancelInvoice } from './cancelInvoice';
+import { getInvoicePdf } from './getInvoicePdf';
+import { getInvoiceXml } from './getInvoiceXml';
+import { createInvoice } from './createInvoice';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -51,5 +56,12 @@ export const wooviOperations: Record<
   },
   installment: {
     getInstallment,
+  },
+  invoice: {
+    listInvoices,
+    cancelInvoice,
+    getInvoicePdf,
+    getInvoiceXml,
+    createInvoice,
   },
 };
