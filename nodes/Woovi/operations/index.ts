@@ -21,6 +21,7 @@ import { cancelInvoice } from './cancelInvoice';
 import { getInvoicePdf } from './getInvoicePdf';
 import { getInvoiceXml } from './getInvoiceXml';
 import { createInvoice } from './createInvoice';
+import { getSubscription } from './getSubscription';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -63,5 +64,8 @@ export const wooviOperations: Record<
     getInvoicePdf,
     getInvoiceXml,
     createInvoice,
+  },
+  subscription: {
+    getSubscription,
   },
 };
