@@ -13,6 +13,7 @@ export const subscriptionProperties: INodeProperties[] = [
     },
     options: [
       { name: 'Get Subscription', value: 'getSubscription' },
+      { name: 'List Subscription Installments', value: 'listSubscriptionInstallments' },
     ],
     default: 'getSubscription',
   },
@@ -23,11 +24,11 @@ export const subscriptionProperties: INodeProperties[] = [
     required: true,
     default: '',
     placeholder: 'subscription_id_123',
-    description: 'ID of the subscription to retrieve',
+    description: 'ID of the subscription',
     displayOptions: {
       show: {
         resource: ['subscription'],
-        operation: ['getSubscription'],
+        operation: ['getSubscription', 'listSubscriptionInstallments'],
       },
     },
   },

@@ -150,4 +150,113 @@ describe('Woovi node - subscription', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should list subscription installments', async () => {
+    const node = new Woovi();
+    const responseData = {
+      installments: [
+        {
+          globalID: 'GI_123456789',
+          endToEndId: 'E12345678912345678901234567890AB',
+          value: 10000,
+          status: 'ACTIVE',
+          correlationID: 'installment-001',
+          createdAt: '2025-11-01T10:00:00Z',
+        },
+        {
+          globalID: 'GI_987654321',
+          endToEndId: 'E98765432198765432109876543210BA',
+          value: 10000,
+          status: 'PAID',
+          correlationID: 'installment-002',
+          createdAt: '2025-12-01T10:00:00Z',
+          paidAt: '2025-12-01T15:30:00Z',
+        },
+      ],
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'listSubscriptionInstallments',
+        id: 'sub_123456789',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/subscriptions/sub_123456789/installments',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when listing installments without subscription id', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'listSubscriptionInstallments',
+        id: '',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/id é obrigatório/);
+  });
+
+  test('should handle URL encoding for subscription id when listing installments', async () => {
+    const node = new Woovi();
+    const specialId = 'sub_123/456';
+    const responseData = {
+      installments: [
+        {
+          globalID: 'GI_111',
+          value: 5000,
+          status: 'ACTIVE',
+        },
+      ],
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'listSubscriptionInstallments',
+        id: specialId,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/subscriptions/sub_123%2F456/installments',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });
