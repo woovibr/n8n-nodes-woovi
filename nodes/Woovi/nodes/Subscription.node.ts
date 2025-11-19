@@ -16,6 +16,7 @@ export const subscriptionProperties: INodeProperties[] = [
       { name: 'Get Subscription', value: 'getSubscription' },
       { name: 'Create Subscription', value: 'createSubscription' },
       { name: 'Cancel Subscription', value: 'cancelSubscription' },
+      { name: 'Update Subscription Value', value: 'updateSubscriptionValue' },
       { name: 'List Subscription Installments', value: 'listSubscriptionInstallments' },
     ],
     default: 'listSubscriptions',
@@ -31,7 +32,23 @@ export const subscriptionProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['subscription'],
-        operation: ['getSubscription', 'cancelSubscription', 'listSubscriptionInstallments'],
+        operation: ['getSubscription', 'cancelSubscription', 'updateSubscriptionValue', 'listSubscriptionInstallments'],
+      },
+    },
+  },
+  // Update Subscription Value field
+  {
+    displayName: 'New Value (cents)',
+    name: 'value',
+    type: 'number',
+    required: true,
+    default: 0,
+    placeholder: '10000',
+    description: 'New value in cents for future subscription installments',
+    displayOptions: {
+      show: {
+        resource: ['subscription'],
+        operation: ['updateSubscriptionValue'],
       },
     },
   },

@@ -568,4 +568,134 @@ describe('Woovi node - subscription', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should update subscription value', async () => {
+    const node = new Woovi();
+    const responseData = {
+      subscription: {
+        id: 'sub_123456789',
+        status: 'ACTIVE',
+        value: 15000,
+        type: 'PIX_RECURRING',
+        correlationID: 'my-sub-001',
+        updatedAt: '2025-11-18T16:00:00Z',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'updateSubscriptionValue',
+        id: 'sub_123456789',
+        value: 15000,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'PUT',
+      url: 'https://api.woovi.com/api/v1/subscriptions/sub_123456789/value',
+      body: {
+        value: 15000,
+      },
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when updating subscription value without id', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'updateSubscriptionValue',
+        id: '',
+        value: 15000,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/id é obrigatório/);
+  });
+
+  test('should throw error when updating subscription with invalid value', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'updateSubscriptionValue',
+        id: 'sub_123456789',
+        value: 0,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/value é obrigatório e deve ser maior que zero/);
+  });
+
+  test('should handle URL encoding for subscription id when updating value', async () => {
+    const node = new Woovi();
+    const specialId = 'sub_123/456';
+    const responseData = {
+      subscription: {
+        id: specialId,
+        status: 'ACTIVE',
+        value: 20000,
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'updateSubscriptionValue',
+        id: specialId,
+        value: 20000,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'PUT',
+      url: 'https://api.woovi.com/api/v1/subscriptions/sub_123%2F456/value',
+      body: {
+        value: 20000,
+      },
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });
