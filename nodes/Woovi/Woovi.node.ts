@@ -8,7 +8,7 @@ import type {
 import { NodeApiError } from 'n8n-workflow';
 
 import { wooviOperations } from './operations';
-import { wooviNodesProperties } from './nodes';
+import { wooviNodesProperties } from './properties';
 
 export class Woovi implements INodeType {
   description: INodeTypeDescription = {
@@ -52,6 +52,7 @@ export class Woovi implements INodeType {
           { name: 'Refund', value: 'refund' },
           { name: 'Installment', value: 'installment' },
           { name: 'Invoice', value: 'invoice' },
+          { name: 'Subscription', value: 'subscription' },
         ],
         default: 'charge',
       },

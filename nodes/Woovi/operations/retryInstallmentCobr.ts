@@ -2,7 +2,7 @@ import { NodeOperationError, type IExecuteFunctions } from 'n8n-workflow';
 
 import { apiRequest } from '../transport';
 
-export async function getInstallment(
+export async function retryInstallmentCobr(
   this: IExecuteFunctions,
   itemIndex: number,
 ) {
@@ -11,7 +11,7 @@ export async function getInstallment(
   if (!id) {
     throw new NodeOperationError(
       this.getNode(),
-      'O campo id é obrigatório (globalID ou endToEndId)',
+      'O campo id é obrigatório (globalID da parcela)',
       {
         itemIndex,
       },
@@ -20,7 +20,8 @@ export async function getInstallment(
 
   return apiRequest.call(
     this,
-    'GET',
-    `/installments/${encodeURIComponent(id)}`,
+    'POST',
+    `/installments/${encodeURIComponent(id)}/cobr/retry`,
+    {},
   );
 }
