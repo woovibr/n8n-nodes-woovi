@@ -44,7 +44,7 @@ export const subscriptionProperties: INodeProperties[] = [
     required: true,
     default: 0,
     placeholder: '10000',
-    description: 'New value in cents for future subscription installments',
+    description: 'New value in cents for future subscription installments. Note: Only works if PIX automatic accepts dynamic value',
     displayOptions: {
       show: {
         resource: ['subscription'],
