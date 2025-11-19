@@ -8,7 +8,7 @@ import type {
 import { NodeApiError } from 'n8n-workflow';
 
 import { wooviOperations } from './operations';
-import { wooviNodesProperties } from './nodes';
+import { wooviNodesProperties } from './properties';
 
 export class Woovi implements INodeType {
   description: INodeTypeDescription = {

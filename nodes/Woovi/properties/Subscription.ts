@@ -17,7 +17,10 @@ export const subscriptionProperties: INodeProperties[] = [
       { name: 'Create Subscription', value: 'createSubscription' },
       { name: 'Cancel Subscription', value: 'cancelSubscription' },
       { name: 'Update Subscription Value', value: 'updateSubscriptionValue' },
-      { name: 'List Subscription Installments', value: 'listSubscriptionInstallments' },
+      {
+        name: 'List Subscription Installments',
+        value: 'listSubscriptionInstallments',
+      },
     ],
     default: 'listSubscriptions',
   },
@@ -32,7 +35,12 @@ export const subscriptionProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['subscription'],
-        operation: ['getSubscription', 'cancelSubscription', 'updateSubscriptionValue', 'listSubscriptionInstallments'],
+        operation: [
+          'getSubscription',
+          'cancelSubscription',
+          'updateSubscriptionValue',
+          'listSubscriptionInstallments',
+        ],
       },
     },
   },
@@ -44,7 +52,8 @@ export const subscriptionProperties: INodeProperties[] = [
     required: true,
     default: 0,
     placeholder: '10000',
-    description: 'New value in cents for future subscription installments. Note: Only works if PIX automatic accepts dynamic value',
+    description:
+      'New value in cents for future subscription installments. Note: Only works if PIX automatic accepts dynamic value',
     displayOptions: {
       show: {
         resource: ['subscription'],
@@ -276,13 +285,64 @@ export const subscriptionProperties: INodeProperties[] = [
     type: 'number',
     default: 5,
     placeholder: '5',
-    description: 'Day of the month that the charges will be generated (1-31). Default: 5',
+    description:
+      'Day of the month that the charges will be generated (1-31). Default: 5',
     displayOptions: {
       show: {
         resource: ['subscription'],
         operation: ['createSubscription'],
       },
     },
+  },
+  {
+    displayName: 'Pix Automatic Options',
+    name: 'pixRecurringOptions',
+    type: 'collection',
+    required: true,
+    default: {
+      retryPolicy: 'NON_PERMITED',
+      journey: 'PAYMENT_ON_APPROVAL',
+      minimumValue: 0,
+    },
+    description: 'Pix automatic options',
+    displayOptions: {
+      show: {
+        resource: ['subscription'],
+        operation: ['createSubscription'],
+      },
+    },
+    options: [
+      {
+        displayName: 'Retry Policy',
+        name: 'retryPolicy',
+        type: 'options',
+        options: [
+          { name: 'NON_PERMITED', value: 'NON_PERMITED' },
+          { name: 'THREE_RETRIES_7_DAYS', value: 'THREE_RETRIES_7_DAYS' },
+        ],
+        default: 'NON_PERMITED',
+        description: 'Retry policy for pix automatic',
+      },
+      {
+        displayName: 'Journey',
+        name: 'journey',
+        type: 'options',
+        options: [
+          { name: 'PAYMENT_ON_APPROVAL', value: 'PAYMENT_ON_APPROVAL' },
+          { name: 'ONLY_RECURRENCY', value: 'ONLY_RECURRENCY' },
+        ],
+        default: 'PAYMENT_ON_APPROVAL',
+        description: 'Journey type of the pix automatic',
+      },
+      {
+        displayName: 'Minimum Value (cents)',
+        name: 'minimumValue',
+        type: 'number',
+        default: 0,
+        required: true,
+        description: 'Minimum value for each cobr (in cents)',
+      },
+    ],
   },
   {
     displayName: 'Frequency',
@@ -309,11 +369,40 @@ export const subscriptionProperties: INodeProperties[] = [
     type: 'number',
     default: 7,
     placeholder: '7',
-    description: 'Days that the charge will take to expire from the generation day (minimum 3). Default: 7',
+    description:
+      'Days that the charge will take to expire from the generation day (minimum 3). Default: 7',
     displayOptions: {
       show: {
         resource: ['subscription'],
         operation: ['createSubscription'],
+      },
+    },
+  },
+  {
+    displayName: 'Limit',
+    name: 'limit',
+    type: 'number',
+    default: 20,
+    placeholder: '20',
+    description: 'Number of items to return',
+    displayOptions: {
+      show: {
+        resource: ['subscription'],
+        operation: ['listSubscriptions'],
+      },
+    },
+  },
+  {
+    displayName: 'Skip',
+    name: 'skip',
+    type: 'number',
+    default: 0,
+    placeholder: '0',
+    description: 'Number of items to skip',
+    displayOptions: {
+      show: {
+        resource: ['subscription'],
+        operation: ['listSubscriptions'],
       },
     },
   },

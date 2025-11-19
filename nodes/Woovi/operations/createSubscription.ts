@@ -48,10 +48,26 @@ export async function createSubscription(
   const frequency = this.getNodeParameter('frequency', itemIndex, '') as string;
   const dayDue = this.getNodeParameter('dayDue', itemIndex, 7) as number;
 
+  const pixRecurringOptions = this.getNodeParameter(
+    'pixRecurringOptions',
+    itemIndex,
+    undefined,
+  ) as IDataObject | undefined;
+
   if (!value) {
     throw new NodeOperationError(
       this.getNode(),
       'O campo value é obrigatório',
+      {
+        itemIndex,
+      },
+    );
+  }
+
+  if (!name) {
+    throw new NodeOperationError(
+      this.getNode(),
+      'O campo Subscription name é obrigatório',
       {
         itemIndex,
       },
@@ -71,6 +87,26 @@ export async function createSubscription(
       {
         itemIndex,
       },
+    );
+  }
+
+  if (!pixRecurringOptions) {
+    throw new NodeOperationError(
+      this.getNode(),
+      'O campo pixRecurringOptions é obrigatório',
+      { itemIndex },
+    );
+  }
+
+  const retryPolicy = pixRecurringOptions.retryPolicy as string | undefined;
+  const journey = pixRecurringOptions.journey as string | undefined;
+  const minimumValue = pixRecurringOptions.minimumValue as number | undefined;
+
+  if (minimumValue === undefined || minimumValue === null) {
+    throw new NodeOperationError(
+      this.getNode(),
+      "O campo 'minimumValue' em pixRecurringOptions é obrigatório",
+      { itemIndex },
     );
   }
 
@@ -108,6 +144,12 @@ export async function createSubscription(
     value,
     type,
     correlationID,
+  };
+
+  body.pixRecurringOptions = {
+    retryPolicy,
+    journey,
+    minimumValue,
   };
 
   if (name) {

@@ -14,6 +14,7 @@ export const installmentProperties: INodeProperties[] = [
     options: [
       { name: 'Get Installment', value: 'getInstallment' },
       { name: 'Create CobR Manually', value: 'createInstallmentCobr' },
+      { name: 'Retry CobR', value: 'retryInstallmentCobr' },
     ],
     default: 'getInstallment',
   },
@@ -28,7 +29,7 @@ export const installmentProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['installment'],
-        operation: ['getInstallment', 'createInstallmentCobr'],
+        operation: ['getInstallment', 'createInstallmentCobr', 'retryInstallmentCobr'],
       },
     },
   },

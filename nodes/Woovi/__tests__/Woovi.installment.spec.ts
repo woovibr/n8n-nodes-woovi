@@ -287,4 +287,102 @@ describe('Woovi node - installment', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should retry CobR manually', async () => {
+    const node = new Woovi();
+    const responseData = {
+      cobr: {
+        globalID: 'Q29icjo2M2UzYjJiNzczZDNkOTNiY2RkMzI5OTM=',
+        value: 10000,
+        brCode: 'PIX_BRCODE_RETRY',
+        pixKey: 'pix.key@example.com',
+        status: 'ACTIVE',
+        createdAt: '2025-11-18T12:00:00Z',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'installment',
+        operation: 'retryInstallmentCobr',
+        id: 'GI_123456789',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/installments/GI_123456789/cobr/retry',
+      body: {},
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when retrying CobR without id', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'installment',
+        operation: 'retryInstallmentCobr',
+        id: '',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/id é obrigatório/);
+  });
+
+  test('should handle URL encoding when retrying CobR', async () => {
+    const node = new Woovi();
+    const specialId = 'GI_123/456';
+    const responseData = {
+      cobr: {
+        globalID: 'Q29icjo2M2UzYjJiNzczZDNkOTNiY2RkMzI5OTM=',
+        value: 10000,
+        status: 'ACTIVE',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'installment',
+        operation: 'retryInstallmentCobr',
+        id: specialId,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/installments/GI_123%2F456/cobr/retry',
+      body: {},
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });
