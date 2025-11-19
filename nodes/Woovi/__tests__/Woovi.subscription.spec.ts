@@ -311,4 +311,166 @@ describe('Woovi node - subscription', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should create a subscription', async () => {
+    const node = new Woovi();
+    const responseData = {
+      subscription: {
+        id: 'sub_new_123',
+        status: 'ACTIVE',
+        value: 5000,
+        type: 'PIX_RECURRING',
+        correlationID: 'my-sub-001',
+        dayGenerateCharge: 5,
+        frequency: 'MONTHLY',
+        dayDue: 7,
+        customer: {
+          name: 'John Doe',
+          email: 'john@example.com',
+          phone: '+5511999999999',
+          taxID: '12345678900',
+          address: {
+            zipcode: '12345-678',
+            street: 'Main St',
+            number: '100',
+            neighborhood: 'Downtown',
+            city: 'São Paulo',
+            state: 'SP',
+            country: 'BR',
+            complement: 'Apt 10',
+          },
+        },
+        createdAt: '2025-11-18T10:00:00Z',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'createSubscription',
+        value: 5000,
+        type: 'PIX_RECURRING',
+        correlationID: 'my-sub-001',
+        customerName: 'John Doe',
+        customerEmail: 'john@example.com',
+        customerPhone: '+5511999999999',
+        customerTaxID: '12345678900',
+        customerAddress: {
+          zipcode: '12345-678',
+          street: 'Main St',
+          number: '100',
+          neighborhood: 'Downtown',
+          city: 'São Paulo',
+          state: 'SP',
+          country: 'BR',
+          complement: 'Apt 10',
+        },
+        name: 'Monthly Subscription',
+        comment: 'Test subscription',
+        dayGenerateCharge: 5,
+        frequency: 'MONTHLY',
+        dayDue: 7,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/subscriptions',
+      body: expect.objectContaining({
+        value: 5000,
+        type: 'PIX_RECURRING',
+        correlationID: 'my-sub-001',
+        customer: expect.objectContaining({
+          name: 'John Doe',
+          email: 'john@example.com',
+          phone: '+5511999999999',
+          taxID: '12345678900',
+        }),
+      }),
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when creating subscription without required fields', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'createSubscription',
+        value: 0,
+        type: '',
+        correlationID: '',
+        customerName: '',
+        customerEmail: '',
+        customerPhone: '',
+        customerTaxID: '',
+        customerAddress: {
+          zipcode: '',
+          street: '',
+          number: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          country: '',
+        },
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+  });
+
+  test('should throw error when creating subscription with incomplete address', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'createSubscription',
+        value: 5000,
+        type: 'PIX_RECURRING',
+        correlationID: 'my-sub-001',
+        customerName: 'John Doe',
+        customerEmail: 'john@example.com',
+        customerPhone: '+5511999999999',
+        customerTaxID: '12345678900',
+        customerAddress: {
+          zipcode: '12345-678',
+          street: 'Main St',
+          number: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          country: '',
+        },
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/Endereço incompleto/);
+  });
 });
