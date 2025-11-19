@@ -6,7 +6,10 @@ import {
 
 import { apiRequest } from '../transport';
 
-export async function updateSubscriptionValue(this: IExecuteFunctions, itemIndex: number) {
+export async function updateSubscriptionValue(
+  this: IExecuteFunctions,
+  itemIndex: number,
+) {
   const id = this.getNodeParameter('id', itemIndex) as string;
   const value = this.getNodeParameter('value', itemIndex) as number;
 
@@ -17,14 +20,23 @@ export async function updateSubscriptionValue(this: IExecuteFunctions, itemIndex
   }
 
   if (!value || value <= 0) {
-    throw new NodeOperationError(this.getNode(), 'O campo value é obrigatório e deve ser maior que zero', {
-      itemIndex,
-    });
+    throw new NodeOperationError(
+      this.getNode(),
+      'O campo value é obrigatório e deve ser maior que zero',
+      {
+        itemIndex,
+      },
+    );
   }
 
   const body: IDataObject = {
     value,
   };
 
-  return apiRequest.call(this, 'PUT', `/subscriptions/${encodeURIComponent(id)}/value`, body);
+  return apiRequest.call(
+    this,
+    'PUT',
+    `/subscriptions/${encodeURIComponent(id)}/value`,
+    body,
+  );
 }

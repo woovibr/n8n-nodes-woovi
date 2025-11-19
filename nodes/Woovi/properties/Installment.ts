@@ -29,7 +29,11 @@ export const installmentProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['installment'],
-        operation: ['getInstallment', 'createInstallmentCobr', 'retryInstallmentCobr'],
+        operation: [
+          'getInstallment',
+          'createInstallmentCobr',
+          'retryInstallmentCobr',
+        ],
       },
     },
   },
@@ -39,7 +43,8 @@ export const installmentProperties: INodeProperties[] = [
     type: 'number',
     default: 0,
     placeholder: '10000',
-    description: 'Optional value in cents for the CobR. If not provided or 0, uses the installment value',
+    description:
+      'Optional value in cents for the CobR. If not provided or 0, uses the installment value',
     displayOptions: {
       show: {
         resource: ['installment'],

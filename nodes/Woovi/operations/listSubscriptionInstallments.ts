@@ -2,7 +2,10 @@ import { NodeOperationError, type IExecuteFunctions } from 'n8n-workflow';
 
 import { apiRequest } from '../transport';
 
-export async function listSubscriptionInstallments(this: IExecuteFunctions, itemIndex: number) {
+export async function listSubscriptionInstallments(
+  this: IExecuteFunctions,
+  itemIndex: number,
+) {
   const id = this.getNodeParameter('id', itemIndex) as string;
 
   if (!id) {
@@ -11,5 +14,9 @@ export async function listSubscriptionInstallments(this: IExecuteFunctions, item
     });
   }
 
-  return apiRequest.call(this, 'GET', `/subscriptions/${encodeURIComponent(id)}/installments`);
+  return apiRequest.call(
+    this,
+    'GET',
+    `/subscriptions/${encodeURIComponent(id)}/installments`,
+  );
 }

@@ -2,7 +2,10 @@ import { NodeOperationError, type IExecuteFunctions } from 'n8n-workflow';
 
 import { apiRequest } from '../transport';
 
-export async function cancelSubscription(this: IExecuteFunctions, itemIndex: number) {
+export async function cancelSubscription(
+  this: IExecuteFunctions,
+  itemIndex: number,
+) {
   const id = this.getNodeParameter('id', itemIndex) as string;
 
   if (!id) {
@@ -11,5 +14,9 @@ export async function cancelSubscription(this: IExecuteFunctions, itemIndex: num
     });
   }
 
-  return apiRequest.call(this, 'PUT', `/subscriptions/${encodeURIComponent(id)}/cancel`);
+  return apiRequest.call(
+    this,
+    'PUT',
+    `/subscriptions/${encodeURIComponent(id)}/cancel`,
+  );
 }
