@@ -473,4 +473,99 @@ describe('Woovi node - subscription', () => {
       node.execute.call(context as unknown as IExecuteFunctions),
     ).rejects.toThrow(/Endereço incompleto/);
   });
+
+  test('should cancel a subscription', async () => {
+    const node = new Woovi();
+    const responseData = {
+      subscription: {
+        id: 'sub_123456789',
+        status: 'CANCELED',
+        value: 10000,
+        type: 'PIX_RECURRING',
+        correlationID: 'my-sub-001',
+        canceledAt: '2025-11-18T15:00:00Z',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'cancelSubscription',
+        id: 'sub_123456789',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'PUT',
+      url: 'https://api.woovi.com/api/v1/subscriptions/sub_123456789/cancel',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when canceling subscription without id', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'cancelSubscription',
+        id: '',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/id é obrigatório/);
+  });
+
+  test('should handle URL encoding for subscription id when canceling', async () => {
+    const node = new Woovi();
+    const specialId = 'sub_123/456';
+    const responseData = {
+      subscription: {
+        id: specialId,
+        status: 'CANCELED',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'cancelSubscription',
+        id: specialId,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'PUT',
+      url: 'https://api.woovi.com/api/v1/subscriptions/sub_123%2F456/cancel',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });

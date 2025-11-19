@@ -15,6 +15,7 @@ export const subscriptionProperties: INodeProperties[] = [
       { name: 'List Subscriptions', value: 'listSubscriptions' },
       { name: 'Get Subscription', value: 'getSubscription' },
       { name: 'Create Subscription', value: 'createSubscription' },
+      { name: 'Cancel Subscription', value: 'cancelSubscription' },
       { name: 'List Subscription Installments', value: 'listSubscriptionInstallments' },
     ],
     default: 'listSubscriptions',
@@ -30,7 +31,7 @@ export const subscriptionProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['subscription'],
-        operation: ['getSubscription', 'listSubscriptionInstallments'],
+        operation: ['getSubscription', 'cancelSubscription', 'listSubscriptionInstallments'],
       },
     },
   },
