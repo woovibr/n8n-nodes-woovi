@@ -12,10 +12,11 @@ export const subscriptionProperties: INodeProperties[] = [
       },
     },
     options: [
+      { name: 'List Subscriptions', value: 'listSubscriptions' },
       { name: 'Get Subscription', value: 'getSubscription' },
       { name: 'List Subscription Installments', value: 'listSubscriptionInstallments' },
     ],
-    default: 'getSubscription',
+    default: 'listSubscriptions',
   },
   {
     displayName: 'Subscription ID',

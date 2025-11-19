@@ -23,6 +23,7 @@ import { getInvoiceXml } from './getInvoiceXml';
 import { createInvoice } from './createInvoice';
 import { getSubscription } from './getSubscription';
 import { listSubscriptionInstallments } from './listSubscriptionInstallments';
+import { listSubscriptions } from './listSubscriptions';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -67,6 +68,7 @@ export const wooviOperations: Record<
     createInvoice,
   },
   subscription: {
+    listSubscriptions,
     getSubscription,
     listSubscriptionInstallments,
   },

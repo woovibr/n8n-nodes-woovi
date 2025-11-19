@@ -4,6 +4,58 @@ import { Woovi } from '../Woovi.node';
 import { createExecuteContext } from './helpers/mockExecuteContext';
 
 describe('Woovi node - subscription', () => {
+  test('should list all subscriptions', async () => {
+    const node = new Woovi();
+    const responseData = {
+      subscriptions: [
+        {
+          id: 'sub_123456789',
+          status: 'ACTIVE',
+          value: 10000,
+          dayGenerateCharge: 15,
+          customer: {
+            name: 'John Doe',
+            taxID: '12345678900',
+          },
+          createdAt: '2025-11-01T10:00:00Z',
+        },
+        {
+          id: 'sub_987654321',
+          status: 'ACTIVE',
+          value: 25000,
+          dayGenerateCharge: 1,
+          customer: {
+            name: 'Jane Smith',
+            taxID: '98765432100',
+          },
+          createdAt: '2025-10-15T08:30:00Z',
+        },
+      ],
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'subscription',
+        operation: 'listSubscriptions',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/subscriptions',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
   test('should get a subscription by id', async () => {
     const node = new Woovi();
     const responseData = {
