@@ -404,6 +404,7 @@ curl -X PATCH \
 ## Installments
 
 ### Get an Installment
+
 - Método: GET
 - Path: /api/v1/installments/{id}
 - Descrição: Recupera parcela por globalID ou endToEndId
@@ -427,27 +428,30 @@ curl -X GET 'https://api.woovi.com/api/v1/installments/GI_123456789' \
 const fetch = require('node-fetch');
 
 async function getInstallment(id) {
-  const response = await fetch(`https://api.woovi.com/api/v1/installments/${encodeURIComponent(id)}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': '<AppID>',
-      'Content-Type': 'application/json'
-    }
-  });
-  
+  const response = await fetch(
+    `https://api.woovi.com/api/v1/installments/${encodeURIComponent(id)}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: '<AppID>',
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
   const data = await response.json();
   return data;
 }
 
 // Exemplo de uso com globalID
 getInstallment('GI_123456789')
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error));
 
 // Exemplo de uso com endToEndId
 getInstallment('E12345678912345678901234567890AB')
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error));
 ```
 
 #### Resposta de Sucesso (200 OK)
@@ -543,6 +547,29 @@ getInstallment('E12345678912345678901234567890AB')
 - Path: /api/v1/pix-keys/{pixKey}/check
 - Descrição: Verifica dados públicos de uma pix key
 - Payload: path `pixKey`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/$PIX_KEY/check" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/${pixKey}/check`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ### Set pix key as default
 

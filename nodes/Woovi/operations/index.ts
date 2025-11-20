@@ -29,6 +29,7 @@ import { listSubscriptions } from './listSubscriptions';
 import { createSubscription } from './createSubscription';
 import { cancelSubscription } from './cancelSubscription';
 import { updateSubscriptionValue } from './updateSubscriptionValue';
+import { checkPixKey } from './checkPixKey';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -81,5 +82,8 @@ export const wooviOperations: Record<
     cancelSubscription,
     updateSubscriptionValue,
     listSubscriptionInstallments,
+  },
+  pixKey: {
+    check: checkPixKey,
   },
 };
