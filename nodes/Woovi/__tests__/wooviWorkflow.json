@@ -134,6 +134,24 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "delete",
+        "pixKey": "test-key"
+      },
+      "id": "delete-pix-key-node",
+      "name": "Delete Pix Key",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -198,6 +216,17 @@
         [
           {
             "node": "Set Pix Key Default",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Pix Key Default": {
+      "main": [
+        [
+          {
+            "node": "Delete Pix Key",
             "type": "main",
             "index": 0
           }

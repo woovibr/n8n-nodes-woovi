@@ -24,6 +24,12 @@ export const pixKeyProperties: INodeProperties[] = [
         description: 'Set pix key as default',
         action: 'Set pix key as default',
       },
+      {
+        name: 'Delete Pix Key',
+        value: 'delete',
+        description: 'Delete a pix key',
+        action: 'Delete a pix key',
+      },
     ],
     default: 'check',
   },
@@ -38,7 +44,7 @@ export const pixKeyProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['pixKey'],
-        operation: ['check', 'setDefault'],
+        operation: ['check', 'setDefault', 'delete'],
       },
     },
   },

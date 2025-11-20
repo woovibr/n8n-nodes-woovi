@@ -96,4 +96,38 @@ describe('Woovi node - pixKey', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should delete a pix key', async () => {
+    const node = new Woovi();
+    const responseData = {
+      pixKey: {
+        key: 'test-key',
+        type: 'EMAIL',
+        status: 'DELETED',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'pixKey',
+        operation: 'delete',
+        pixKey: 'test-key',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'DELETE',
+      url: 'https://api.woovi.com/api/v1/pix-keys/test-key',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });

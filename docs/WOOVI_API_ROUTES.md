@@ -578,12 +578,58 @@ const data = await res.json();
 - Descrição: Define pix key como padrão
 - Payload: path `pixKey`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/$PIX_KEY/default" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/${pixKey}/default`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Delete a Pix key
 
 - Método: DELETE
 - Path: /api/v1/pix-keys/{pixKey}
 - Descrição: Deleta pix key (não pode deletar a default)
 - Payload: path `pixKey`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/$PIX_KEY" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/${pixKey}`,
+  {
+    method: 'DELETE',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ### Get all Pix keys
 
