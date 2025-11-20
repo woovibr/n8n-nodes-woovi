@@ -18,6 +18,12 @@ export const pixKeyProperties: INodeProperties[] = [
         description: 'Check public data of a pix key',
         action: 'Check a pix key',
       },
+      {
+        name: 'Set Pix Key as Default',
+        value: 'setDefault',
+        description: 'Set pix key as default',
+        action: 'Set pix key as default',
+      },
     ],
     default: 'check',
   },
@@ -32,7 +38,7 @@ export const pixKeyProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['pixKey'],
-        operation: ['check'],
+        operation: ['check', 'setDefault'],
       },
     },
   },

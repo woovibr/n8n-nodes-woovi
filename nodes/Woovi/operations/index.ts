@@ -30,6 +30,7 @@ import { createSubscription } from './createSubscription';
 import { cancelSubscription } from './cancelSubscription';
 import { updateSubscriptionValue } from './updateSubscriptionValue';
 import { checkPixKey } from './checkPixKey';
+import { setPixKeyDefault } from './setPixKeyDefault';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -85,5 +86,6 @@ export const wooviOperations: Record<
   },
   pixKey: {
     check: checkPixKey,
+    setDefault: setPixKeyDefault,
   },
 };

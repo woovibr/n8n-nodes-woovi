@@ -116,6 +116,24 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "setDefault",
+        "pixKey": "test-key"
+      },
+      "id": "set-pix-key-default-node",
+      "name": "Set Pix Key Default",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1700, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -169,6 +187,17 @@
         [
           {
             "node": "Check Pix Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Pix Key": {
+      "main": [
+        [
+          {
+            "node": "Set Pix Key Default",
             "type": "main",
             "index": 0
           }

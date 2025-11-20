@@ -2,7 +2,10 @@ import { NodeOperationError, type IExecuteFunctions } from 'n8n-workflow';
 
 import { apiRequest } from '../transport';
 
-export async function checkPixKey(this: IExecuteFunctions, itemIndex: number) {
+export async function setPixKeyDefault(
+  this: IExecuteFunctions,
+  itemIndex: number,
+) {
   const pixKey = this.getNodeParameter('pixKey', itemIndex) as string;
 
   if (!pixKey) {
@@ -17,7 +20,7 @@ export async function checkPixKey(this: IExecuteFunctions, itemIndex: number) {
 
   return apiRequest.call(
     this,
-    'GET',
-    `/pix-keys/${encodeURIComponent(pixKey)}/check`,
+    'POST',
+    `/pix-keys/${encodeURIComponent(pixKey)}/default`,
   );
 }
