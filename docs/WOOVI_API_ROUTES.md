@@ -645,12 +645,67 @@ const data = await res.json();
 - Descrição: Cria nova pix key
 - Payload: body `{ "key": "string", "type": "CNPJ" }`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/pix-keys" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "key": "test-key",
+    "type": "EMAIL"
+  }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  key: 'test-key',
+  type: 'EMAIL',
+};
+
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/pix-keys`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
+
 ### Get tokens data for pix keys
 
 - Método: GET
 - Path: /api/v1/pix-keys/tokens
 - Descrição: Tokens info (limite/refresh)
 - Payload: headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/tokens" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/tokens`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ---
 

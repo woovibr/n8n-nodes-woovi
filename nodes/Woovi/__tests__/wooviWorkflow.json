@@ -102,6 +102,25 @@
     {
       "parameters": {
         "resource": "pixKey",
+        "operation": "create",
+        "pixKey": "test-key",
+        "pixKeyType": "EMAIL"
+      },
+      "id": "create-pix-key-node",
+      "name": "Create Pix Key",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1400, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
         "operation": "check",
         "pixKey": "test-key"
       },
@@ -146,6 +165,23 @@
       "type": "n8n-nodes-woovi.woovi",
       "typeVersion": 1,
       "position": [1900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "getTokens"
+      },
+      "id": "get-pix-key-tokens-node",
+      "name": "Get Pix Key Tokens",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2100, 360],
       "credentials": {
         "wooviApi": {
           "id": "1",
@@ -204,6 +240,17 @@
       "main": [
         [
           {
+            "node": "Create Pix Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Pix Key": {
+      "main": [
+        [
+          {
             "node": "Check Pix Key",
             "type": "main",
             "index": 0
@@ -227,6 +274,17 @@
         [
           {
             "node": "Delete Pix Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Pix Key": {
+      "main": [
+        [
+          {
+            "node": "Get Pix Key Tokens",
             "type": "main",
             "index": 0
           }

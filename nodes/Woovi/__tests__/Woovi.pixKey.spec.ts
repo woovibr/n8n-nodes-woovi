@@ -130,4 +130,75 @@ describe('Woovi node - pixKey', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should create a pix key', async () => {
+    const node = new Woovi();
+    const responseData = {
+      pixKey: {
+        key: 'test-key',
+        type: 'EMAIL',
+        status: 'ACTIVE',
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'pixKey',
+        operation: 'create',
+        pixKey: 'test-key',
+        pixKeyType: 'EMAIL',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/pix-keys',
+      body: {
+        key: 'test-key',
+        type: 'EMAIL',
+      },
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should get pix key tokens', async () => {
+    const node = new Woovi();
+    const responseData = {
+      tokens: {
+        limit: 10,
+        refresh: 1000,
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'pixKey',
+        operation: 'getTokens',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/pix-keys/tokens',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });

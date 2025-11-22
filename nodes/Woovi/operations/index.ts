@@ -33,6 +33,9 @@ import { checkPixKey } from './checkPixKey';
 import { setPixKeyDefault } from './setPixKeyDefault';
 import { deletePixKey } from './deletePixKey';
 
+import { createPixKey } from './createPixKey';
+import { getPixKeyTokens } from './getPixKeyTokens';
+
 export type OperationHandler = (
   this: IExecuteFunctions,
   itemIndex: number,
@@ -89,5 +92,7 @@ export const wooviOperations: Record<
     check: checkPixKey,
     setDefault: setPixKeyDefault,
     delete: deletePixKey,
+    create: createPixKey,
+    getTokens: getPixKeyTokens,
   },
 };
