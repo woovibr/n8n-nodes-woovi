@@ -63,4 +63,46 @@ describe('Woovi node - qrCodeStatic', () => {
       node.execute.call(context as unknown as IExecuteFunctions),
     ).rejects.toThrow(/O campo qrCodeId é obrigatório/);
   });
+
+  test('should list static QR codes', async () => {
+    const node = new Woovi();
+    const responseData = {
+      qrCodes: [
+        {
+          id: 'qr-1',
+          name: 'QR Code 1',
+          value: 1000,
+          status: 'ACTIVE',
+        },
+        {
+          id: 'qr-2',
+          name: 'QR Code 2',
+          value: 2000,
+          status: 'ACTIVE',
+        },
+      ],
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'qrCodeStatic',
+        operation: 'list',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/qrcode-static',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });

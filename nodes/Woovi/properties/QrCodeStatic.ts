@@ -18,6 +18,12 @@ export const qrCodeStaticProperties: INodeProperties[] = [
         description: 'Get a static Pix QR code by ID',
         action: 'Get a static qr code',
       },
+      {
+        name: 'List QR Codes',
+        value: 'list',
+        description: 'List all static Pix QR codes',
+        action: 'List static qr codes',
+      },
     ],
     default: 'get',
   },

@@ -748,6 +748,26 @@ const data = await res.json();
 - Descrição: Lista QrCodes estáticos
 - Payload: headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/qrcode-static" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/qrcode-static`, {
+  method: 'GET',
+  headers: {
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+});
+const data = await res.json();
+```
+
 ### Create a new Pix QrCode Static
 
 - Método: POST

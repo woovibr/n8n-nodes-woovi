@@ -206,6 +206,23 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "qrCodeStatic",
+        "operation": "list"
+      },
+      "id": "list-qr-code-static-node",
+      "name": "List QR Code Static",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2500, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -314,6 +331,17 @@
         [
           {
             "node": "Get QR Code Static",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get QR Code Static": {
+      "main": [
+        [
+          {
+            "node": "List QR Code Static",
             "type": "main",
             "index": 0
           }

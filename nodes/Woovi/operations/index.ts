@@ -36,6 +36,7 @@ import { deletePixKey } from './deletePixKey';
 import { createPixKey } from './createPixKey';
 import { getPixKeyTokens } from './getPixKeyTokens';
 import { getQrCodeStatic } from './getQrCodeStatic';
+import { listQrCodeStatic } from './listQrCodeStatic';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -98,5 +99,6 @@ export const wooviOperations: Record<
   },
   qrCodeStatic: {
     get: getQrCodeStatic,
+    list: listQrCodeStatic,
   },
 };

@@ -90,6 +90,7 @@ The package currently implements two primary integrations for n8n:
 |  `/v1/pix-keys/{pixKey}`  | DELETE | `Woovi` | `pixKey` (string) — required | Delete a pix key. Use `resource=pixKey` + `operation=delete` and provide the `pixKey`. | Operation result (success/info)
 |  `/v1/pix-keys/tokens`  | GET | `Woovi` | — | Get tokens data for pix keys. Use `resource=pixKey` + `operation=getTokens`. | Tokens info (limit, refresh)
 |  `/v1/qrcode-static/{id}`  | GET | `Woovi` | `qrCodeId` (string) — required | Get a static Pix QR code. Use `resource=qrCodeStatic` + `operation=get` and provide the `qrCodeId` (ID, correlation ID, or identifier). | QR Code object (id, name, value, status, ...)
+|  `/v1/qrcode-static`  | GET | `Woovi` | — | List all static Pix QR codes. Use `resource=qrCodeStatic` + `operation=list`. | Array of QR Code objects
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
 
