@@ -54,6 +54,7 @@ export class Woovi implements INodeType {
           { name: 'Invoice', value: 'invoice' },
           { name: 'Subscription', value: 'subscription' },
           { name: 'Pix Key', value: 'pixKey' },
+          { name: 'QR Code Static', value: 'qrCodeStatic' },
         ],
         default: 'charge',
       },

@@ -188,6 +188,24 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "qrCodeStatic",
+        "operation": "get",
+        "qrCodeId": "test-qr-id"
+      },
+      "id": "get-qr-code-static-node",
+      "name": "Get QR Code Static",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2300, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -285,6 +303,17 @@
         [
           {
             "node": "Get Pix Key Tokens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pix Key Tokens": {
+      "main": [
+        [
+          {
+            "node": "Get QR Code Static",
             "type": "main",
             "index": 0
           }
