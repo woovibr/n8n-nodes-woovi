@@ -42,4 +42,30 @@ export const qrCodeStaticProperties: INodeProperties[] = [
       },
     },
   },
+  {
+    displayName: 'Limit',
+    name: 'limit',
+    type: 'number',
+    default: 20,
+    description: 'Maximum number of results to return',
+    displayOptions: {
+      show: {
+        resource: ['qrCodeStatic'],
+        operation: ['list'],
+      },
+    },
+  },
+  {
+    displayName: 'Skip',
+    name: 'skip',
+    type: 'number',
+    default: 0,
+    description: 'Number of results to skip',
+    displayOptions: {
+      show: {
+        resource: ['qrCodeStatic'],
+        operation: ['list'],
+      },
+    },
+  },
 ];
