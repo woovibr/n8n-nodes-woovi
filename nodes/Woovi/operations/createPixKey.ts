@@ -1,17 +1,17 @@
-import { IExecuteFunctions } from 'n8n-workflow';
+import type { IExecuteFunctions } from 'n8n-workflow';
 import { apiRequest } from '../transport';
 
-export async function createPixKey(
-  this: IExecuteFunctions,
-  index: number,
-): Promise<any> {
-  const key = this.getNodeParameter('pixKey', index) as string;
-  const type = this.getNodeParameter('pixKeyType', index) as string;
+export async function createPixKey(this: IExecuteFunctions, itemIndex: number) {
+  const type = this.getNodeParameter('pixKeyType', itemIndex) as string;
+  const key = this.getNodeParameter('pixKey', itemIndex, '') as string;
 
-  const body = {
-    key,
+  const body: Record<string, any> = {
     type,
   };
 
-  return await apiRequest.call(this, 'POST', '/pix-keys', body);
+  if (type === 'CNPJ' || key) {
+    body.key = key;
+  }
+
+  return apiRequest.call(this, 'POST', '/pix-keys', body);
 }

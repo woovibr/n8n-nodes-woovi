@@ -25,12 +25,6 @@ export const pixKeyProperties: INodeProperties[] = [
         action: 'Create a pix key',
       },
       {
-        name: 'Set Pix Key as Default',
-        value: 'setDefault',
-        description: 'Set pix key as default',
-        action: 'Set pix key as default',
-      },
-      {
         name: 'Delete Pix Key',
         value: 'delete',
         description: 'Delete a pix key',
@@ -41,6 +35,18 @@ export const pixKeyProperties: INodeProperties[] = [
         value: 'getTokens',
         description: 'Get tokens data for pix keys',
         action: 'Get pix key tokens',
+      },
+      {
+        name: 'List Pix Keys',
+        value: 'list',
+        description: 'List all pix keys',
+        action: 'List pix keys',
+      },
+      {
+        name: 'Set Pix Key as Default',
+        value: 'setDefault',
+        description: 'Set pix key as default',
+        action: 'Set pix key as default',
       },
     ],
     default: 'check',
@@ -56,7 +62,21 @@ export const pixKeyProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['pixKey'],
-        operation: ['check', 'setDefault', 'delete', 'create'],
+        operation: ['check', 'setDefault', 'delete'],
+      },
+    },
+  },
+  {
+    displayName: 'Pix Key',
+    name: 'pixKey',
+    type: 'string',
+    default: '',
+    placeholder: 'Leave empty for EVP type',
+    description: 'The pix key value (required for CNPJ, optional for EVP)',
+    displayOptions: {
+      show: {
+        resource: ['pixKey'],
+        operation: ['create'],
       },
     },
   },
@@ -70,27 +90,11 @@ export const pixKeyProperties: INodeProperties[] = [
         value: 'CNPJ',
       },
       {
-        name: 'CPF',
-        value: 'CPF',
-      },
-      {
-        name: 'Email',
-        value: 'EMAIL',
-      },
-      {
         name: 'EVP',
         value: 'EVP',
       },
-      {
-        name: 'Phone',
-        value: 'PHONE',
-      },
-      {
-        name: 'Random',
-        value: 'RANDOM',
-      },
     ],
-    default: 'CPF',
+    default: 'CNPJ',
     description: 'Type of the pix key',
     displayOptions: {
       show: {
