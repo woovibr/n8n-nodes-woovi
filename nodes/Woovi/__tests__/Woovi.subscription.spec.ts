@@ -51,7 +51,7 @@ describe('Woovi node - subscription', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'GET',
-      url: 'https://api.woovi.com/api/v1/subscriptions',
+      url: 'https://api.woovi.com/api/v1/subscriptions?limit=20&skip=0',
     });
     expect(result[0][0].json).toEqual(responseData);
   });
@@ -369,6 +369,11 @@ describe('Woovi node - subscription', () => {
         dayGenerateCharge: 5,
         frequency: 'MONTHLY',
         dayDue: 7,
+        pixRecurringOptions: {
+          retryPolicy: 'NON_PERMITED',
+          journey: 'PAYMENT_ON_APPROVAL',
+          minimumValue: 1000,
+        },
       },
       credentials: {
         baseUrl: 'https://api.woovi.com/api',
@@ -422,6 +427,11 @@ describe('Woovi node - subscription', () => {
           state: '',
           country: '',
         },
+        pixRecurringOptions: {
+          retryPolicy: 'NON_PERMITED',
+          journey: 'PAYMENT_ON_APPROVAL',
+          minimumValue: 1000,
+        },
       },
       credentials: {
         baseUrl: 'https://api.woovi.com/api',
@@ -456,6 +466,12 @@ describe('Woovi node - subscription', () => {
           city: '',
           state: '',
           country: '',
+        },
+        name: 'Monthly Subscription',
+        pixRecurringOptions: {
+          retryPolicy: 'NON_PERMITED',
+          journey: 'PAYMENT_ON_APPROVAL',
+          minimumValue: 1000,
         },
       },
       credentials: {

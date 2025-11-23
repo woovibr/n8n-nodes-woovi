@@ -404,6 +404,7 @@ curl -X PATCH \
 ## Installments
 
 ### Get an Installment
+
 - Método: GET
 - Path: /api/v1/installments/{id}
 - Descrição: Recupera parcela por globalID ou endToEndId
@@ -427,27 +428,30 @@ curl -X GET 'https://api.woovi.com/api/v1/installments/GI_123456789' \
 const fetch = require('node-fetch');
 
 async function getInstallment(id) {
-  const response = await fetch(`https://api.woovi.com/api/v1/installments/${encodeURIComponent(id)}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': '<AppID>',
-      'Content-Type': 'application/json'
-    }
-  });
-  
+  const response = await fetch(
+    `https://api.woovi.com/api/v1/installments/${encodeURIComponent(id)}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: '<AppID>',
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
   const data = await response.json();
   return data;
 }
 
 // Exemplo de uso com globalID
 getInstallment('GI_123456789')
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error));
 
 // Exemplo de uso com endToEndId
 getInstallment('E12345678912345678901234567890AB')
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error));
 ```
 
 #### Resposta de Sucesso (200 OK)
@@ -544,6 +548,29 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Verifica dados públicos de uma pix key
 - Payload: path `pixKey`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/$PIX_KEY/check" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/${pixKey}/check`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Set pix key as default
 
 - Método: POST
@@ -551,12 +578,58 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Define pix key como padrão
 - Payload: path `pixKey`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/$PIX_KEY/default" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/${pixKey}/default`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Delete a Pix key
 
 - Método: DELETE
 - Path: /api/v1/pix-keys/{pixKey}
 - Descrição: Deleta pix key (não pode deletar a default)
 - Payload: path `pixKey`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/$PIX_KEY" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/${pixKey}`,
+  {
+    method: 'DELETE',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ### Get all Pix keys
 
@@ -572,12 +645,67 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Cria nova pix key
 - Payload: body `{ "key": "string", "type": "CNPJ" }`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/pix-keys" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "key": "test-key",
+    "type": "EMAIL"
+  }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  key: 'test-key',
+  type: 'EMAIL',
+};
+
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/pix-keys`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
+
 ### Get tokens data for pix keys
 
 - Método: GET
 - Path: /api/v1/pix-keys/tokens
 - Descrição: Tokens info (limite/refresh)
 - Payload: headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/pix-keys/tokens" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/pix-keys/tokens`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ---
 
@@ -590,12 +718,55 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Recupera pix qrcode estático por id/correlation/identifier
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/qrcode-static/$QR_CODE_ID" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/qrcode-static/${qrCodeId}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Get list of Pix QrCodes
 
 - Método: GET
 - Path: /api/v1/qrcode-static
 - Descrição: Lista QrCodes estáticos
 - Payload: headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/qrcode-static" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/qrcode-static`, {
+  method: 'GET',
+  headers: {
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+});
+const data = await res.json();
+```
 
 ### Create a new Pix QrCode Static
 

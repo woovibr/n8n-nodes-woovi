@@ -98,6 +98,248 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "create",
+        "pixKey": "test-key",
+        "pixKeyType": "EMAIL"
+      },
+      "id": "create-pix-key-node",
+      "name": "Create Pix Key",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1400, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "check",
+        "pixKey": "test-key"
+      },
+      "id": "check-pix-key-node",
+      "name": "Check Pix Key",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1500, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "setDefault",
+        "pixKey": "test-key"
+      },
+      "id": "set-pix-key-default-node",
+      "name": "Set Pix Key Default",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1700, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "delete",
+        "pixKey": "test-key"
+      },
+      "id": "delete-pix-key-node",
+      "name": "Delete Pix Key",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "getTokens"
+      },
+      "id": "get-pix-key-tokens-node",
+      "name": "Get Pix Key Tokens",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2100, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "qrCodeStatic",
+        "operation": "get",
+        "qrCodeId": "test-qr-id"
+      },
+      "id": "get-qr-code-static-node",
+      "name": "Get QR Code Static",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2300, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "qrCodeStatic",
+        "operation": "list"
+      },
+      "id": "list-qr-code-static-node",
+      "name": "List QR Code Static",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2500, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "pixKey",
+        "operation": "list"
+      },
+      "id": "list-pix-keys-node",
+      "name": "List Pix Keys",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2700, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "qrCodeStatic",
+        "operation": "create",
+        "name": "my-qr-code",
+        "value": 1000,
+        "correlationID": "test-correlation-id",
+        "comment": "Test QR Code"
+      },
+      "id": "create-qr-code-static-node",
+      "name": "Create QR Code Static",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "subscription",
+        "operation": "listSubscriptions"
+      },
+      "id": "list-subscriptions-node",
+      "name": "List Subscriptions",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3100, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "subscription",
+        "operation": "listSubscriptionInstallments",
+        "id": "sub_123456789"
+      },
+      "id": "list-sub-installments-node",
+      "name": "List Subscription Installments",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3300, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "subscription",
+        "operation": "createSubscription",
+        "value": 5000,
+        "type": "PIX_RECURRING",
+        "correlationID": "my-sub-001",
+        "customerName": "John Doe",
+        "customerEmail": "john@example.com",
+        "customerPhone": "+5511999999999",
+        "customerTaxID": "12345678900",
+        "customerAddress": {
+          "zipcode": "12345-678",
+          "street": "Main St",
+          "number": "100",
+          "neighborhood": "Downtown",
+          "city": "São Paulo",
+          "state": "SP",
+          "country": "BR",
+          "complement": "Apt 10"
+        },
+        "name": "Monthly Subscription",
+        "comment": "Test subscription",
+        "dayGenerateCharge": 5,
+        "frequency": "MONTHLY",
+        "dayDue": 7,
+        "pixRecurringOptions": {
+          "retryPolicy": "NON_PERMITED",
+          "journey": "PAYMENT_ON_APPROVAL",
+          "minimumValue": 1000
+        }
+      },
+      "id": "create-subscription-node",
+      "name": "Create Subscription",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3500, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -140,6 +382,105 @@
         [
           {
             "node": "Get Installment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Installment": {
+      "main": [
+        [
+          {
+            "node": "Create Pix Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Pix Key": {
+      "main": [
+        [
+          {
+            "node": "Check Pix Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Pix Key": {
+      "main": [
+        [
+          {
+            "node": "Set Pix Key Default",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Pix Key Default": {
+      "main": [
+        [
+          {
+            "node": "Delete Pix Key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Pix Key": {
+      "main": [
+        [
+          {
+            "node": "Get Pix Key Tokens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pix Key Tokens": {
+      "main": [
+        [
+          {
+            "node": "Get QR Code Static",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get QR Code Static": {
+      "main": [
+        [
+          {
+            "node": "List QR Code Static",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List QR Code Static": {
+      "main": [
+        [
+          {
+            "node": "List Pix Keys",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Pix Keys": {
+      "main": [
+        [
+          {
+            "node": "Create QR Code Static",
             "type": "main",
             "index": 0
           }

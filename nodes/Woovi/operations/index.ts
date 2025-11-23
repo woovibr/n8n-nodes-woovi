@@ -29,6 +29,16 @@ import { listSubscriptions } from './listSubscriptions';
 import { createSubscription } from './createSubscription';
 import { cancelSubscription } from './cancelSubscription';
 import { updateSubscriptionValue } from './updateSubscriptionValue';
+import { checkPixKey } from './checkPixKey';
+import { setPixKeyDefault } from './setPixKeyDefault';
+import { deletePixKey } from './deletePixKey';
+
+import { createPixKey } from './createPixKey';
+import { getPixKeyTokens } from './getPixKeyTokens';
+import { listPixKeys } from './listPixKeys';
+import { getQrCodeStatic } from './getQrCodeStatic';
+import { listQrCodeStatic } from './listQrCodeStatic';
+import { createQrCodeStatic } from './createQrCodeStatic';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -81,5 +91,18 @@ export const wooviOperations: Record<
     cancelSubscription,
     updateSubscriptionValue,
     listSubscriptionInstallments,
+  },
+  pixKey: {
+    check: checkPixKey,
+    setDefault: setPixKeyDefault,
+    delete: deletePixKey,
+    create: createPixKey,
+    getTokens: getPixKeyTokens,
+    list: listPixKeys,
+  },
+  qrCodeStatic: {
+    create: createQrCodeStatic,
+    get: getQrCodeStatic,
+    list: listQrCodeStatic,
   },
 };
