@@ -3,9 +3,9 @@ import { apiRequest } from '../transport';
 
 export async function getQrCodeStatic(
   this: IExecuteFunctions,
-  index: number,
+  itemIndex: number,
 ): Promise<any> {
-  const qrCodeId = this.getNodeParameter('qrCodeId', index) as string;
+  const qrCodeId = this.getNodeParameter('qrCodeId', itemIndex) as string;
 
   if (!qrCodeId) {
     throw new NodeOperationError(
