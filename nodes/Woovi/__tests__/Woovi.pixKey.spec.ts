@@ -201,4 +201,49 @@ describe('Woovi node - pixKey', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should list pix keys', async () => {
+    const node = new Woovi();
+    const responseData = {
+      pixKeys: [
+        {
+          key: 'key1',
+          type: 'CNPJ',
+          isDefault: true,
+        },
+        {
+          key: 'key2',
+          type: 'EVP',
+          isDefault: false,
+        },
+      ],
+      account: {
+        accountId: 'acc-123',
+        isDefault: true,
+        balance: 1000,
+      },
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'pixKey',
+        operation: 'list',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/pix-keys',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });
