@@ -537,6 +537,48 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Solicita um pagamento (PIX key / QR / Manual)
 - Payload: body com `type`, `value`, `destinationAlias`, `destinationAliasType`, `correlationID`, `pixKeyEndToEndId`, `comment`, `metadata`; headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "${WOOVI_BASE_URL}/api/v1/payment" \
+  -H "Authorization: ${WOOVI_APP_ID}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "PIX_KEY",
+    "value": 100,
+    "destinationAlias": "c4249323-b4ca-43f2-8139-8232aab09b93",
+    "destinationAliasType": "RANDOM",
+    "correlationID": "payment1",
+    "comment": "payment comment",
+    "metadata": { "orderId": "123" }
+  }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  type: 'PIX_KEY',
+  value: 100,
+  destinationAlias: 'c4249323-b4ca-43f2-8139-8232aab09b93',
+  destinationAliasType: 'RANDOM',
+  correlationID: 'payment1',
+  comment: 'payment comment',
+  metadata: { orderId: '123' },
+};
+
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/payment`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
+
 ---
 
 ## Pix Key

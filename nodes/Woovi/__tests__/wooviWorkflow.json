@@ -340,6 +340,30 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "payment",
+        "operation": "create",
+        "paymentType": "PIX_KEY",
+        "value": 100,
+        "destinationAlias": "c4249323-b4ca-43f2-8139-8232aab09b93",
+        "destinationAliasType": "RANDOM",
+        "correlationID": "payment1",
+        "comment": "payment comment",
+        "metadata": "{\"orderId\":\"123\"}"
+      },
+      "id": "create-payment-node",
+      "name": "Create Payment",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3700, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},
