@@ -36,10 +36,10 @@ export async function createPayment(
     try {
       metadata = JSON.parse(metadataParam);
     } catch (err) {
-        throw new NodeOperationError(
-          this.getNode(),
-          'O campo metadata deve ser uma string JSON válida representando um objeto',
-        );
+      throw new NodeOperationError(
+        this.getNode(),
+        'O campo metadata deve ser uma string JSON válida representando um objeto',
+      );
     }
   } else if (typeof metadataParam === 'object' && metadataParam !== null) {
     metadata = metadataParam;

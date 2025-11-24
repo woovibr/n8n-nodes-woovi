@@ -147,4 +147,80 @@ describe('Woovi node - payment', () => {
       node.execute.call(context as unknown as IExecuteFunctions),
     ).rejects.toThrow(/O campo correlationID é obrigatório/);
   });
+
+  test('should approve a payment request', async () => {
+    const node = new Woovi();
+    const responseData = {
+      payment: {
+        value: 100,
+        status: 'APPROVED',
+        destinationAlias: 'c4249323-b4ca-43f2-8139-8232aab09b93',
+        comment: 'payment comment',
+        correlationID: 'payment1',
+      },
+      transaction: {
+        value: 100,
+        endToEndId: 'transaction-end-to-end-id',
+        time: '2023-03-20T13:14:17.000Z',
+      },
+      destination: {
+        name: 'Dan',
+        taxID: '31324227036',
+        pixKey: 'c4249323-b4ca-43f2-8139-8232aab09b93',
+        bank: 'A Bank',
+        branch: '1',
+        account: '123456',
+      },
+    };
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'approve',
+        correlationID: 'payment1',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/payment/approve',
+      body: { correlationID: 'payment1' },
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when approve correlationID is missing', async () => {
+    const node = new Woovi();
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'approve',
+        correlationID: '',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/O campo correlationID é obrigatório/);
+  });
 });

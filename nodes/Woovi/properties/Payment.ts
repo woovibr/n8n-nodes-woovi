@@ -11,7 +11,10 @@ export const paymentProperties: INodeProperties[] = [
         resource: ['payment'],
       },
     },
-    options: [{ name: 'Create Payment Request', value: 'create' }],
+    options: [
+      { name: 'Create Payment Request', value: 'create' },
+      { name: 'Approve Payment Request', value: 'approve' },
+    ],
     default: 'create',
   },
   {
@@ -57,7 +60,7 @@ export const paymentProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['payment'],
-        operation: ['create'],
+        operation: ['create','approve'],
       },
     },
   },
@@ -70,7 +73,7 @@ export const paymentProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['payment'],
-        operation: ['create'],
+        operation: ['create','approve'],
       },
     },
   },
