@@ -523,6 +523,24 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Recupera pagamento por ID ou correlation ID
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "${WOOVI_BASE_URL}/api/v1/payment/{id}" \
+  -H "Authorization: ${WOOVI_APP_ID}"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/payment/${id}`, {
+  method: 'GET',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+const data = await res.json();
+```
+
 ### List payments
 
 - Método: GET

@@ -30,6 +30,24 @@
     },
     {
       "parameters": {
+        "resource": "payment",
+        "operation": "get",
+        "id": "payment1"
+      },
+      "id": "get-payment-node",
+      "name": "Get Payment",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3900, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "customer",
         "operation": "createCustomer",
         "name": "John Doe",

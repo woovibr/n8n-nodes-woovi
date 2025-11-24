@@ -13,6 +13,7 @@ export const paymentProperties: INodeProperties[] = [
     },
     options: [
       { name: 'List Payments', value: 'list' },
+      { name: 'Get Payment', value: 'get' },
       { name: 'Create Payment Request', value: 'create' },
       { name: 'Approve Payment Request', value: 'approve' },
     ],
@@ -56,6 +57,19 @@ export const paymentProperties: INodeProperties[] = [
       show: {
         resource: ['payment'],
         operation: ['list'],
+      },
+    },
+  },
+  {
+    displayName: 'Payment ID',
+    name: 'id',
+    type: 'string',
+    default: '',
+    description: 'Payment ID or correlation ID',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['get'],
       },
     },
   },
