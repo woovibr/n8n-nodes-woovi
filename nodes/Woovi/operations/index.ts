@@ -41,6 +41,7 @@ import { listQrCodeStatic } from './listQrCodeStatic';
 import { createQrCodeStatic } from './createQrCodeStatic';
 import { createPayment } from './createPayment';
 import { approvePayment } from './approvePayment';
+import { listPayments } from './listPayments';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -110,5 +111,6 @@ export const wooviOperations: Record<
   payment: {
     create: createPayment,
     approve: approvePayment,
+    list: listPayments,
   },
 };

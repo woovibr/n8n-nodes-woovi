@@ -364,6 +364,25 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "payment",
+        "operation": "list",
+        "limit": 10,
+        "skip": 0
+      },
+      "id": "list-payments-node",
+      "name": "List Payments",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3800, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
     }
   ],
   "pinData": {},

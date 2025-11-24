@@ -5,10 +5,16 @@ export async function approvePayment(
   this: IExecuteFunctions,
   itemIndex: number,
 ): Promise<any> {
-  const correlationID = this.getNodeParameter('correlationID', itemIndex) as string;
+  const correlationID = this.getNodeParameter(
+    'correlationID',
+    itemIndex,
+  ) as string;
 
   if (!correlationID) {
-    throw new NodeOperationError(this.getNode(), 'O campo correlationID é obrigatório');
+    throw new NodeOperationError(
+      this.getNode(),
+      'O campo correlationID é obrigatório',
+    );
   }
 
   const body = { correlationID };

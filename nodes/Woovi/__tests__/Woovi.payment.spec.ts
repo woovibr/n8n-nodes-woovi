@@ -55,6 +55,43 @@ describe('Woovi node - payment', () => {
     expect(result[0][0].json).toEqual(responseData);
   });
 
+  test('should list payments with filters', async () => {
+    const node = new Woovi();
+    const responseData = [
+      {
+        correlationID: 'payment-1',
+        value: 100,
+        status: 'CREATED',
+      },
+    ];
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'list',
+        limit: 10,
+        skip: 0,
+        correlationID: 'payment-1',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/payment?limit=10&skip=0&correlationID=payment-1',
+    });
+    expect(result[0].map((item) => item.json)).toEqual(responseData);
+  });
+
   test('should throw error when metadata has more than 30 keys', async () => {
     const node = new Woovi();
     const bigMeta: { [k: string]: string } = {};

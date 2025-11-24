@@ -12,10 +12,65 @@ export const paymentProperties: INodeProperties[] = [
       },
     },
     options: [
+      { name: 'List Payments', value: 'list' },
       { name: 'Create Payment Request', value: 'create' },
       { name: 'Approve Payment Request', value: 'approve' },
     ],
     default: 'create',
+  },
+  {
+    displayName: 'Limit',
+    name: 'limit',
+    type: 'number',
+    default: 20,
+    placeholder: '20',
+    description: 'Number of items to return',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['list'],
+      },
+    },
+  },
+  {
+    displayName: 'Skip',
+    name: 'skip',
+    type: 'number',
+    default: 0,
+    placeholder: '0',
+    description: 'Number of items to skip',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['list'],
+      },
+    },
+  },
+  {
+    displayName: 'Correlation ID',
+    name: 'correlationID',
+    type: 'string',
+    default: '',
+    description: 'Filter by correlationID',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['list'],
+      },
+    },
+  },
+  {
+    displayName: 'Status',
+    name: 'status',
+    type: 'string',
+    default: '',
+    description: 'Filter by payment status',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['list'],
+      },
+    },
   },
   {
     displayName: 'Type',
@@ -60,7 +115,7 @@ export const paymentProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['payment'],
-        operation: ['create','approve'],
+        operation: ['create', 'approve'],
       },
     },
   },
@@ -73,7 +128,7 @@ export const paymentProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['payment'],
-        operation: ['create','approve'],
+        operation: ['create', 'approve'],
       },
     },
   },
