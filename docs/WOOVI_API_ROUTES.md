@@ -698,6 +698,39 @@ const data = await res.json();
 - Descrição: Lista pix keys da conta
 - Payload: headers `Authorization`
 
+### Get PSPs (Payment Service Providers)
+
+- Método: GET
+- Path: /api/v1/psp
+- Descrição: Lista PSPs; filtros opcionais `ispb`, `name`, `compe`
+- Payload: query params `ispb`, `name`, `compe`; headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "${WOOVI_BASE_URL}/api/v1/psp?ispb=3030310&name=brasil&compe=001" \
+  -H "Authorization: ${WOOVI_APP_ID}"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const params = new URLSearchParams({
+  ispb: '3030310',
+  name: 'brasil',
+  compe: '001',
+});
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/psp?${params.toString()}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
+
 ### Create a new Pix key
 
 - Método: POST

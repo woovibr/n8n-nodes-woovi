@@ -48,6 +48,26 @@
     },
     {
       "parameters": {
+        "resource": "psp",
+        "operation": "list",
+        "ispb": "3030310",
+        "name": "",
+        "compe": ""
+      },
+      "id": "list-psp-node",
+      "name": "List PSPs",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [4000, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "customer",
         "operation": "createCustomer",
         "name": "John Doe",

@@ -43,6 +43,7 @@ import { createPayment } from './createPayment';
 import { approvePayment } from './approvePayment';
 import { listPayments } from './listPayments';
 import { getPayment } from './getPayment';
+import { listPsps } from './listPsps';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -114,5 +115,8 @@ export const wooviOperations: Record<
     approve: approvePayment,
     list: listPayments,
     get: getPayment,
+  },
+  psp: {
+    list: listPsps,
   },
 };
