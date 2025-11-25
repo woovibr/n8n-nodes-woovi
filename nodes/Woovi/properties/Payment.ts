@@ -48,19 +48,6 @@ export const paymentProperties: INodeProperties[] = [
     },
   },
   {
-    displayName: 'Correlation ID',
-    name: 'correlationID',
-    type: 'string',
-    default: '',
-    description: 'Filter by correlationID',
-    displayOptions: {
-      show: {
-        resource: ['payment'],
-        operation: ['list'],
-      },
-    },
-  },
-  {
     displayName: 'Payment ID',
     name: 'id',
     type: 'string',
@@ -70,19 +57,6 @@ export const paymentProperties: INodeProperties[] = [
       show: {
         resource: ['payment'],
         operation: ['get'],
-      },
-    },
-  },
-  {
-    displayName: 'Status',
-    name: 'status',
-    type: 'string',
-    default: '',
-    description: 'Filter by payment status',
-    displayOptions: {
-      show: {
-        resource: ['payment'],
-        operation: ['list'],
       },
     },
   },
@@ -116,6 +90,7 @@ export const paymentProperties: INodeProperties[] = [
       show: {
         resource: ['payment'],
         operation: ['create'],
+        paymentType: ['PIX_KEY', 'MANUAL'],
       },
     },
   },
@@ -147,6 +122,20 @@ export const paymentProperties: INodeProperties[] = [
     },
   },
   {
+    displayName: 'QR Code',
+    name: 'qrCode',
+    type: 'string',
+    default: '',
+    description: 'QR Code to be paid (required for QR_CODE type)',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['create'],
+        paymentType: ['QR_CODE'],
+      },
+    },
+  },
+  {
     displayName: 'Comment',
     name: 'comment',
     type: 'string',
@@ -169,6 +158,7 @@ export const paymentProperties: INodeProperties[] = [
       show: {
         resource: ['payment'],
         operation: ['create'],
+        paymentType: ['PIX_KEY'],
       },
     },
   },
@@ -189,21 +179,124 @@ export const paymentProperties: INodeProperties[] = [
       show: {
         resource: ['payment'],
         operation: ['create'],
+        paymentType: ['PIX_KEY'],
       },
     },
   },
   {
-    displayName: 'Metadata (JSON)',
-    name: 'metadata',
+    displayName: 'PSP',
+    name: 'psp',
     type: 'string',
     default: '',
+    description: 'PSP identifier (required for MANUAL type)',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['create'],
+        paymentType: ['MANUAL'],
+      },
+    },
+  },
+  {
+    displayName: 'Holder',
+    name: 'holder',
+    type: 'collection',
+    placeholder: 'Add holder data',
+    default: {},
+    description: 'Holder information for manual payments',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['create'],
+        paymentType: ['MANUAL'],
+      },
+    },
+    options: [
+      {
+        displayName: 'Name',
+        name: 'name',
+        type: 'string',
+        default: '',
+      },
+      {
+        displayName: 'Tax ID',
+        name: 'taxID',
+        type: 'string',
+        default: '',
+      },
+    ],
+  },
+  {
+    displayName: 'Account',
+    name: 'account',
+    type: 'collection',
+    placeholder: 'Add account data',
+    default: {},
+    description: 'Account information for manual payments',
+    displayOptions: {
+      show: {
+        resource: ['payment'],
+        operation: ['create'],
+        paymentType: ['MANUAL'],
+      },
+    },
+    options: [
+      {
+        displayName: 'Bank',
+        name: 'bank',
+        type: 'string',
+        default: '',
+      },
+      {
+        displayName: 'Branch',
+        name: 'branch',
+        type: 'string',
+        default: '',
+      },
+      {
+        displayName: 'Account',
+        name: 'accountNumber',
+        type: 'string',
+        default: '',
+      },
+    ],
+  },
+  {
+    displayName: 'Metadata',
+    name: 'metadata',
+    type: 'fixedCollection',
+    placeholder: 'Add Metadata',
+    default: {},
+    typeOptions: {
+      multipleValues: true,
+    },
     description:
-      'Optional metadata as a JSON object (max 30 keys). Example: {"orderId":"123"}',
+      'Optional metadata as key/value pairs (max 30 keys). Use multiple entries to add many metadata items.',
     displayOptions: {
       show: {
         resource: ['payment'],
         operation: ['create'],
       },
     },
+    options: [
+      {
+        displayName: 'Metadata Item',
+        name: 'metadataItem',
+        values: [
+          {
+            displayName: 'Key',
+            name: 'key',
+            type: 'string',
+            default: '',
+          },
+          {
+            displayName: 'Value',
+            name: 'value',
+            type: 'string',
+            default: '',
+          },
+        ],
+      },
+    ],
   },
 ];

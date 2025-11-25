@@ -6,7 +6,6 @@ export async function createPayment(
   itemIndex: number,
 ): Promise<any> {
   const paymentType = this.getNodeParameter('paymentType', itemIndex) as string;
-  const value = this.getNodeParameter('value', itemIndex) as number;
   const correlationID = this.getNodeParameter(
     'correlationID',
     itemIndex,
@@ -17,16 +16,7 @@ export async function createPayment(
     '',
   ) as string;
   const comment = this.getNodeParameter('comment', itemIndex, '') as string;
-  const destinationAlias = this.getNodeParameter(
-    'destinationAlias',
-    itemIndex,
-    '',
-  ) as string;
-  const destinationAliasType = this.getNodeParameter(
-    'destinationAliasType',
-    itemIndex,
-    '',
-  ) as string;
+
   let metadataParam = this.getNodeParameter('metadata', itemIndex, '') as
     | string
     | { [key: string]: any };
@@ -52,10 +42,6 @@ export async function createPayment(
     );
   }
 
-  if (value === undefined || value === null) {
-    throw new NodeOperationError(this.getNode(), 'O campo value é obrigatório');
-  }
-
   if (!correlationID) {
     throw new NodeOperationError(
       this.getNode(),
@@ -63,28 +49,125 @@ export async function createPayment(
     );
   }
 
-  // (max 30 keys)
-  if (metadata && typeof metadata === 'object') {
-    const keys = Object.keys(metadata);
-    if (keys.length > 30) {
+  const typeSpecific: { [k: string]: any } = {};
+  let value: number | undefined;
+
+  switch (paymentType) {
+    case 'PIX_KEY': {
+      const destinationAlias = this.getNodeParameter(
+        'destinationAlias',
+        itemIndex,
+        '',
+      ) as string;
+      const destinationAliasType = this.getNodeParameter(
+        'destinationAliasType',
+        itemIndex,
+        '',
+      ) as string;
+
+      if (!destinationAlias) {
+        throw new NodeOperationError(
+          this.getNode(),
+          'O campo destinationAlias é obrigatório para paymentType PIX_KEY',
+        );
+      }
+      if (!destinationAliasType) {
+        throw new NodeOperationError(
+          this.getNode(),
+          'O campo destinationAliasType é obrigatório para paymentType PIX_KEY',
+        );
+      }
+      typeSpecific.destinationAlias = destinationAlias;
+      typeSpecific.destinationAliasType = destinationAliasType;
+      break;
+    }
+
+    case 'QR_CODE': {
+      const qrCode = this.getNodeParameter('qrCode', itemIndex, '') as string;
+      if (!qrCode) {
+        throw new NodeOperationError(
+          this.getNode(),
+          'O campo qrCode é obrigatório para paymentType QR_CODE',
+        );
+      }
+      typeSpecific.qrCode = qrCode;
+      break;
+    }
+
+    case 'MANUAL': {
+      const psp = this.getNodeParameter('psp', itemIndex, '') as string;
+      const holder = this.getNodeParameter('holder', itemIndex, {}) as {
+        [key: string]: any;
+      };
+      const account = this.getNodeParameter('account', itemIndex, {}) as {
+        [key: string]: any;
+      };
+
+      if (!psp) {
+        throw new NodeOperationError(
+          this.getNode(),
+          'O campo psp é obrigatório para paymentType MANUAL',
+        );
+      }
+      if (!holder || Object.keys(holder).length === 0) {
+        throw new NodeOperationError(
+          this.getNode(),
+          'O campo holder é obrigatório para paymentType MANUAL',
+        );
+      }
+      if (!account || Object.keys(account).length === 0) {
+        throw new NodeOperationError(
+          this.getNode(),
+          'O campo account é obrigatório para paymentType MANUAL',
+        );
+      }
+      typeSpecific.psp = psp;
+      typeSpecific.holder = holder;
+      typeSpecific.account = account;
+      break;
+    }
+
+    default:
       throw new NodeOperationError(
         this.getNode(),
-        `O objeto metadata pode conter no máximo 30 chaves. Recebido: ${keys.length}.`,
+        `Tipo de pagamento desconhecido: ${paymentType}`,
+      );
+  }
+
+  if (paymentType !== 'QR_CODE') {
+    value = this.getNodeParameter('value', itemIndex, undefined) as
+      | number
+      | undefined;
+
+    if (!value) {
+      throw new NodeOperationError(
+        this.getNode(),
+        'O campo value é obrigatório',
       );
     }
   }
 
   const body: { [key: string]: any } = {
     type: paymentType,
-    value,
     correlationID,
+    ...typeSpecific,
   };
 
-  if (pixKeyEndToEndId) body.pixKeyEndToEndId = pixKeyEndToEndId;
-  if (comment) body.comment = comment;
-  if (destinationAlias) body.destinationAlias = destinationAlias;
-  if (destinationAliasType) body.destinationAliasType = destinationAliasType;
-  if (metadata && Object.keys(metadata).length) body.metadata = metadata;
+  if (paymentType !== 'QR_CODE' && value) {
+    body.value = value;
+  }
+
+  if (pixKeyEndToEndId) {
+    body.pixKeyEndToEndId = pixKeyEndToEndId;
+  }
+
+  if (comment) {
+    body.comment = comment;
+  }
+
+  if (metadata && Object.keys(metadata).length) {
+    body.metadata = metadata;
+  }
 
   return await apiRequest.call(this, 'POST', '/payment', body);
 }

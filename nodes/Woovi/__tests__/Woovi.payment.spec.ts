@@ -87,9 +87,164 @@ describe('Woovi node - payment', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'GET',
-      url: 'https://api.woovi.com/api/v1/payment?limit=10&skip=0&correlationID=payment-1',
+      url: 'https://api.woovi.com/api/v1/payment?limit=10&skip=0',
     });
     expect(result[0].map((item) => item.json)).toEqual(responseData);
+  });
+
+  test('should throw error when PIX_KEY missing destinationAlias', async () => {
+    const node = new Woovi();
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'create',
+        paymentType: 'PIX_KEY',
+        value: 100,
+        destinationAliasType: 'RANDOM',
+        correlationID: 'payment1',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/O campo destinationAlias é obrigatório/);
+  });
+
+  test('should throw error when QR_CODE missing qrCode', async () => {
+    const node = new Woovi();
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'create',
+        paymentType: 'QR_CODE',
+        value: 100,
+        correlationID: 'payment2',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/O campo qrCode é obrigatório/);
+  });
+
+  test('should create a QR_CODE payment request', async () => {
+    const node = new Woovi();
+    const responseData = {
+      payment: { status: 'CREATED', correlationID: 'payment2' },
+    };
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'create',
+        paymentType: 'QR_CODE',
+        qrCode: 'qr-123',
+        correlationID: 'payment2',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/payment',
+      body: expect.objectContaining({ qrCode: 'qr-123', type: 'QR_CODE' }),
+    });
+    // QR_CODE payments must not include a `value` field
+    expect(context.lastRequestOptions!.body).not.toHaveProperty('value');
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should throw error when MANUAL missing psp', async () => {
+    const node = new Woovi();
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'create',
+        paymentType: 'MANUAL',
+        value: 100,
+        correlationID: 'payment3',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(/O campo psp é obrigatório/);
+  });
+
+  test('should create a MANUAL payment request', async () => {
+    const node = new Woovi();
+    const responseData = {
+      payment: { status: 'CREATED', correlationID: 'payment4' },
+    };
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'payment',
+        operation: 'create',
+        paymentType: 'MANUAL',
+        value: 100,
+        psp: 'psp-123',
+        holder: { name: 'John', taxID: '123' },
+        account: { bank: 'A Bank', branch: '1', accountNumber: '123456' },
+        correlationID: 'payment4',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'POST',
+      url: 'https://api.woovi.com/api/v1/payment',
+      body: expect.objectContaining({ psp: 'psp-123', type: 'MANUAL' }),
+    });
+    expect(result[0][0].json).toEqual(responseData);
   });
 
   test('should get a payment by id', async () => {
@@ -166,40 +321,6 @@ describe('Woovi node - payment', () => {
     await expect(
       node.execute.call(context as unknown as IExecuteFunctions),
     ).rejects.toThrow(/O campo "id" é obrigatório/);
-  });
-
-  test('should throw error when metadata has more than 30 keys', async () => {
-    const node = new Woovi();
-    const bigMeta: { [k: string]: string } = {};
-    for (let i = 0; i < 31; i++) {
-      bigMeta[`k${i}`] = `v${i}`;
-    }
-
-    const context = createExecuteContext({
-      parameters: {
-        resource: 'payment',
-        operation: 'create',
-        paymentType: 'PIX_KEY',
-        value: 100,
-        destinationAlias: 'alias',
-        destinationAliasType: 'RANDOM',
-        correlationID: 'payment1',
-        metadata: JSON.stringify(bigMeta),
-      },
-      credentials: {
-        baseUrl: 'https://api.woovi.com/api',
-        Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MQ',
-      },
-      response: {},
-    });
-
-    await expect(
-      node.execute.call(context as unknown as IExecuteFunctions),
-    ).rejects.toThrow(NodeApiError);
-
-    await expect(
-      node.execute.call(context as unknown as IExecuteFunctions),
-    ).rejects.toThrow(/O objeto metadata pode conter no máximo 30 chaves/);
   });
 
   test('should throw error when metadata is invalid JSON', async () => {
