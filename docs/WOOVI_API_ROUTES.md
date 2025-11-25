@@ -523,6 +523,24 @@ getInstallment('E12345678912345678901234567890AB')
 - Descrição: Recupera pagamento por ID ou correlation ID
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "${WOOVI_BASE_URL}/api/v1/payment/{id}" \
+  -H "Authorization: ${WOOVI_APP_ID}"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/payment/${id}`, {
+  method: 'GET',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+const data = await res.json();
+```
+
 ### List payments
 
 - Método: GET
@@ -536,6 +554,48 @@ getInstallment('E12345678912345678901234567890AB')
 - Path: /api/v1/payment
 - Descrição: Solicita um pagamento (PIX key / QR / Manual)
 - Payload: body com `type`, `value`, `destinationAlias`, `destinationAliasType`, `correlationID`, `pixKeyEndToEndId`, `comment`, `metadata`; headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "${WOOVI_BASE_URL}/api/v1/payment" \
+  -H "Authorization: ${WOOVI_APP_ID}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "PIX_KEY",
+    "value": 100,
+    "destinationAlias": "c4249323-b4ca-43f2-8139-8232aab09b93",
+    "destinationAliasType": "RANDOM",
+    "correlationID": "payment1",
+    "comment": "payment comment",
+    "metadata": { "orderId": "123" }
+  }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  type: 'PIX_KEY',
+  value: 100,
+  destinationAlias: 'c4249323-b4ca-43f2-8139-8232aab09b93',
+  destinationAliasType: 'RANDOM',
+  correlationID: 'payment1',
+  comment: 'payment comment',
+  metadata: { orderId: '123' },
+};
+
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/payment`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
 
 ---
 
@@ -637,6 +697,39 @@ const data = await res.json();
 - Path: /api/v1/pix-keys
 - Descrição: Lista pix keys da conta
 - Payload: headers `Authorization`
+
+### Get PSPs (Payment Service Providers)
+
+- Método: GET
+- Path: /api/v1/psp
+- Descrição: Lista PSPs; filtros opcionais `ispb`, `name`, `compe`
+- Payload: query params `ispb`, `name`, `compe`; headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "${WOOVI_BASE_URL}/api/v1/psp?ispb=3030310&name=brasil&compe=001" \
+  -H "Authorization: ${WOOVI_APP_ID}"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const params = new URLSearchParams({
+  ispb: '3030310',
+  name: 'brasil',
+  compe: '001',
+});
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/psp?${params.toString()}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
 
 ### Create a new Pix key
 
