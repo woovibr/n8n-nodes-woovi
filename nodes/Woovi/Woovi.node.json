@@ -7,6 +7,12 @@
     "credentialDocumentation": [
       {
         "url": "https://developers.woovi.com/docs/apis/api-getting-started"
+      },
+      {
+        "url": "https://developers.woovi.com/docs/category/ambiente-de-teste"
+      },
+      {
+        "url": "https://app.woovi-sandbox.com/home/applications/tab/list"
       }
     ],
     "primaryDocumentation": [

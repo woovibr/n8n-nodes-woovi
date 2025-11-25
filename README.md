@@ -32,6 +32,10 @@ To get started install the package in your n8n root directory:
 4. Get your Woovi API key from [API Getting Started](https://developers.woovi.com/docs/apis/api-getting-started).
 5. Enter your Woovi API key in the *API Key* field.
 
+#### Sandbox (Ambiente de teste)
+
+Se você deseja usar o ambiente de sandbox, abra as credenciais `Woovi API` no n8n e ative `Use Sandbox Environment`. Quando ativado, preencha `API Key (Sandbox)` e `Base URL (Sandbox)` (padrão: `https://api.woovi-sandbox.com/api`). Desative para voltar ao ambiente de produção e preencher `API Key (Production)`.
+
 ## API Reference
 
 - [Woovi API](https://developers.woovi.com/docs/apis/api-getting-started)
@@ -98,6 +102,7 @@ The package currently implements two primary integrations for n8n:
 | `/v1/payment` | POST | `Woovi` | `paymentType` (`PIX_KEY`/`QR_CODE`/`MANUAL`) — required; `value` (number, cents) — required; `correlationID` (string) — required. Optional: `destinationAlias`, `destinationAliasType` (`CPF`,`CNPJ`,`EMAIL`,`PHONE`,`RANDOM`), `pixKeyEndToEndId`, `comment`, `metadata` (JSON object, max 30 keys). | Request a payment (PIX key / QR code / manual). Use `resource=payment` + `operation=create` and provide required fields. | `payment` object with fields like `type`, `value`, `destinationAlias`, `destinationAliasType`, `qrCode` (when `QR_CODE`), `correlationID`, `comment`, `status` |
 | `/v1/payment` | GET | `Woovi` | `limit` (number) — optional (default: 20); `skip` (number) — optional (default: 0); `correlationID` (string) — optional; `status` (string) — optional | List payments for the company. Use `resource=payment` + `operation=list` and optionally filter by `correlationID` or `status`. | Array of payment objects |
 | `/v1/payment/{id}` | GET | `Woovi` | `id` (string) — required (payment ID or correlationID) | Get a single payment by ID or correlationID. Use `resource=payment` + `operation=get` and provide `id`. | Payment object with details (payment, transaction, destination) |
+Note: In the n8n node the `metadata` field is entered as a key/value collection (fixed collection) and will be converted to a JSON object by the node (maximum 30 keys). For `paymentType = QR_CODE` the `value` is optional and the node omits the `value` field when creating a QR code payment.
 | `/v1/psp` | GET | `Woovi` | `ispb` (string) — optional; `name` (string) — optional; `compe` (string) — optional | List PSPs (Payment Service Providers). Use `resource=psp` + `operation=list` and optionally filter by `ispb`, `name`, or `compe`. | Array of PSP objects (name, ispb, code, compe) |
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.

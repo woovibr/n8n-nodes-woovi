@@ -595,6 +595,11 @@ const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/payment`, {
   body: JSON.stringify(body),
 });
 const data = await res.json();
+
+**Notas (n8n)**
+
+- No nó `Woovi` do n8n o campo `metadata` foi convertido para entrada como coleção de chave/valor (fixed collection) e o nó transforma essa coleção em um objeto JSON antes de enviar (máximo de 30 chaves).
+- Para pagamentos do tipo `QR_CODE`, o campo `value` é opcional no envio e o nó omite o campo `value` quando estiver criando um pagamento por QR Code.
 ```
 
 ---
