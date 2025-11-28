@@ -23,11 +23,20 @@ export async function apiRequest(
   type WooviApiCredentials = {
     Authorization: string;
     baseUrl: string;
+    useSandbox?: boolean;
+    sandboxAuthorization?: string;
+    baseUrlSandbox?: string;
   };
 
   const credentials =
     await this.getCredentials<WooviApiCredentials>('wooviApi');
-  const baseUrl = credentials.baseUrl;
+
+  const baseUrl = credentials.useSandbox
+    ? credentials.baseUrlSandbox
+    : credentials.baseUrl;
+  const authHeader = credentials.useSandbox
+    ? credentials.sandboxAuthorization
+    : credentials.Authorization;
 
   const getQs = () => {
     if (!query) {
@@ -45,7 +54,7 @@ export async function apiRequest(
     url: `${baseUrl}/v1${endpoint}`,
     headers: {
       // todo: remove this and user httpRequestWithAuthorization
-      Authorization: credentials.Authorization,
+      Authorization: authHeader,
       platform: 'N8N',
     },
   };
