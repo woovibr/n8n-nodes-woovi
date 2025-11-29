@@ -11,6 +11,7 @@ import { pixKeyProperties } from './PixKey';
 import { qrCodeStaticProperties } from './QrCodeStatic';
 import { paymentProperties } from './Payment';
 import { pspProperties } from './Psp';
+import { partnerProperties } from './Partner';
 
 export const wooviNodesProperties: INodeProperties[] = [
   ...chargeProperties,
@@ -24,4 +25,5 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...qrCodeStaticProperties,
   ...paymentProperties,
   ...pspProperties,
+  ...partnerProperties,
 ];
