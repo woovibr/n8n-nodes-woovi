@@ -106,6 +106,8 @@ Note: In the n8n node the `metadata` field is entered as a key/value collection 
 | `/v1/psp` | GET | `Woovi` | `ispb` (string) — optional; `name` (string) — optional; `compe` (string) — optional | List PSPs (Payment Service Providers). Use `resource=psp` + `operation=list` and optionally filter by `ispb`, `name`, or `compe`. | Array of PSP objects (name, ispb, code, compe) |
 | `/v1/partner/company` | POST | `Woovi` | `name` (string) — required; `taxID` (object: taxID, type) — required; `user` (object: firstName, lastName, email, phone, taxID) — required; `website` (string) — optional | Create a pre-registration referencing your company as a partner. Use `resource=partner` + `operation=createCompany`. | Pre-registration object |
 | `/v1/partner/application` | POST | `Woovi` | `name` (string) — required; `type` (API, PLUGIN, ORACLE) — required; `taxID` (object: taxID, type) — required | Create a new application to some of your companies. Use `resource=partner` + `operation=createApplication`. | Application object |
+| `/v1/partner/company/{taxID}` | GET | `Woovi` | `taxID` (string) — required | Get a pre-registration by taxID. Use `resource=partner` + `operation=getCompany`. | Pre-registration object |
+| `/v1/partner/company` | GET | `Woovi` | `limit` (number) — optional; `skip` (number) — optional | List pre-registrations managed by the partner. Use `resource=partner` + `operation=listCompanies`. | Array of pre-registration objects |
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
 

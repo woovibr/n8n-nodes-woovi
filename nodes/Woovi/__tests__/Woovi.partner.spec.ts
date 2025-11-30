@@ -27,14 +27,14 @@ describe('Woovi Node - Partner', () => {
       const items = [{ json: {} }] as INodeExecutionData[];
       const name = 'My Company';
       const website = 'https://mycompany.com';
-      const taxID = { taxID: '12345678000195', type: 'BR:CNPJ' };
-      const user = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@doe.com',
-        phone: '+5511999999999',
-        taxID: { taxID: '12345678901', type: 'BR:CPF' },
-      };
+      const companyTaxID = '12345678000195';
+      const companyTaxIDType = 'BR:CNPJ';
+      const userFirstName = 'John';
+      const userLastName = 'Doe';
+      const userEmail = 'john@doe.com';
+      const userPhone = '+5511999999999';
+      const userTaxID = '12345678901';
+      const userTaxIDType = 'BR:CPF';
 
       (mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(items);
       (mockExecuteFunctions.getNodeParameter as jest.Mock).mockImplementation(
@@ -48,10 +48,22 @@ describe('Woovi Node - Partner', () => {
               return name;
             case 'website':
               return website;
-            case 'taxID':
-              return taxID;
-            case 'user':
-              return user;
+            case 'companyTaxID':
+              return companyTaxID;
+            case 'companyTaxIDType':
+              return companyTaxIDType;
+            case 'userFirstName':
+              return userFirstName;
+            case 'userLastName':
+              return userLastName;
+            case 'userEmail':
+              return userEmail;
+            case 'userPhone':
+              return userPhone;
+            case 'userTaxID':
+              return userTaxID;
+            case 'userTaxIDType':
+              return userTaxIDType;
             default:
               return undefined;
           }
@@ -62,18 +74,26 @@ describe('Woovi Node - Partner', () => {
 
       await woovi.execute.call(mockExecuteFunctions);
 
-      expect(apiRequestMock).toHaveBeenCalledWith(
-        'POST',
-        '/partner/company',
-        {
-          preRegistration: {
-            name,
-            taxID,
-            website,
+      expect(apiRequestMock).toHaveBeenCalledWith('POST', '/partner/company', {
+        preRegistration: {
+          name,
+          taxID: {
+            taxID: companyTaxID,
+            type: companyTaxIDType,
           },
-          user,
+          website,
         },
-      );
+        user: {
+          firstName: userFirstName,
+          lastName: userLastName,
+          email: userEmail,
+          phone: userPhone,
+          taxID: {
+            taxID: userTaxID,
+            type: userTaxIDType,
+          },
+        },
+      });
     });
   });
 
@@ -82,7 +102,8 @@ describe('Woovi Node - Partner', () => {
       const items = [{ json: {} }] as INodeExecutionData[];
       const name = 'My App';
       const type = 'API';
-      const taxID = { taxID: '12345678000195', type: 'BR:CNPJ' };
+      const applicationTaxID = '12345678000195';
+      const applicationTaxIDType = 'BR:CNPJ';
 
       (mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(items);
       (mockExecuteFunctions.getNodeParameter as jest.Mock).mockImplementation(
@@ -96,8 +117,10 @@ describe('Woovi Node - Partner', () => {
               return name;
             case 'type':
               return type;
-            case 'taxID':
-              return taxID;
+            case 'applicationTaxID':
+              return applicationTaxID;
+            case 'applicationTaxIDType':
+              return applicationTaxIDType;
             default:
               return undefined;
           }
@@ -116,8 +139,78 @@ describe('Woovi Node - Partner', () => {
             name,
             type,
           },
-          taxID,
+          taxID: {
+            taxID: applicationTaxID,
+            type: applicationTaxIDType,
+          },
         },
+      );
+    });
+  });
+
+  describe('Partner: getCompany', () => {
+    it('should get a partner company by taxID', async () => {
+      const items = [{ json: {} }] as INodeExecutionData[];
+      const taxID = '12345678000195';
+
+      (mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(items);
+      (mockExecuteFunctions.getNodeParameter as jest.Mock).mockImplementation(
+        (paramName: string) => {
+          switch (paramName) {
+            case 'resource':
+              return 'partner';
+            case 'operation':
+              return 'getCompany';
+            case 'taxID':
+              return taxID;
+            default:
+              return undefined;
+          }
+        },
+      );
+
+      apiRequestMock.mockResolvedValue({ success: true });
+
+      await woovi.execute.call(mockExecuteFunctions);
+
+      expect(apiRequestMock).toHaveBeenCalledWith(
+        'GET',
+        `/partner/company/${taxID}`,
+      );
+    });
+  });
+
+  describe('Partner: listCompanies', () => {
+    it('should list partner companies', async () => {
+      const items = [{ json: {} }] as INodeExecutionData[];
+      const limit = 10;
+      const skip = 5;
+
+      (mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(items);
+      (mockExecuteFunctions.getNodeParameter as jest.Mock).mockImplementation(
+        (paramName: string) => {
+          switch (paramName) {
+            case 'resource':
+              return 'partner';
+            case 'operation':
+              return 'listCompanies';
+            case 'limit':
+              return limit;
+            case 'skip':
+              return skip;
+            default:
+              return undefined;
+          }
+        },
+      );
+
+      apiRequestMock.mockResolvedValue({ success: true });
+
+      await woovi.execute.call(mockExecuteFunctions);
+
+      expect(apiRequestMock).toHaveBeenCalledWith(
+        'GET',
+        `/partner/company?limit=${limit}&skip=${skip}`,
       );
     });
   });

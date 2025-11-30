@@ -46,6 +46,8 @@ import { getPayment } from './getPayment';
 import { listPsps } from './listPsps';
 import { createPartnerCompany } from './createPartnerCompany';
 import { createPartnerApplication } from './createPartnerApplication';
+import { getPartnerCompany } from './getPartnerCompany';
+import { listPartnerCompanies } from './listPartnerCompanies';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -124,5 +126,7 @@ export const wooviOperations: Record<
   partner: {
     createCompany: createPartnerCompany,
     createApplication: createPartnerApplication,
+    getCompany: getPartnerCompany,
+    listCompanies: listPartnerCompanies,
   },
 };

@@ -15,7 +15,8 @@ export const partnerProperties: INodeProperties[] = [
       {
         name: 'Create Company (Pre-registration)',
         value: 'createCompany',
-        description: 'Create a new pre-registration referencing your company as a partner',
+        description:
+          'Create a new pre-registration referencing your company as a partner',
         action: 'Create a company pre registration',
       },
       {
@@ -23,6 +24,18 @@ export const partnerProperties: INodeProperties[] = [
         value: 'createApplication',
         description: 'Create a new application to some of your companies',
         action: 'Create a new application',
+      },
+      {
+        name: 'Get Company (Pre-registration)',
+        value: 'getCompany',
+        description: 'Get a pre-registration by taxID',
+        action: 'Get a company pre registration',
+      },
+      {
+        name: 'List Companies (Pre-registrations)',
+        value: 'listCompanies',
+        description: 'List pre-registrations managed by the partner',
+        action: 'List company pre registrations',
       },
     ],
     default: 'createCompany',
@@ -35,6 +48,7 @@ export const partnerProperties: INodeProperties[] = [
     name: 'name',
     type: 'string',
     default: '',
+    placeholder: 'Example LLC',
     displayOptions: {
       show: {
         resource: ['partner'],
@@ -42,13 +56,15 @@ export const partnerProperties: INodeProperties[] = [
       },
     },
     required: true,
-    description: "The name of this preregistration. It'll be related as your company name too.",
+    description:
+      "The name of this preregistration. It'll be related as your company name too.",
   },
   {
     displayName: 'Website',
     name: 'website',
     type: 'string',
     default: '',
+    placeholder: 'https://examplellc.com',
     displayOptions: {
       show: {
         resource: ['partner'],
@@ -58,121 +74,143 @@ export const partnerProperties: INodeProperties[] = [
     description: 'A website that is related to this preregistration',
   },
   {
-    displayName: 'Tax ID',
-    name: 'taxID',
-    type: 'collection',
-    placeholder: 'Add Tax ID',
-    default: {},
+    displayName: 'Company Tax ID',
+    name: 'companyTaxID',
+    type: 'string',
+    default: '',
+    placeholder: '65914571000187',
     displayOptions: {
       show: {
         resource: ['partner'],
         operation: ['createCompany'],
       },
     },
-    options: [
-      {
-        displayName: 'Tax ID',
-        name: 'taxID',
-        type: 'string',
-        default: '',
-        description: 'The tax identifier of your account holder. This should be a raw string with only digits.',
-      },
-      {
-        displayName: 'Type',
-        name: 'type',
-        type: 'options',
-        options: [
-          {
-            name: 'CNPJ',
-            value: 'BR:CNPJ',
-          },
-          {
-            name: 'CPF',
-            value: 'BR:CPF',
-          },
-        ],
-        default: 'BR:CNPJ',
-        description: 'Type of the tax ID',
-      },
-    ],
     required: true,
+    description:
+      'The tax identifier of your account holder. This should be a raw string with only digits.',
   },
   {
-    displayName: 'User',
-    name: 'user',
-    type: 'collection',
-    placeholder: 'Add User',
-    default: {},
+    displayName: 'Company Tax ID Type',
+    name: 'companyTaxIDType',
+    type: 'options',
+    options: [
+      {
+        name: 'CNPJ',
+        value: 'BR:CNPJ',
+      },
+      {
+        name: 'CPF',
+        value: 'BR:CPF',
+      },
+    ],
+    default: 'BR:CNPJ',
     displayOptions: {
       show: {
         resource: ['partner'],
         operation: ['createCompany'],
       },
     },
+    required: true,
+    description: 'Type of the tax ID',
+  },
+  {
+    displayName: 'User First Name',
+    name: 'userFirstName',
+    type: 'string',
+    default: '',
+    placeholder: 'John',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createCompany'],
+      },
+    },
+    required: true,
+    description: "The user's first name",
+  },
+  {
+    displayName: 'User Last Name',
+    name: 'userLastName',
+    type: 'string',
+    default: '',
+    placeholder: 'Doe',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createCompany'],
+      },
+    },
+    required: true,
+    description: "The user's last name",
+  },
+  {
+    displayName: 'User Email',
+    name: 'userEmail',
+    type: 'string',
+    default: '',
+    placeholder: 'johndoe@examplellc.com',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createCompany'],
+      },
+    },
+    required: true,
+    description: "The user's email",
+  },
+  {
+    displayName: 'User Phone',
+    name: 'userPhone',
+    type: 'string',
+    default: '',
+    placeholder: '+5511912345678',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createCompany'],
+      },
+    },
+    required: true,
+    description: "The user's phone number (E.164 format)",
+  },
+  {
+    displayName: 'User Tax ID',
+    name: 'userTaxID',
+    type: 'string',
+    default: '',
+    placeholder: '98765432100',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createCompany'],
+      },
+    },
+    required: true,
+    description: 'The tax identifier of the user',
+  },
+  {
+    displayName: 'User Tax ID Type',
+    name: 'userTaxIDType',
+    type: 'options',
     options: [
       {
-        displayName: 'First Name',
-        name: 'firstName',
-        type: 'string',
-        default: '',
-        description: "The user's first name",
+        name: 'CNPJ',
+        value: 'BR:CNPJ',
       },
       {
-        displayName: 'Last Name',
-        name: 'lastName',
-        type: 'string',
-        default: '',
-        description: "The user's last name",
-      },
-      {
-        displayName: 'Email',
-        name: 'email',
-        type: 'string',
-        default: '',
-        description: "The user's email",
-      },
-      {
-        displayName: 'Phone',
-        name: 'phone',
-        type: 'string',
-        default: '',
-        description: "The user's phone number (E.164 format)",
-      },
-      {
-        displayName: 'Tax ID',
-        name: 'taxID',
-        type: 'collection',
-        placeholder: 'Add User Tax ID',
-        default: {},
-        options: [
-          {
-            displayName: 'Tax ID',
-            name: 'taxID',
-            type: 'string',
-            default: '',
-            description: 'The tax identifier of the user',
-          },
-          {
-            displayName: 'Type',
-            name: 'type',
-            type: 'options',
-            options: [
-              {
-                name: 'CNPJ',
-                value: 'BR:CNPJ',
-              },
-              {
-                name: 'CPF',
-                value: 'BR:CPF',
-              },
-            ],
-            default: 'BR:CPF',
-            description: 'Type of the tax ID',
-          },
-        ],
+        name: 'CPF',
+        value: 'BR:CPF',
       },
     ],
+    default: 'BR:CPF',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createCompany'],
+      },
+    },
     required: true,
+    description: 'Type of the tax ID',
   },
 
   /* -------------------------------------------------------------------------- */
@@ -183,6 +221,7 @@ export const partnerProperties: INodeProperties[] = [
     name: 'name',
     type: 'string',
     default: '',
+    placeholder: 'MyAPIAccess',
     displayOptions: {
       show: {
         resource: ['partner'],
@@ -221,43 +260,99 @@ export const partnerProperties: INodeProperties[] = [
     description: 'Type of the application that you want to register',
   },
   {
-    displayName: 'Tax ID',
-    name: 'taxID',
-    type: 'collection',
-    placeholder: 'Add Tax ID',
-    default: {},
+    displayName: 'Application Tax ID',
+    name: 'applicationTaxID',
+    type: 'string',
+    default: '',
+    placeholder: '65914571000187',
     displayOptions: {
       show: {
         resource: ['partner'],
         operation: ['createApplication'],
       },
     },
+    required: true,
+    description:
+      'The tax identifier of your account holder. This should be a raw string with only digits.',
+  },
+  {
+    displayName: 'Application Tax ID Type',
+    name: 'applicationTaxIDType',
+    type: 'options',
     options: [
       {
-        displayName: 'Tax ID',
-        name: 'taxID',
-        type: 'string',
-        default: '',
-        description: 'The tax identifier of your account holder. This should be a raw string with only digits.',
+        name: 'CNPJ',
+        value: 'BR:CNPJ',
       },
       {
-        displayName: 'Type',
-        name: 'type',
-        type: 'options',
-        options: [
-          {
-            name: 'CNPJ',
-            value: 'BR:CNPJ',
-          },
-          {
-            name: 'CPF',
-            value: 'BR:CPF',
-          },
-        ],
-        default: 'BR:CNPJ',
-        description: 'Type of the tax ID',
+        name: 'CPF',
+        value: 'BR:CPF',
       },
     ],
+    default: 'BR:CNPJ',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['createApplication'],
+      },
+    },
     required: true,
+    description: 'Type of the tax ID',
+  },
+
+  /* -------------------------------------------------------------------------- */
+  /*                                partner:getCompany                          */
+  /* -------------------------------------------------------------------------- */
+  {
+    displayName: 'Tax ID',
+    name: 'taxID',
+    type: 'string',
+    default: '',
+    placeholder: '65914571000187',
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['getCompany'],
+      },
+    },
+    required: true,
+    description:
+      'The raw tax ID from the preregistration that you want to get (only digits)',
+  },
+
+  /* -------------------------------------------------------------------------- */
+  /*                                partner:listCompanies                       */
+  /* -------------------------------------------------------------------------- */
+  {
+    displayName: 'Limit',
+    name: 'limit',
+    type: 'number',
+    typeOptions: {
+      minValue: 1,
+    },
+    default: 20,
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['listCompanies'],
+      },
+    },
+    description: 'Max number of results to return',
+  },
+  {
+    displayName: 'Skip',
+    name: 'skip',
+    type: 'number',
+    typeOptions: {
+      minValue: 0,
+    },
+    default: 0,
+    displayOptions: {
+      show: {
+        resource: ['partner'],
+        operation: ['listCompanies'],
+      },
+    },
+    description: 'Number of results to skip',
   },
 ];

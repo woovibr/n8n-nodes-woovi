@@ -8,14 +8,24 @@ export async function createPartnerApplication(
 ) {
   const name = this.getNodeParameter('name', itemIndex) as string;
   const type = this.getNodeParameter('type', itemIndex) as string;
-  const taxID = this.getNodeParameter('taxID', itemIndex) as IDataObject;
+  const applicationTaxID = this.getNodeParameter(
+    'applicationTaxID',
+    itemIndex,
+  ) as string;
+  const applicationTaxIDType = this.getNodeParameter(
+    'applicationTaxIDType',
+    itemIndex,
+  ) as string;
 
   const body: IDataObject = {
     application: {
       name,
       type,
     },
-    taxID,
+    taxID: {
+      taxID: applicationTaxID,
+      type: applicationTaxIDType,
+    },
   };
 
   return apiRequest.call(this, 'POST', '/partner/application', body);
