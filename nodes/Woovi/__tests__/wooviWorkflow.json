@@ -405,6 +405,42 @@
     },
     {
       "parameters": {
+        "resource": "webhook",
+        "operation": "listWebhooks",
+        "url": "https://mycompany.com.br/webhook"
+      },
+      "id": "list-webhooks-node",
+      "name": "List Webhooks",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3800, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "webhook",
+        "operation": "deleteWebhook",
+        "webhookId": "Q2hhcmdlOjYwM2U3NDlhNDI1NjAyYmJiZjRlN2JlZA=="
+      },
+      "id": "delete-webhook-node",
+      "name": "Delete Webhook",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [4000, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "payment",
         "operation": "list",
         "limit": 10,

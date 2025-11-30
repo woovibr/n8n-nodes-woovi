@@ -1136,12 +1136,51 @@ const data = await res.json();
 - Descrição: Remove webhook
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/webhook/$WEBHOOK_ID" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/webhook/${webhookId}`, {
+  method: 'DELETE',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+```
+
 ### List webhooks
 
 - Método: GET
 - Path: /api/v1/webhook
 - Descrição: Lista webhooks (filtro `url` disponível)
 - Payload: query `url`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/webhook?url=https%3A%2F%2Fmycompany.com.br%2Fwebhook" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const url = 'https://mycompany.com.br/webhook';
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/webhook?url=${encodeURIComponent(url)}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
 
 ### Create a new webhook
 
