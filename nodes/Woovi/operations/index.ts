@@ -48,6 +48,10 @@ import { createPartnerCompany } from './createPartnerCompany';
 import { createPartnerApplication } from './createPartnerApplication';
 import { getPartnerCompany } from './getPartnerCompany';
 import { listPartnerCompanies } from './listPartnerCompanies';
+import { listWebhooks } from './listWebhooks';
+import { deleteWebhook } from './deleteWebhook';
+import { createWebhook } from './createWebhook';
+import { getWebhookIps } from './getWebhookIps';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -128,5 +132,11 @@ export const wooviOperations: Record<
     createApplication: createPartnerApplication,
     getCompany: getPartnerCompany,
     listCompanies: listPartnerCompanies,
+  },
+  webhook: {
+    list: listWebhooks,
+    delete: deleteWebhook,
+    create: createWebhook,
+    getIps: getWebhookIps,
   },
 };
