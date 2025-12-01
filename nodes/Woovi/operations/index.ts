@@ -46,6 +46,8 @@ import { getPayment } from './getPayment';
 import { listPsps } from './listPsps';
 import { listWebhooks } from './listWebhooks';
 import { deleteWebhook } from './deleteWebhook';
+import { createWebhook } from './createWebhook';
+import { getWebhookIps } from './getWebhookIps';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -122,7 +124,9 @@ export const wooviOperations: Record<
     list: listPsps,
   },
   webhook: {
-    listWebhooks,
-    deleteWebhook,
+    list: listWebhooks,
+    delete: deleteWebhook,
+    create: createWebhook,
+    getIps: getWebhookIps,
   },
 };

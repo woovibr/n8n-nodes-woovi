@@ -1159,6 +1159,7 @@ await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/webhook/${webhookId}`, {
 - Path: /api/v1/webhook
 - Descrição: Lista webhooks (filtro `url` disponível)
 - Payload: query `url`, headers `Authorization`
+  - Query: `limit` (number) — optional (default: 20); `skip` (number) — optional (default: 0)
 
 **Exemplo curl**
 
@@ -1189,12 +1190,64 @@ const data = await res.json();
 - Descrição: Cria webhook para evento específico (vários eventos suportados)
 - Payload: body `webhook` com `name`, `event`, `url`, `authorization`, `isActive` etc.; headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/webhook" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{ "webhook": { "name": "webhookName", "event": "OPENPIX:CHARGE_CREATED", "url": "https://mycompany.com.br/webhook", "authorization": "openpix", "isActive": true } }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  webhook: {
+    name: 'webhookName',
+    event: 'OPENPIX:CHARGE_CREATED',
+    url: 'https://mycompany.com.br/webhook',
+    authorization: 'openpix',
+    isActive: true,
+  },
+};
+
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/webhook`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: process.env.WOOVI_APP_ID,
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
+
 ### Get webhook IPs
 
 - Método: GET
 - Path: /api/v1/webhook/ips
 - Descrição: Lista IPs usados para callbacks
 - Payload: headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/webhook/ips" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/webhook/ips`, {
+  method: 'GET',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+const data = await res.json();
+```
 
 ---
 

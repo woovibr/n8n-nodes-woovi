@@ -407,13 +407,54 @@
       "parameters": {
         "resource": "webhook",
         "operation": "listWebhooks",
-        "url": "https://mycompany.com.br/webhook"
+        "url": "https://mycompany.com.br/webhook",
+        "limit": 10,
+        "skip": 5
       },
       "id": "list-webhooks-node",
       "name": "List Webhooks",
       "type": "n8n-nodes-woovi.woovi",
       "typeVersion": 1,
       "position": [3800, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "webhook",
+        "operation": "createWebhook",
+        "name": "webhookName",
+        "event": "OPENPIX:TRANSACTION_RECEIVED",
+        "url": "https://mycompany.com.br/webhook",
+        "authorization": "openpix",
+        "isActive": true
+      },
+      "id": "create-webhook-node",
+      "name": "Create Webhook",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3600, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "webhook",
+        "operation": "getWebhookIps"
+      },
+      "id": "get-webhook-ips-node",
+      "name": "Get Webhook IPs",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [4000, 760],
       "credentials": {
         "wooviApi": {
           "id": "1",
