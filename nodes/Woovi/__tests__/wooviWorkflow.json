@@ -421,6 +421,95 @@
           "name": "Woovi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "partner",
+        "operation": "createCompany",
+        "name": "My Partner Company",
+        "website": "https://partner.com",
+        "taxID": {
+          "taxID": "12345678000195",
+          "type": "BR:CNPJ"
+        },
+        "user": {
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "john.doe@partner.com",
+          "phone": "+5511999999999",
+          "taxID": {
+            "taxID": "12345678901",
+            "type": "BR:CPF"
+          }
+        }
+      },
+      "name": "Create Partner Company",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "partner",
+        "operation": "createApplication",
+        "name": "My Partner App",
+        "type": "API",
+        "taxID": {
+          "taxID": "12345678000195",
+          "type": "BR:CNPJ"
+        }
+      },
+      "name": "Create Partner Application",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [660, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "partner",
+        "operation": "getCompany",
+        "taxID": "12345678000195"
+      },
+      "name": "Get Partner Company",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [860, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "partner",
+        "operation": "listCompanies",
+        "limit": 10,
+        "skip": 0
+      },
+      "name": "List Partner Companies",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1060, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
     }
   ],
   "pinData": {},
