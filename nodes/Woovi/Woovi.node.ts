@@ -59,6 +59,7 @@ export class Woovi implements INodeType {
           { name: 'Psp (Payment Service Providers)', value: 'psp' },
           { name: 'Partner', value: 'partner' },
           { name: 'Webhook', value: 'webhook' },
+          { name: 'Fraud Validation', value: 'fraudValidation' },
         ],
         default: 'charge',
       },
