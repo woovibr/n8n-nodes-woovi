@@ -54,6 +54,8 @@ import { createWebhook } from './createWebhook';
 import { getWebhookIps } from './getWebhookIps';
 import { validateTaxId } from './validateTaxId';
 import { validatePixKey } from './validatePixKey';
+import { listTransactions } from './listTransactions';
+import { getTransaction } from './getTransaction';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -144,5 +146,9 @@ export const wooviOperations: Record<
   fraudValidation: {
     validateTaxId,
     validatePixKey,
+  },
+  transaction: {
+    list: listTransactions,
+    get: getTransaction,
   },
 };

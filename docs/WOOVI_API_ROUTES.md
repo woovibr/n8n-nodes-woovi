@@ -884,12 +884,117 @@ const data = await res.json();
 - Descrição: Recupera transação por transaction ID ou endToEndId
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/transaction/$TRANSACTION_ID" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/transaction/${transactionId}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
+**Resposta de Sucesso (200 OK)**
+
+```json
+{
+  "transaction": {
+    "customer": {},
+    "payer": {},
+    "charge": {},
+    "withdraw": {},
+    "infoPagador": "payer info 0",
+    "value": 100,
+    "time": "2021-03-03T12:33:00.536Z",
+    "transactionID": "transactionID",
+    "type": "PAYMENT",
+    "endToEndId": "E18236120202012032010s0133872GZA",
+    "globalID": "UGl4VHJhbnNhY3Rpb246NzE5MWYxYjAyMDQ2YmY1ZjUzZGNmYTBi",
+    "creditParty": {},
+    "debitParty": {}
+  }
+}
+```
+
 ### Get a list of transactions
 
 - Método: GET
 - Path: /api/v1/transaction
 - Descrição: Lista transações com filtros (start/end/charge/pixQrCode/withdrawal...)
 - Payload: query params `start`, `end`, `charge`, `pixQrCode`, `withdrawal`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/transaction?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&charge=Q2hhcmdlOjYwM2U3NDlhNDI1NjAyYmJiZjRlN2JlZA" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const params = new URLSearchParams({
+  start: '2020-01-01T00:00:00Z',
+  end: '2020-12-01T17:00:00Z',
+  charge: 'Q2hhcmdlOjYwM2U3NDlhNDI1NjAyYmJiZjRlN2JlZA',
+});
+
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/transaction?${params.toString()}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
+**Exemplo JavaScript (Node + Native - from API docs)**
+
+```js
+const http = require('https');
+
+const options = {
+  method: 'GET',
+  hostname: 'api.woovi.com',
+  port: null,
+  path: '/api/v1/transaction?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&charge=Q2hhcmdlOjYwM2U3NDlhNDI1NjAyYmJiZjRlN2JlZA&pixQrCode=Q2hhcmdlOjYwM2U3NDlhNDI1NjAyYmJiZjRlN2JlZA&withdrawal=Q2hhcmdlOjYwM2U3NDlhNDI1NjAyYmJiZjRlN2JlZA',
+  headers: {
+    Authorization: 'REPLACE_KEY_VALUE',
+  },
+};
+
+const req = http.request(options, function (res) {
+  const chunks = [];
+
+  res.on('data', function (chunk) {
+    chunks.push(chunk);
+  });
+
+  res.on('end', function () {
+    const body = Buffer.concat(chunks);
+    console.log(body.toString());
+  });
+});
+
+req.end();
+```
 
 ---
 
