@@ -18,7 +18,7 @@ export const transactionProperties: INodeProperties[] = [
     default: 'list',
   },
   {
-    displayName: 'Transaction ID',
+    displayName: 'Transaction ID or endToEnd ID',
     name: 'id',
     type: 'string',
     required: true,
