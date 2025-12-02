@@ -587,6 +587,40 @@
           "name": "Woovi API account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "fraudValidation",
+        "operation": "validateTaxId",
+        "taxId": "12345678900"
+      },
+      "name": "Validate Tax ID",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1260, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fraudValidation",
+        "operation": "validatePixKey",
+        "pixKey": "test-pix-key"
+      },
+      "name": "Validate Pix Key",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1460, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
     }
   ],
   "pinData": {},

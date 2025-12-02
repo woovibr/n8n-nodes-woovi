@@ -1271,12 +1271,58 @@ const data = await res.json();
 - Descrição: Valida indicadores de fraude para uma pix key
 - Payload: path `pixKey`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/fraud-validation/pix-key/$PIX_KEY" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/fraud-validation/pix-key/${pixKey}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Validate taxId fraud markers
 
 - Método: GET
 - Path: /api/v1/fraud-validation/taxId/{taxId}
 - Descrição: Valida indicadores de fraude para um taxId
 - Payload: path `taxId`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/fraud-validation/taxId/$TAX_ID" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/fraud-validation/taxId/${taxId}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ---
 

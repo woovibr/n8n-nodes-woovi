@@ -112,6 +112,8 @@ Note: In the n8n node the `metadata` field is entered as a key/value collection 
 | `/v1/partner/application` | POST | `Woovi` | `name` (string) — required; `type` (API, PLUGIN, ORACLE) — required; `taxID` (object: taxID, type) — required | Create a new application to some of your companies. Use `resource=partner` + `operation=createApplication`. | Application object |
 | `/v1/partner/company/{taxID}` | GET | `Woovi` | `taxID` (string) — required | Get a pre-registration by taxID. Use `resource=partner` + `operation=getCompany`. | Pre-registration object |
 | `/v1/partner/company` | GET | `Woovi` | `limit` (number) — optional; `skip` (number) — optional | List pre-registrations managed by the partner. Use `resource=partner` + `operation=listCompanies`. | Array of pre-registration objects |
+| `/v1/fraud-validation/taxId/{taxId}` | GET | `Woovi` | `taxId` (string) — required | Validate taxId fraud markers. Use `resource=fraudValidation` + `operation=validateTaxId`. | Validation result object (isValid, score, ...) |
+| `/v1/fraud-validation/pix-key/{pixKey}` | GET | `Woovi` | `pixKey` (string) — required | Validate pix key fraud markers. Use `resource=fraudValidation` + `operation=validatePixKey`. | Validation result object (isValid, score, ...) |
 
 Common events available in the trigger: `OPENPIX:CHARGE_CREATED`, `OPENPIX:CHARGE_COMPLETED`, `OPENPIX:CHARGE_EXPIRED`, `OPENPIX:TRANSACTION_RECEIVED`, `OPENPIX:TRANSACTION_REFUND_RECEIVED`, `OPENPIX:MOVEMENT_CONFIRMED`, `OPENPIX:MOVEMENT_FAILED`, `OPENPIX:MOVEMENT_REMOVED`, and `ALL`.
 

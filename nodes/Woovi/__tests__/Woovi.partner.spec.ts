@@ -19,6 +19,16 @@ describe('Woovi Node - Partner', () => {
   beforeEach(() => {
     woovi = new Woovi();
     mockExecuteFunctions = mock<IExecuteFunctions>();
+    mockExecuteFunctions.helpers = {
+      returnJsonArray: (data: IDataObject | IDataObject[]) => {
+        const entries = Array.isArray(data) ? data : [data];
+        return entries.map((entry) => ({ json: entry }));
+      },
+      constructExecutionMetaData: (
+        data: INodeExecutionData[],
+        _meta: IDataObject,
+      ) => data,
+    } as any;
     apiRequestMock.mockClear();
   });
 
