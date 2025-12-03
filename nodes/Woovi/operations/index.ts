@@ -1,6 +1,9 @@
 import type { IExecuteFunctions } from 'n8n-workflow';
 
 import { createCharge } from './createCharge';
+import { createChargeRefund } from './createChargeRefund';
+import { updateChargeExpiration } from './updateChargeExpiration';
+import { deleteCharge } from './deleteCharge';
 import { createSubaccount } from './createSubaccount';
 import { debitSubaccount } from './debitSubaccount';
 import { deleteSubaccount } from './deleteSubaccount';
@@ -66,6 +69,9 @@ export const wooviOperations: Record<
 > = {
   charge: {
     create: createCharge,
+    createRefund: createChargeRefund,
+    updateChargeExpiration: updateChargeExpiration,
+    deleteCharge: deleteCharge,
   },
   customer: {
     listCustomers,

@@ -174,12 +174,63 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Deleta uma charge por ID ou correlation ID
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}`,
+  {
+    method: 'DELETE',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Edit expiration date of a charge
 
 - Método: PATCH
 - Path: /api/v1/charge/{id}
 - Descrição: Atualiza expiresDate de uma charge (ISO 8601)
 - Payload: body `{ "expiresDate": "2021-04-01T17:28:51.882Z" }`, path `id`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X PATCH \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{ "expiresDate": "2021-04-01T17:28:51.882Z" }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { expiresDate: '2021-04-01T17:28:51.882Z' };
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}`,
+  {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
 
 ### Get one charge
 
@@ -223,6 +274,43 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Path: /api/v1/charge/{id}/refund
 - Descrição: Cria refund para uma charge existente
 - Payload: body `{ "correlationID": "...", "value": 100, "comment": "..." }`, path `id`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>/refund" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "value": 100,
+    "correlationID": "refund-123",
+    "comment": "Refund requested by customer"
+  }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  value: 100,
+  correlationID: 'refund-123',
+  comment: 'Refund requested by customer',
+};
+
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}/refund`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
 
 ---
 
