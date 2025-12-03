@@ -24,7 +24,7 @@ export async function createChargeRefund(
 
   const value = this.getNodeParameter('value', itemIndex) as string;
   const correlationID = this.getNodeParameter(
-    'correlationIDRefund',
+    'correlationID',
     itemIndex,
   ) as string;
   const comment = this.getNodeParameter('comment', itemIndex, '') as string;

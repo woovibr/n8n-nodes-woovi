@@ -35,6 +35,7 @@ import { listSubscriptions } from './listSubscriptions';
 import { createSubscription } from './createSubscription';
 import { cancelSubscription } from './cancelSubscription';
 import { updateSubscriptionValue } from './updateSubscriptionValue';
+import { getChargeQrCodeImage } from './getChargeQrCodeImage';
 import { checkPixKey } from './checkPixKey';
 import { setPixKeyDefault } from './setPixKeyDefault';
 import { deletePixKey } from './deletePixKey';
@@ -78,6 +79,7 @@ export const wooviOperations: Record<
     createRefund: createChargeRefund,
     updateChargeExpiration: updateChargeExpiration,
     deleteCharge: deleteCharge,
+    getQrImage: getChargeQrCodeImage,
   },
   customer: {
     listCustomers,

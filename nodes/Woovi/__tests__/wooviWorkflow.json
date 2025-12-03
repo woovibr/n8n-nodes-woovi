@@ -86,6 +86,25 @@
     {
       "parameters": {
         "resource": "charge",
+        "operation": "getQrImage",
+        "chargeId": "ch-123",
+        "size": 250
+      },
+      "id": "get-charge-qr-image-node",
+      "name": "Get Charge QR Image",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [920, 400],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
         "operation": "list",
         "start": "",
         "end": "",
@@ -222,7 +241,7 @@
         "operation": "createRefund",
         "chargeId": "ch-123",
         "value": "1000",
-        "correlationIDRefund": "refund-123",
+        "correlationID": "refund-123",
         "comment": "Charge refund requested by customer"
       },
       "id": "create-charge-refund-node",

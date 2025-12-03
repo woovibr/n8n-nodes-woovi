@@ -160,6 +160,30 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Retorna imagem PNG do QR Code para charge
 - Payload: path `id`, query `size` (opcional), headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/openpix/charge/brcode/image/<CHARGE_ID>.png?size=250" \
+  -H "Authorization: $WOOVI_APP_ID" -o charge.png
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/openpix/charge/brcode/image/${chargeId}.png?size=250`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const blob = await res.arrayBuffer();
+// Save binary, do a conversion to base64 if needed
+```
+
 ### GET base64 QR image
 
 - Método: GET

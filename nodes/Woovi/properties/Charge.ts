@@ -19,6 +19,7 @@ export const chargeProperties: INodeProperties[] = [
       { name: 'Create Refund', value: 'createRefund' },
       { name: 'Update Expiration Date', value: 'updateChargeExpiration' },
       { name: 'Delete Charge', value: 'deleteCharge' },
+      { name: 'Get QR Code Image', value: 'getQrImage' },
     ],
     default: 'create',
   },
@@ -39,6 +40,7 @@ export const chargeProperties: INodeProperties[] = [
           'createRefund',
           'updateChargeExpiration',
           'deleteCharge',
+          'getQrImage',
         ],
       },
     },
@@ -150,8 +152,9 @@ export const chargeProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['charge'],
+        operation: ['create'],
       },
-    },
+    }, // Q2hhcmdlOjY5MmQ2ZTk0ZTc2NjUyMjVmMzcyYTJhZA==
   },
   {
     displayName: 'CorrelationID',
@@ -184,7 +187,7 @@ export const chargeProperties: INodeProperties[] = [
   },
   {
     displayName: 'Refund CorrelationID',
-    name: 'correlationIDRefund',
+    name: 'correlationID',
     type: 'string',
     required: true,
     default: '',
@@ -221,6 +224,21 @@ export const chargeProperties: INodeProperties[] = [
       show: {
         resource: ['charge'],
         operation: ['updateChargeExpiration'],
+      },
+    },
+  },
+  // Get QR Code Image fields
+  {
+    displayName: 'Size',
+    name: 'size',
+    type: 'number',
+    default: 150,
+    placeholder: '150',
+    description: 'Size of the image in pixels (optional)',
+    displayOptions: {
+      show: {
+        resource: ['charge'],
+        operation: ['getQrImage'],
       },
     },
   },

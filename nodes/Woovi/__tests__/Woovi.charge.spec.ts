@@ -19,7 +19,7 @@ describe('Woovi node - charge', () => {
         operation: 'createRefund',
         chargeId: 'ch-123',
         value: '1000',
-        correlationIDRefund: 'refund-123',
+        correlationID: 'refund-123',
         comment: '',
       },
       credentials: {
@@ -225,6 +225,36 @@ describe('Woovi node - charge', () => {
     expect(result[0][0].json).toEqual(responseData);
   });
 
+  test('should get a charge QR code image', async () => {
+    const node = new Woovi();
+    const responseData = 'image-binary-data';
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'charge',
+        operation: 'getQrImage',
+        chargeId: 'ch-123',
+        size: 250,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/openpix/charge/brcode/image/ch-123.png?size=250',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
   test('should throw when chargeId is missing for refund', async () => {
     const node = new Woovi();
     const context = createExecuteContext({
@@ -233,8 +263,28 @@ describe('Woovi node - charge', () => {
         operation: 'createRefund',
         chargeId: '',
         value: '1000',
-        correlationIDRefund: 'refund-123',
+        correlationID: 'refund-123',
         comment: '',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: {},
+    });
+
+    await expect(
+      node.execute.call(context as unknown as IExecuteFunctions),
+    ).rejects.toThrow(NodeApiError);
+  });
+
+  test('should throw when chargeId is missing for QR image', async () => {
+    const node = new Woovi();
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'charge',
+        operation: 'getQrImage',
+        chargeId: '',
       },
       credentials: {
         baseUrl: 'https://api.woovi.com/api',
