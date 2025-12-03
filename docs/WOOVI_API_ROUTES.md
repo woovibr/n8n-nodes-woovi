@@ -239,12 +239,64 @@ const data = await res.json();
 - Descrição: Retorna detalhes da charge
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Get a list of charges
 
 - Método: GET
 - Path: /api/v1/charge
 - Descrição: Lista charges, com filtros
 - Payload: query params: `start`, `end`, `status`, `customer`, `subscription`; headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/charge?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&status=COMPLETED" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const params = new URLSearchParams({
+  start: '2020-01-01T00:00:00Z',
+  end: '2020-12-01T17:00:00Z',
+  status: 'COMPLETED',
+});
+
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge?${params.toString()}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ### Create a new Charge
 
@@ -267,6 +319,29 @@ const data = await res.json();
 - Path: /api/v1/charge/{id}/refund
 - Descrição: Lista reembolsos de uma charge
 - Payload: path `id`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>/refund" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}/refund`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ### Create a new refund for a charge
 

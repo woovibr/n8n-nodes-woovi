@@ -67,6 +67,66 @@
     },
     {
       "parameters": {
+        "resource": "charge",
+        "operation": "get",
+        "chargeId": "ch-123"
+      },
+      "id": "get-charge-node",
+      "name": "Get Charge",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [720, 400],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "list",
+        "start": "",
+        "end": "",
+        "status": "",
+        "customer": "",
+        "subscription": "",
+        "limit": 20,
+        "skip": 0
+      },
+      "id": "list-charges-node",
+      "name": "List Charges",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [740, 440],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "listRefunds",
+        "chargeId": "ch-123"
+      },
+      "id": "list-charge-refunds-node",
+      "name": "List Charge Refunds",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [760, 480],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "payment",
         "operation": "get",
         "id": "payment1"

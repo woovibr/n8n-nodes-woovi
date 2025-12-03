@@ -45,6 +45,121 @@ describe('Woovi node - charge', () => {
     expect(result[0][0].json).toEqual(responseData);
   });
 
+  test('should get a charge by id', async () => {
+    const node = new Woovi();
+    const responseData = {
+      charge: {
+        id: 'ch-123',
+        value: 100,
+        status: 'ACTIVE',
+      },
+    };
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'charge',
+        operation: 'get',
+        chargeId: 'ch-123',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/charge/ch-123',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should list charges without filters', async () => {
+    const node = new Woovi();
+    const responseData = [
+      {
+        id: 'ch-1',
+        value: 100,
+        status: 'ACTIVE',
+      },
+      {
+        id: 'ch-2',
+        value: 200,
+        status: 'COMPLETED',
+      },
+    ];
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'charge',
+        operation: 'list',
+        start: '',
+        end: '',
+        status: '',
+        customer: '',
+        subscription: '',
+        limit: 20,
+        skip: 0,
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/charge?limit=20&skip=0',
+    });
+    expect(result[0].map((item) => item.json)).toEqual(responseData);
+  });
+
+  test('should list refunds for a charge', async () => {
+    const node = new Woovi();
+    const responseData = [
+      {
+        value: 1000,
+        correlationID: 'refund-1',
+      },
+    ];
+
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'charge',
+        operation: 'listRefunds',
+        chargeId: 'ch-123',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/charge/ch-123/refund',
+    });
+    expect(result[0].map((item) => item.json)).toEqual(responseData);
+  });
+
   test('should update charge expiration date', async () => {
     const node = new Woovi();
     const responseData = {
