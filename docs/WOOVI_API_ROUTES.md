@@ -191,6 +191,29 @@ const blob = await res.arrayBuffer();
 - Descrição: Retorna QR Code em base64
 - Payload: path `id`, query `size` (opcional), headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/v1/image/qrcode/base64/<ID>?size=768" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/v1/image/qrcode/base64/${id}?size=768`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const base64 = await res.text();
+```
+
 ### Delete a charge
 
 - Método: DELETE

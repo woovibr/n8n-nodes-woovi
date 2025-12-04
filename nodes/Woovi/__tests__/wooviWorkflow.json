@@ -105,6 +105,25 @@
     {
       "parameters": {
         "resource": "charge",
+        "operation": "getQrImageBase64",
+        "id": "fe7834b4060c488a9b0f89811be5f5cf",
+        "size": 768
+      },
+      "id": "get-charge-qr-base64-node",
+      "name": "Get Charge QR Base64 Image",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1120, 480],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
         "operation": "list",
         "start": "",
         "end": "",
