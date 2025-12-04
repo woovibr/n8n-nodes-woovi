@@ -12,6 +12,43 @@
     {
       "parameters": {
         "resource": "charge",
+        "operation": "updateChargeExpiration",
+        "chargeId": "ch-123",
+        "expiresDate": "2025-12-05T12:00:00.000Z"
+      },
+      "id": "update-charge-expiration-node",
+      "name": "Update Charge Expiration",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1140, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "deleteCharge",
+        "chargeId": "ch-123"
+      },
+      "id": "delete-charge-node",
+      "name": "Delete Charge",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1160, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
         "operation": "create",
         "chargeValue": 1000,
         "correlationID": "12345"
@@ -21,6 +58,104 @@
       "type": "n8n-nodes-woovi.woovi",
       "typeVersion": 1,
       "position": [700, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "get",
+        "chargeId": "ch-123"
+      },
+      "id": "get-charge-node",
+      "name": "Get Charge",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [720, 400],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "getQrImage",
+        "chargeId": "ch-123",
+        "size": 250
+      },
+      "id": "get-charge-qr-image-node",
+      "name": "Get Charge QR Image",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [920, 400],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "getQrImageBase64",
+        "id": "fe7834b4060c488a9b0f89811be5f5cf",
+        "size": 768
+      },
+      "id": "get-charge-qr-base64-node",
+      "name": "Get Charge QR Base64 Image",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1120, 480],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "list",
+        "start": "",
+        "end": "",
+        "status": "",
+        "customer": "",
+        "subscription": "",
+        "limit": 20,
+        "skip": 0
+      },
+      "id": "list-charges-node",
+      "name": "List Charges",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [740, 440],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "listRefunds",
+        "chargeId": "ch-123"
+      },
+      "id": "list-charge-refunds-node",
+      "name": "List Charge Refunds",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [760, 480],
       "credentials": {
         "wooviApi": {
           "id": "1",
@@ -112,6 +247,27 @@
       "type": "n8n-nodes-woovi.woovi",
       "typeVersion": 1,
       "position": [1100, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "charge",
+        "operation": "createRefund",
+        "chargeId": "ch-123",
+        "value": "1000",
+        "correlationID": "refund-123",
+        "comment": "Charge refund requested by customer"
+      },
+      "id": "create-charge-refund-node",
+      "name": "Create Charge Refund",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1120, 360],
       "credentials": {
         "wooviApi": {
           "id": "1",

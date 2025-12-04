@@ -1,6 +1,12 @@
 import type { IExecuteFunctions } from 'n8n-workflow';
 
 import { createCharge } from './createCharge';
+import { getCharge } from './getCharge';
+import { listCharges } from './listCharges';
+import { listChargeRefunds } from './listChargeRefunds';
+import { createChargeRefund } from './createChargeRefund';
+import { updateChargeExpiration } from './updateChargeExpiration';
+import { deleteCharge } from './deleteCharge';
 import { createSubaccount } from './createSubaccount';
 import { debitSubaccount } from './debitSubaccount';
 import { deleteSubaccount } from './deleteSubaccount';
@@ -29,6 +35,8 @@ import { listSubscriptions } from './listSubscriptions';
 import { createSubscription } from './createSubscription';
 import { cancelSubscription } from './cancelSubscription';
 import { updateSubscriptionValue } from './updateSubscriptionValue';
+import { getChargeQrCodeImage } from './getChargeQrCodeImage';
+import { getQrCodeBase64 } from './getQrCodeBase64';
 import { checkPixKey } from './checkPixKey';
 import { setPixKeyDefault } from './setPixKeyDefault';
 import { deletePixKey } from './deletePixKey';
@@ -66,6 +74,14 @@ export const wooviOperations: Record<
 > = {
   charge: {
     create: createCharge,
+    get: getCharge,
+    list: listCharges,
+    listRefunds: listChargeRefunds,
+    createRefund: createChargeRefund,
+    updateChargeExpiration: updateChargeExpiration,
+    deleteCharge: deleteCharge,
+    getQrImage: getChargeQrCodeImage,
+    getQrImageBase64: getQrCodeBase64,
   },
   customer: {
     listCustomers,

@@ -17,6 +17,7 @@ export async function apiRequest(
   endpoint: string,
   body: object = {},
   query?: IDataObject,
+  withPrefix = true,
 ): Promise<any> {
   query = query || {};
 
@@ -47,11 +48,14 @@ export async function apiRequest(
       qs: query,
     };
   };
+
+  // some endpoints dont have /v1 prefix, so we make it optional but default to true
+  const prefix = withPrefix ? '/v1' : '';
   const options: IHttpRequestOptions = {
     method,
     body,
     ...getQs(),
-    url: `${baseUrl}/v1${endpoint}`,
+    url: `${baseUrl}${prefix}${endpoint}`,
     headers: {
       // todo: remove this and user httpRequestWithAuthorization
       Authorization: authHeader,

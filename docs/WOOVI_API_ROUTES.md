@@ -160,12 +160,59 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Retorna imagem PNG do QR Code para charge
 - Payload: path `id`, query `size` (opcional), headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/openpix/charge/brcode/image/<CHARGE_ID>.png?size=250" \
+  -H "Authorization: $WOOVI_APP_ID" -o charge.png
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/openpix/charge/brcode/image/${chargeId}.png?size=250`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const blob = await res.arrayBuffer();
+// Save binary, do a conversion to base64 if needed
+```
+
 ### GET base64 QR image
 
 - Método: GET
 - Path: /api/image/qrcode/base64/{id}
 - Descrição: Retorna QR Code em base64
 - Payload: path `id`, query `size` (opcional), headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/v1/image/qrcode/base64/<ID>?size=768" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/v1/image/qrcode/base64/${id}?size=768`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const base64 = await res.text();
+```
 
 ### Delete a charge
 
@@ -174,12 +221,63 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Deleta uma charge por ID ou correlation ID
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}`,
+  {
+    method: 'DELETE',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Edit expiration date of a charge
 
 - Método: PATCH
 - Path: /api/v1/charge/{id}
 - Descrição: Atualiza expiresDate de uma charge (ISO 8601)
 - Payload: body `{ "expiresDate": "2021-04-01T17:28:51.882Z" }`, path `id`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X PATCH \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{ "expiresDate": "2021-04-01T17:28:51.882Z" }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { expiresDate: '2021-04-01T17:28:51.882Z' };
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}`,
+  {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
 
 ### Get one charge
 
@@ -188,12 +286,64 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Retorna detalhes da charge
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Get a list of charges
 
 - Método: GET
 - Path: /api/v1/charge
 - Descrição: Lista charges, com filtros
 - Payload: query params: `start`, `end`, `status`, `customer`, `subscription`; headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/charge?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&status=COMPLETED" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const params = new URLSearchParams({
+  start: '2020-01-01T00:00:00Z',
+  end: '2020-12-01T17:00:00Z',
+  status: 'COMPLETED',
+});
+
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge?${params.toString()}`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
 
 ### Create a new Charge
 
@@ -217,12 +367,72 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Lista reembolsos de uma charge
 - Payload: path `id`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>/refund" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}/refund`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+  },
+);
+const data = await res.json();
+```
+
 ### Create a new refund for a charge
 
 - Método: POST
 - Path: /api/v1/charge/{id}/refund
 - Descrição: Cria refund para uma charge existente
 - Payload: body `{ "correlationID": "...", "value": 100, "comment": "..." }`, path `id`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/charge/<CHARGE_ID>/refund" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "value": 100,
+    "correlationID": "refund-123",
+    "comment": "Refund requested by customer"
+  }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  value: 100,
+  correlationID: 'refund-123',
+  comment: 'Refund requested by customer',
+};
+
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/charge/${chargeId}/refund`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: process.env.WOOVI_APP_ID,
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
 
 ---
 

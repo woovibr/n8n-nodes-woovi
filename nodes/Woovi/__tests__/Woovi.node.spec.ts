@@ -28,13 +28,15 @@ describe('Woovi node', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'POST',
-      url: 'https://api.woovi.com/api/v1/charge',
       body: { value: 1000, correlationID: '12345' },
       headers: {
         Authorization: 'Q2xpZW50X0lkXzZjYjMzMTQ4LTNmZDQtNGI5MS',
         platform: 'N8N',
       },
     });
+    expect(context.lastRequestOptions?.url).toMatch(
+      /^https:\/\/api\.woovi\.com\/api\/v1\/charge(\?.*)?$/,
+    );
     expect(response[0][0].json).toEqual(chargeResult);
   });
 
@@ -59,8 +61,8 @@ describe('Woovi node', () => {
     );
 
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
-    expect(context.lastRequestOptions?.url).toBe(
-      'https://api.woovi.com/custom/api/v1/charge',
+    expect(context.lastRequestOptions?.url).toMatch(
+      /^https:\/\/api\.woovi\.com\/custom\/api\/v1\/charge(\?.*)?$/,
     );
     expect(response[0][0].json).toEqual(chargeWithCustomBaseUrlResult);
   });
