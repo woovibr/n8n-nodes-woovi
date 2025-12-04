@@ -777,6 +777,44 @@
           "name": "Woovi API account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "transaction",
+        "operation": "get",
+        "id": "transactionID"
+      },
+      "name": "Get Transaction",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1660, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "transaction",
+        "operation": "list",
+        "start": "2020-01-01T00:00:00Z",
+        "end": "2020-12-01T17:00:00Z",
+        "charge": "",
+        "pixQrCode": "",
+        "withdrawal": ""
+      },
+      "name": "List Transactions",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1860, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
     }
   ],
   "pinData": {},

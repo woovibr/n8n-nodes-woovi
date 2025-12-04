@@ -14,6 +14,7 @@ import { pspProperties } from './Psp';
 import { partnerProperties } from './Partner';
 import { webhookProperties } from './Webhook';
 import { fraudValidationProperties } from './FraudValidation';
+import { transactionProperties } from './Transaction';
 
 export const wooviNodesProperties: INodeProperties[] = [
   ...chargeProperties,
@@ -30,4 +31,5 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...partnerProperties,
   ...webhookProperties,
   ...fraudValidationProperties,
+  ...transactionProperties,
 ];
