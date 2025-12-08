@@ -9,6 +9,7 @@ import { installmentProperties } from './Installment';
 import { subscriptionProperties } from './Subscription';
 import { pixKeyProperties } from './PixKey';
 import { qrCodeStaticProperties } from './QrCodeStatic';
+import { disputeProperties } from './Dispute';
 import { paymentProperties } from './Payment';
 import { pspProperties } from './Psp';
 import { partnerProperties } from './Partner';
@@ -32,4 +33,5 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...webhookProperties,
   ...fraudValidationProperties,
   ...transactionProperties,
+  ...disputeProperties,
 ];

@@ -64,6 +64,9 @@ import { validateTaxId } from './validateTaxId';
 import { validatePixKey } from './validatePixKey';
 import { listTransactions } from './listTransactions';
 import { getTransaction } from './getTransaction';
+import { listDisputes } from './listDisputes';
+import { getDispute } from './getDispute';
+import { uploadDisputeEvidence } from './uploadDisputeEvidence';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -166,5 +169,10 @@ export const wooviOperations: Record<
   transaction: {
     list: listTransactions,
     get: getTransaction,
+  },
+  dispute: {
+    list: listDisputes,
+    get: getDispute,
+    uploadEvidence: uploadDisputeEvidence,
   },
 };
