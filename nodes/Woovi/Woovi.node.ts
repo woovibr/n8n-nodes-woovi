@@ -61,6 +61,7 @@ export class Woovi implements INodeType {
           { name: 'Webhook', value: 'webhook' },
           { name: 'Fraud Validation', value: 'fraudValidation' },
           { name: 'Transaction', value: 'transaction' },
+          { name: 'Dispute', value: 'dispute' },
         ],
         default: 'charge',
       },

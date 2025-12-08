@@ -11,7 +11,7 @@ export async function uploadDisputeEvidence(
   }[];
 
   if (!id) {
-    throw new NodeOperationError(this.getNode(), 'The field "id" is required', {
+    throw new NodeOperationError(this.getNode(), 'O campo "id" é obrigatório', {
       itemIndex,
     });
   }
@@ -19,7 +19,7 @@ export async function uploadDisputeEvidence(
   if (!Array.isArray(docs)) {
     throw new NodeOperationError(
       this.getNode(),
-      'The "documents" field must be an array',
+      'O campo "documents" deve ser um array',
       {
         itemIndex,
       },
