@@ -65,6 +65,66 @@ describe('Woovi node - account', () => {
     });
     expect(result[0][0].json).toEqual(responseData);
   });
+
+  test('should get account by id', async () => {
+    const node = new Woovi();
+    const responseData = { id: 'acc123', status: 'ACTIVE', balance: 10000 };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'account',
+        operation: 'get',
+        accountId: 'acc123',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/account/acc123',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
+
+  test('should list accounts', async () => {
+    const node = new Woovi();
+    const responseData = {
+      accounts: [
+        { id: 'acc123', status: 'ACTIVE', balance: 10000 },
+        { id: 'acc456', status: 'ACTIVE', balance: 5000 },
+      ],
+    };
+    const context = createExecuteContext({
+      parameters: {
+        resource: 'account',
+        operation: 'list',
+      },
+      credentials: {
+        baseUrl: 'https://api.woovi.com/api',
+        Authorization: 'token',
+      },
+      response: responseData,
+    });
+
+    const result = await node.execute.call(
+      context as unknown as IExecuteFunctions,
+    );
+
+    expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
+    expect(context.lastRequestOptions).toMatchObject({
+      method: 'GET',
+      url: 'https://api.woovi.com/api/v1/account',
+    });
+    expect(result[0][0].json).toEqual(responseData);
+  });
 });
 
 describe('Woovi node - delete account register', () => {

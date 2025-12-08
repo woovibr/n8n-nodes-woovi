@@ -932,6 +932,41 @@
           "name": "Woovi API account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "get",
+        "accountId": "acc123"
+      },
+      "id": "get-account-node",
+      "name": "Get Account",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1960, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "list"
+      },
+      "id": "list-accounts-node",
+      "name": "List Accounts",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2060, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -1135,6 +1170,28 @@
       ]
     },
     "Withdraw Account": {
+      "main": [
+        [
+          {
+            "node": "Get Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Account": {
+      "main": [
+        [
+          {
+            "node": "List Accounts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Accounts": {
       "main": []
     }
   },

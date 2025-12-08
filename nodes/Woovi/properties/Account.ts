@@ -9,6 +9,8 @@ export const accountProperties: INodeProperties[] = [
     displayOptions: { show: { resource: ['account'] } },
     options: [
       { name: 'Create Account', value: 'create' },
+      { name: 'Get Account', value: 'get' },
+      { name: 'List Accounts', value: 'list' },
       { name: 'Withdraw', value: 'withdraw' },
     ],
     default: 'create',
@@ -20,7 +22,7 @@ export const accountProperties: INodeProperties[] = [
     default: '',
     required: true,
     displayOptions: {
-      show: { resource: ['account'], operation: ['withdraw'] },
+      show: { resource: ['account'], operation: ['withdraw', 'get'] },
     },
   },
   {
