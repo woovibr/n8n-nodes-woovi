@@ -186,6 +186,60 @@
     },
     {
       "parameters": {
+        "resource": "accountRegister",
+        "operation": "delete",
+        "taxID": "123456789"
+      },
+      "id": "delete-account-register-node",
+      "name": "Delete Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2660, 480],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "create"
+      },
+      "id": "create-account-node",
+      "name": "Create Account",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2680, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "withdraw",
+        "accountId": "acc123",
+        "value": 5000
+      },
+      "id": "withdraw-account-node",
+      "name": "Withdraw Account",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2700, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "charge",
         "operation": "list",
         "start": "",
@@ -1024,6 +1078,64 @@
           }
         ]
       ]
+    },
+    "Create Account Register": {
+      "main": [
+        [
+          {
+            "node": "Get Account Register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Account Register": {
+      "main": [
+        [
+          {
+            "node": "Update Account Register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Account Register": {
+      "main": [
+        [
+          {
+            "node": "Delete Account Register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Account Register": {
+      "main": [
+        [
+          {
+            "node": "Create Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Account": {
+      "main": [
+        [
+          {
+            "node": "Withdraw Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Withdraw Account": {
+      "main": []
     }
   },
   "active": false,

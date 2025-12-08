@@ -88,8 +88,7 @@ describe('Woovi node - account register', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'GET',
-      url: 'https://api.woovi.com/api/v1/account-register',
-      qs: { taxID: '123456789' },
+      url: 'https://api.woovi.com/api/v1/account-register?taxID=123456789',
     });
     expect(result[0][0].json).toEqual(responseData);
   });

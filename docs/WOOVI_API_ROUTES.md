@@ -66,10 +66,28 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 
 - Método: POST
 - Path: /api/v1/account
-- Descrição: Cria um novo bank account para a companhia (requer feature habilitada)
+- Descrição: Cria um novo bank account para a companhia (requer feature habilitada — duplica account associada ao AppID)
 - Payload:
-  - Body (application/json): objeto `companyBankAccount` — ex: `{ "companyBankAccount": { "accountId": "string", "isDefault": true } }`
+  - Body: empty (ou opcional com `companyBankAccount`)
   - Headers: `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/account" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/account`, {
+  method: 'POST',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+const data = await res.json();
+```
 
 ### Withdraw from an Account
 
@@ -81,6 +99,34 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
   - Body: `{ "value": 7000 }`
   - Headers: `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/account/acc123/withdraw" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{ "value": 5000 }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { value: 5000 };
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/account/${accountId}/withdraw`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
+
 ---
 
 ## Account Register
@@ -91,6 +137,27 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Path: /api/v1/account-register/{id}
 - Descrição: Deleta registro de conta em status PENDING
 - Payload: path `id` (taxID), headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/account-register/123456789" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/account-register/${taxID}`,
+  {
+    method: 'DELETE',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
 
 ### Update an existing account registration
 

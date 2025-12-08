@@ -67,6 +67,9 @@ import { getTransaction } from './getTransaction';
 import { createAccountRegister } from './createAccountRegister';
 import { getAccountRegister } from './getAccountRegister';
 import { updateAccountRegister } from './updateAccountRegister';
+import { deleteAccountRegister } from './deleteAccountRegister';
+import { createAccount } from './createAccount';
+import { withdrawAccount } from './withdrawAccount';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -174,5 +177,10 @@ export const wooviOperations: Record<
     create: createAccountRegister,
     getByTaxId: getAccountRegister,
     update: updateAccountRegister,
+    delete: deleteAccountRegister,
+  },
+  account: {
+    create: createAccount,
+    withdraw: withdrawAccount,
   },
 };

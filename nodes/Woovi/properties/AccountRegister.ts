@@ -11,6 +11,7 @@ export const accountRegisterProperties: INodeProperties[] = [
       { name: 'Create Account Register', value: 'create' },
       { name: 'Get Account Register By Tax ID', value: 'getByTaxId' },
       { name: 'Update Account Register', value: 'update' },
+      { name: 'Delete Account Register', value: 'delete' },
     ],
     default: 'create',
   },
@@ -43,7 +44,7 @@ export const accountRegisterProperties: INodeProperties[] = [
     displayOptions: {
       show: {
         resource: ['accountRegister'],
-        operation: ['create', 'getByTaxId', 'update'],
+        operation: ['create', 'getByTaxId', 'update', 'delete'],
       },
     },
   },

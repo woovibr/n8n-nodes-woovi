@@ -62,6 +62,7 @@ export class Woovi implements INodeType {
           { name: 'Fraud Validation', value: 'fraudValidation' },
           { name: 'Transaction', value: 'transaction' },
           { name: 'Account Register', value: 'accountRegister' },
+          { name: 'Account', value: 'account' },
         ],
         default: 'charge',
       },
