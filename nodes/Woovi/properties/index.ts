@@ -15,6 +15,7 @@ import { partnerProperties } from './Partner';
 import { webhookProperties } from './Webhook';
 import { fraudValidationProperties } from './FraudValidation';
 import { transactionProperties } from './Transaction';
+import { accountRegisterProperties } from './AccountRegister';
 
 export const wooviNodesProperties: INodeProperties[] = [
   ...chargeProperties,
@@ -32,4 +33,5 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...webhookProperties,
   ...fraudValidationProperties,
   ...transactionProperties,
+  ...accountRegisterProperties,
 ];

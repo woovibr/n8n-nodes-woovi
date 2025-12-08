@@ -64,6 +64,9 @@ import { validateTaxId } from './validateTaxId';
 import { validatePixKey } from './validatePixKey';
 import { listTransactions } from './listTransactions';
 import { getTransaction } from './getTransaction';
+import { createAccountRegister } from './createAccountRegister';
+import { getAccountRegister } from './getAccountRegister';
+import { updateAccountRegister } from './updateAccountRegister';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -166,5 +169,10 @@ export const wooviOperations: Record<
   transaction: {
     list: listTransactions,
     get: getTransaction,
+  },
+  accountRegister: {
+    create: createAccountRegister,
+    getByTaxId: getAccountRegister,
+    update: updateAccountRegister,
   },
 };

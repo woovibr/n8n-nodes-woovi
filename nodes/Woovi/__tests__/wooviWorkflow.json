@@ -123,6 +123,69 @@
     },
     {
       "parameters": {
+        "resource": "accountRegister",
+        "operation": "create",
+        "officialName": "Test Ltd",
+        "tradeName": "Test",
+        "taxID": "123456789",
+        "billingAddress": {
+          "zipcode": "12345",
+          "street": "Main",
+          "number": "1"
+        },
+        "businessDescription": "E-commerce"
+      },
+      "id": "create-account-register-node",
+      "name": "Create Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2600, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "accountRegister",
+        "operation": "getByTaxId",
+        "taxID": "123456789"
+      },
+      "id": "get-account-register-node",
+      "name": "Get Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2620, 400],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "accountRegister",
+        "operation": "update",
+        "taxID": "acc1",
+        "updateFields": { "businessDescription": "Updated" }
+      },
+      "id": "update-account-register-node",
+      "name": "Update Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2640, 440],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "charge",
         "operation": "list",
         "start": "",
