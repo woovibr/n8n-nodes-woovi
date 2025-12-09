@@ -20,7 +20,9 @@ export async function getAccountRegister(
     );
   }
 
-  const params = new URLSearchParams();
-  params.append('taxID', taxID);
-  return apiRequest.call(this, 'GET', `/account-register?${params.toString()}`);
+  return apiRequest.call(
+    this,
+    'GET',
+    `/account-register/${encodeURIComponent(taxID)}`,
+  );
 }
