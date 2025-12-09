@@ -123,6 +123,70 @@
     },
     {
       "parameters": {
+        "resource": "dispute",
+        "operation": "list",
+        "start": "",
+        "end": ""
+      },
+      "id": "list-disputes-node",
+      "name": "List Disputes",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1320, 460],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "dispute",
+        "operation": "get",
+        "id": "d-1"
+      },
+      "id": "get-dispute-node",
+      "name": "Get Dispute",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1320, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "dispute",
+        "operation": "uploadEvidence",
+        "id": "d-1",
+        "documents": [
+          {
+            "document": {
+              "url": "https://example.com/doc1",
+              "correlationID": "c-1",
+              "description": "desc"
+            }
+          }
+        ]
+      },
+      "id": "upload-dispute-evidence-node",
+      "name": "Upload Dispute Evidence",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1320, 580],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "accountRegister",
         "operation": "create",
         "officialName": "Test Ltd",
