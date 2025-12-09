@@ -13,24 +13,33 @@ describe('Woovi node - account register', () => {
         officialName: 'Test Ltd',
         tradeName: 'Test',
         taxID: '123456789',
-        billingAddress: { zipcode: '12345', street: 'Main', number: '1' },
-        documents: [
-          {
-            document: {
+        billingAddress: {
+          zipcode: '12345',
+          street: 'Main',
+          number: '1',
+          neighborhood: 'Center',
+          city: 'City',
+          state: 'ST',
+        },
+        documents: {
+          document: [
+            {
               url: 'http://example.com/doc.pdf',
               type: 'SOCIAL_CONTRACT',
             },
-          },
-        ],
-        representatives: [
-          {
-            representative: {
+          ],
+        },
+        representatives: {
+          representative: [
+            {
               name: 'John',
               taxID: '987654321',
               email: 'john@example.com',
+              birthDate: '1990-01-01',
+              type: 'ADMIN',
             },
-          },
-        ],
+          ],
+        },
         businessDescription: 'E-commerce',
       },
       credentials: {
@@ -52,12 +61,25 @@ describe('Woovi node - account register', () => {
         officialName: 'Test Ltd',
         tradeName: 'Test',
         taxID: '123456789',
-        billingAddress: { zipcode: '12345', street: 'Main', number: '1' },
+        billingAddress: {
+          zipcode: '12345',
+          street: 'Main',
+          number: '1',
+          neighborhood: 'Center',
+          city: 'City',
+          state: 'ST',
+        },
         documents: [
           { url: 'http://example.com/doc.pdf', type: 'SOCIAL_CONTRACT' },
         ],
         representatives: [
-          { name: 'John', taxID: '987654321', email: 'john@example.com' },
+          {
+            name: 'John',
+            taxID: '987654321',
+            email: 'john@example.com',
+            birthDate: '1990-01-01',
+            type: 'ADMIN',
+          },
         ],
         businessDescription: 'E-commerce',
       },
@@ -88,7 +110,7 @@ describe('Woovi node - account register', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'GET',
-      url: 'https://api.woovi.com/api/v1/account-register?taxID=123456789',
+      url: 'https://api.woovi.com/api/v1/account-register/123456789',
     });
     expect(result[0][0].json).toEqual(responseData);
   });
@@ -101,7 +123,7 @@ describe('Woovi node - account register', () => {
         resource: 'accountRegister',
         operation: 'update',
         taxID: 'acc1',
-        updateFields: { businessDescription: 'Updated' },
+        businessDescription: 'Updated',
       },
       credentials: {
         baseUrl: 'https://api.woovi.com/api',
