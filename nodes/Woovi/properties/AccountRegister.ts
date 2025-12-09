@@ -199,7 +199,8 @@ export const accountRegisterProperties: INodeProperties[] = [
             typeOptions: { multipleValues: true },
             default: {},
             placeholder: 'Add Document',
-            description: 'Documents (CNH_FRONT, CNH_BACK, PICTURE)',
+            description:
+              'Documents (CNH_FRONT, CNH_BACK, PICTURE,CNH, IDENTITY_FRONT, IDENTITY_BACK), must be provided CNH or (CNH_FRONT and CNH_BACK) or (IDENTITY_FRONT and IDENTITY_BACK) AND PICTURE',
             options: [
               {
                 displayName: 'Document',

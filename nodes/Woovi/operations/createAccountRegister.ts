@@ -9,7 +9,6 @@ export async function createAccountRegister(
   this: IExecuteFunctions,
   itemIndex: number,
 ) {
-  // ===== REQUIRED FIELDS =====
   const officialName = this.getNodeParameter(
     'officialName',
     itemIndex,
@@ -17,7 +16,6 @@ export async function createAccountRegister(
   const tradeName = this.getNodeParameter('tradeName', itemIndex) as string;
   const taxID = this.getNodeParameter('taxID', itemIndex) as string;
 
-  // Billing Address - REQUIRED
   const billingAddressInput = this.getNodeParameter(
     'billingAddress',
     itemIndex,
@@ -59,7 +57,6 @@ export async function createAccountRegister(
       repObj.phone = rep.phone;
     }
 
-    // Documents do representante (fixedCollection)
     const repDocs = rep.documents as IDataObject | undefined;
     if (
       repDocs?.document &&
@@ -72,7 +69,6 @@ export async function createAccountRegister(
       }));
     }
 
-    // Address do representante (collection)
     if (rep.address) {
       const address = rep.address as IDataObject;
       repObj.address = {
@@ -93,7 +89,6 @@ export async function createAccountRegister(
     itemIndex,
   ) as IDataObject;
 
-  // Documents é um fixedCollection, então vem como { document: [...] }
   const documentsList = (documentsRaw?.document as IDataObject[]) || [];
 
   const businessDescription =
@@ -151,7 +146,6 @@ export async function createAccountRegister(
     );
   }
 
-  // Validar campos obrigatórios dos representantes
   for (let i = 0; i < representatives.length; i++) {
     const rep = representatives[i];
     if (!rep.name) {
