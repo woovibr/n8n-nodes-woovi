@@ -309,7 +309,7 @@ describe('Woovi node - charge', () => {
     expect(context.helpers.requestWithAuthentication).toHaveBeenCalledTimes(1);
     expect(context.lastRequestOptions).toMatchObject({
       method: 'GET',
-      url: 'https://api.woovi.com/api/v1/charge?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&status=ACTIVE&customer=cust-123&subscription=subs-123&limit=10&skip=0',
+      url: 'https://api.woovi.com/api/v1/charge?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&status=ACTIVE&subscription=subs-123&limit=10&skip=0',
     });
     expect(result[0].map((item) => item.json)).toEqual(responseData);
   });
@@ -411,7 +411,7 @@ describe('Woovi node - charge', () => {
       parameters: {
         resource: 'charge',
         operation: 'getQrImage',
-        chargeId: 'ch-123',
+        id: 'ch-123',
         size: 250,
       },
       credentials: {

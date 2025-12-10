@@ -187,6 +187,123 @@
     },
     {
       "parameters": {
+        "resource": "accountRegister",
+        "operation": "create",
+        "officialName": "Test Ltd",
+        "tradeName": "Test",
+        "taxID": "123456789",
+        "billingAddress": {
+          "zipcode": "12345",
+          "street": "Main",
+          "number": "1"
+        },
+        "businessDescription": "E-commerce"
+      },
+      "id": "create-account-register-node",
+      "name": "Create Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2600, 360],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "accountRegister",
+        "operation": "getByTaxId",
+        "taxID": "123456789"
+      },
+      "id": "get-account-register-node",
+      "name": "Get Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2620, 400],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "accountRegister",
+        "operation": "update",
+        "taxID": "acc1",
+        "updateFields": { "businessDescription": "Updated" }
+      },
+      "id": "update-account-register-node",
+      "name": "Update Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2640, 440],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "accountRegister",
+        "operation": "delete",
+        "taxID": "123456789"
+      },
+      "id": "delete-account-register-node",
+      "name": "Delete Account Register",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2660, 480],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "create"
+      },
+      "id": "create-account-node",
+      "name": "Create Account",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2680, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "withdraw",
+        "accountId": "acc123",
+        "value": 5000
+      },
+      "id": "withdraw-account-node",
+      "name": "Withdraw Account",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2700, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "charge",
         "operation": "list",
         "start": "",
@@ -879,6 +996,41 @@
           "name": "Woovi API account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "get",
+        "accountId": "acc123"
+      },
+      "id": "get-account-node",
+      "name": "Get Account",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1960, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "account",
+        "operation": "list"
+      },
+      "id": "list-accounts-node",
+      "name": "List Accounts",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2060, 300],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi API account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -1025,6 +1177,86 @@
           }
         ]
       ]
+    },
+    "Create Account Register": {
+      "main": [
+        [
+          {
+            "node": "Get Account Register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Account Register": {
+      "main": [
+        [
+          {
+            "node": "Update Account Register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Account Register": {
+      "main": [
+        [
+          {
+            "node": "Delete Account Register",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Account Register": {
+      "main": [
+        [
+          {
+            "node": "Create Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Account": {
+      "main": [
+        [
+          {
+            "node": "Withdraw Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Withdraw Account": {
+      "main": [
+        [
+          {
+            "node": "Get Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Account": {
+      "main": [
+        [
+          {
+            "node": "List Accounts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Accounts": {
+      "main": []
     }
   },
   "active": false,

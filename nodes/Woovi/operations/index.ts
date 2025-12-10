@@ -67,6 +67,14 @@ import { getTransaction } from './getTransaction';
 import { listDisputes } from './listDisputes';
 import { getDispute } from './getDispute';
 import { uploadDisputeEvidence } from './uploadDisputeEvidence';
+import { createAccountRegister } from './createAccountRegister';
+import { getAccountRegister } from './getAccountRegister';
+import { updateAccountRegister } from './updateAccountRegister';
+import { deleteAccountRegister } from './deleteAccountRegister';
+import { createAccount } from './createAccount';
+import { withdrawAccount } from './withdrawAccount';
+import { getAccount } from './getAccount';
+import { listAccounts } from './listAccounts';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -174,5 +182,17 @@ export const wooviOperations: Record<
     list: listDisputes,
     get: getDispute,
     uploadEvidence: uploadDisputeEvidence,
+  },
+  accountRegister: {
+    create: createAccountRegister,
+    getByTaxId: getAccountRegister,
+    update: updateAccountRegister,
+    delete: deleteAccountRegister,
+  },
+  account: {
+    create: createAccount,
+    withdraw: withdrawAccount,
+    get: getAccount,
+    list: listAccounts,
   },
 };
