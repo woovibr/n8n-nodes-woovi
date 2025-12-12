@@ -304,6 +304,43 @@
     },
     {
       "parameters": {
+        "resource": "cashbackFidelity",
+        "operation": "getByTaxId",
+        "taxID": "123456789"
+      },
+      "id": "get-cashback-balance-node",
+      "name": "Get Cashback Balance",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2690, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "cashbackFidelity",
+        "operation": "create",
+        "taxID": "123456789",
+        "value": 100
+      },
+      "id": "create-cashback-node",
+      "name": "Create Cashback",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2710, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "charge",
         "operation": "list",
         "start": "",

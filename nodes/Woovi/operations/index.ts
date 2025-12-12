@@ -75,6 +75,8 @@ import { createAccount } from './createAccount';
 import { withdrawAccount } from './withdrawAccount';
 import { getAccount } from './getAccount';
 import { listAccounts } from './listAccounts';
+import { getCashbackBalance } from './getCashbackBalance';
+import { createCashbackFidelity } from './createCashbackFidelity';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -194,5 +196,9 @@ export const wooviOperations: Record<
     withdraw: withdrawAccount,
     get: getAccount,
     list: listAccounts,
+  },
+  cashbackFidelity: {
+    getByTaxId: getCashbackBalance,
+    create: createCashbackFidelity,
   },
 };

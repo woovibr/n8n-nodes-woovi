@@ -209,12 +209,62 @@ const data = await res.json();
 - Descrição: Valor do cashback exclusivo que ainda falta receber pelo usuário
 - Payload: path `taxID`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/cashback-fidelity/balance/123456789" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const taxID = '123456789';
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/cashback-fidelity/balance/${taxID}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
+
 ### Create or get cashback
 
 - Método: POST
 - Path: /api/v1/cashback-fidelity
 - Descrição: Cria ou retorna cashback existente para um taxID
 - Payload: body `{ "taxID": 11111111111, "value": 100 }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/cashback-fidelity" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"taxID": 11111111111,"value":100 }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { taxID: '11111111111', value: 100 };
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/cashback-fidelity`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
 
 ---
 

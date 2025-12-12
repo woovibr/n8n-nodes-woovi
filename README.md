@@ -44,7 +44,7 @@ Se você deseja usar o ambiente de sandbox, abra as credenciais `Woovi API` no n
 
 ## Using implemented routes in n8n
 
-The package currently implements two primary integrations for n8n:
+The package currently implements several Woovi endpoints for n8n:
 
 - Create charge (POST /charge) — available as the `Woovi` node
 - Webhook listener for Woovi events — available as the `Woovi Trigger` node
@@ -63,6 +63,8 @@ The package currently implements two primary integrations for n8n:
 | `/api/image/qrcode/base64/{id}` | GET | `Woovi` | `id` (string) — required; `size` (number) — optional | Get QR Code as base64 string. Use `resource=charge` + `operation=getQrImageBase64` and provide `id` and optional `size`. | Base64 string | https://prnt.sc/A2EdgvFWrdlA
 | `/webhook` (webhook listener) | POST (webhook) | `Woovi Trigger` | `events` (dropdown) — choose a specific event or `ALL` | Receive Woovi events (charge created/completed, transaction received, refunds, movement updates). Add `Woovi Trigger`, choose event(s), enable the workflow to expose the webhook URL, then configure Woovi to post to that URL. | Full event payload in node output JSON (field names depend on event) |
 | `/v1/webhook` | GET | `Woovi` | `url` (string) — optional query to filter webhooks | List webhooks registered for your App; set `resource=webhook` + `operation=list` and optionally filter by `url`. | `{ pageInfo, webhooks: [...] }` (paginated list) |
+| `/v1/cashback-fidelity/balance/{taxID}` | GET | `Woovi` | `taxID` (string) — required | Get cashback exclusive balance by taxID. Use `resource=cashbackFidelity` + `operation=getByTaxId` and provide `taxID` | `{ "cashback": { "value": 100 }, "message": "OK" }` | N/A |
+| `/v1/cashback-fidelity` | POST | `Woovi` | `taxID` (string) — required; `value` (number) — required (cents) | Create or get an exclusive cashback for a customer. Use `resource=cashbackFidelity` + `operation=create` and provide `taxID` and `value` | `{ "cashback": { "value": 0 }, "message": "string" }` | N/A |
 | `/v1/webhook/{id}` | DELETE | `Woovi` | `Webhook ID` (string) — required | Delete a webhook by its ID. Set `resource=webhook` + `operation=delete` and provide `webhookId`. | `{ status: '...' }` |
 | `/v1/webhook` | POST | `Woovi` | `webhook` (object): `name` (string) — required; `event` (string) — optional (default: `OPENPIX:TRANSACTION_RECEIVED`); `url` (string) — required; `authorization` (string) — optional; `isActive` (boolean) — optional | Create a new webhook listening to events. Use `resource=webhook` + `operation=create` and fill the `webhook` fields. | `{ webhook: { id, name, url, event, authorization, isActive, createdAt, updatedAt } }` |
 | `/v1/webhook/ips` | GET | `Woovi` | — | Get the list of IPs used for Woovi callbacks. Use `resource=webhook` + `operation=getIps` | `{ ips: [...] }` |
