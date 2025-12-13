@@ -214,6 +214,5 @@ export async function createAccountRegister(
   if (businessGoal) {
     body.businessGoal = businessGoal;
   }
-  console.log('Request Body:', body);
   return apiRequest.call(this, 'POST', '/account-register', body);
 }

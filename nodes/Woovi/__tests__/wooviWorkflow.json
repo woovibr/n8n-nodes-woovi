@@ -1036,6 +1036,27 @@
     },
     {
       "parameters": {
+        "resource": "statement",
+        "operation": "list",
+        "start": "2020-01-01T00:00:00Z",
+        "end": "2020-12-01T17:00:00Z",
+        "skip": 0,
+        "limit": 20
+      },
+      "id": "list-statement-node",
+      "name": "List Statement",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3600, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "account",
         "operation": "get",
         "accountId": "acc123"

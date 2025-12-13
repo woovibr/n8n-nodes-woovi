@@ -20,7 +20,7 @@ export async function createCashbackFidelity(
     );
   }
 
-  if (typeof value === 'undefined' || value === null) {
+  if (!value && value !== 0) {
     throw new NodeOperationError(
       this.getNode(),
       "O campo 'value' é obrigatório",

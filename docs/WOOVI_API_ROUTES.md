@@ -1316,7 +1316,6 @@ const req = http.request(options, function (res) {
 
   res.on('end', function () {
     const body = Buffer.concat(chunks);
-    console.log(body.toString());
   });
 });
 
@@ -1805,6 +1804,27 @@ const data = await res.json();
 - Path: /api/v1/statement
 - Descrição: Recupera lançamentos do extrato da conta da empresa
 - Payload: query `start`, `end`, `skip`, `limit`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/statement?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&skip=0&limit=20" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/statement?start=${start}&end=${end}&skip=${skip}&limit=${limit}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
 
 ---
 

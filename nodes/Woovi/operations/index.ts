@@ -63,6 +63,7 @@ import { getWebhookIps } from './getWebhookIps';
 import { validateTaxId } from './validateTaxId';
 import { validatePixKey } from './validatePixKey';
 import { listTransactions } from './listTransactions';
+import { listStatement } from './listStatement';
 import { getTransaction } from './getTransaction';
 import { listDisputes } from './listDisputes';
 import { getDispute } from './getDispute';
@@ -179,6 +180,9 @@ export const wooviOperations: Record<
   transaction: {
     list: listTransactions,
     get: getTransaction,
+  },
+  statement: {
+    list: listStatement,
   },
   dispute: {
     list: listDisputes,
