@@ -69,7 +69,7 @@ export class Woovi implements INodeType {
           { name: 'Webhook', value: 'webhook' },
         ],
         default: 'charge',
-      }, 
+      },
       ...wooviNodesProperties,
     ] as INodeProperties[],
   };
