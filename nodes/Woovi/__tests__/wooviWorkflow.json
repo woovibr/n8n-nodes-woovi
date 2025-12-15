@@ -285,6 +285,43 @@
     },
     {
       "parameters": {
+        "resource": "application",
+        "operation": "create",
+        "accountId": "507f1f77bcf86cd799439011",
+        "name": "Test API",
+        "type": "API"
+      },
+      "id": "create-application-node",
+      "name": "Create Application",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2700, 600],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "application",
+        "operation": "delete"
+      },
+      "id": "delete-application-node",
+      "name": "Delete Application",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2720, 640],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "account",
         "operation": "withdraw",
         "accountId": "acc123",

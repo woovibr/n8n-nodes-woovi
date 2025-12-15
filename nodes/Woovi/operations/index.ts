@@ -54,6 +54,8 @@ import { getPayment } from './getPayment';
 import { listPsps } from './listPsps';
 import { createPartnerCompany } from './createPartnerCompany';
 import { createPartnerApplication } from './createPartnerApplication';
+import { createApplication } from './createApplication';
+import { deleteApplication } from './deleteApplication';
 import { getPartnerCompany } from './getPartnerCompany';
 import { listPartnerCompanies } from './listPartnerCompanies';
 import { listWebhooks } from './listWebhooks';
@@ -200,6 +202,10 @@ export const wooviOperations: Record<
     withdraw: withdrawAccount,
     get: getAccount,
     list: listAccounts,
+  },
+  application: {
+    create: createApplication,
+    delete: deleteApplication,
   },
   cashbackFidelity: {
     getByTaxId: getCashbackBalance,

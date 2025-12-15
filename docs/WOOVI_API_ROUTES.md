@@ -62,6 +62,24 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Lista contas da empresa
 - Payload: headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/application" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/application`, {
+  method: 'DELETE',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+const data = await res.json();
+```
+
 ### Create a new Account
 
 - Método: POST
@@ -197,6 +215,34 @@ const data = await res.json();
 - Path: /api/v1/application
 - Descrição: Cria uma aplicação para a companhia (retorna clientId/clientSecret/appID)
 - Payload: body `{ "accountId": "...", "application": { "name": "Test API", "type": "API" } }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/application" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"accountId":"507f1f77bcf86cd799439011","application":{"name":"Test API","type":"API"}}'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  accountId: '507f1f77bcf86cd799439011',
+  application: { name: 'Test API', type: 'API' },
+};
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/application`, {
+  method: 'POST',
+  headers: {
+    Authorization: process.env.WOOVI_APP_ID,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
 
 ---
 

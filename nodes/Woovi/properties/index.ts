@@ -13,6 +13,7 @@ import { disputeProperties } from './Dispute';
 import { paymentProperties } from './Payment';
 import { pspProperties } from './Psp';
 import { partnerProperties } from './Partner';
+import { applicationProperties } from './Application';
 import { webhookProperties } from './Webhook';
 import { cashbackFidelityProperties } from './CashbackFidelity';
 import { fraudValidationProperties } from './FraudValidation';
@@ -34,6 +35,7 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...paymentProperties,
   ...pspProperties,
   ...partnerProperties,
+  ...applicationProperties,
   ...cashbackFidelityProperties,
   ...webhookProperties,
   ...fraudValidationProperties,
