@@ -306,7 +306,8 @@
     {
       "parameters": {
         "resource": "application",
-        "operation": "delete"
+        "operation": "delete",
+        "clientId": "client_123abc"
       },
       "id": "delete-application-node",
       "name": "Delete Application",

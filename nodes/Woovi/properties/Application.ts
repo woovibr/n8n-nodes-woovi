@@ -79,4 +79,19 @@ export const applicationProperties: INodeProperties[] = [
     required: true,
     description: 'Type of the application that you want to register',
   },
+  {
+    displayName: 'Client ID',
+    name: 'clientId',
+    type: 'string',
+    default: '',
+    placeholder: 'client_123abc',
+    displayOptions: {
+      show: {
+        resource: ['application'],
+        operation: ['delete'],
+      },
+    },
+    required: true,
+    description: 'Client ID of the application to deactivate (required)',
+  },
 ];

@@ -6,5 +6,14 @@ export async function deleteApplication(
   this: IExecuteFunctions,
   _itemIndex: number,
 ) {
-  return apiRequest.call(this, 'DELETE', '/application');
+  const clientId = (this as any).getNodeParameter(
+    'clientId',
+    _itemIndex,
+  ) as string;
+
+  const body = {
+    clientId,
+  };
+
+  return apiRequest.call(this, 'DELETE', '/application', body);
 }

@@ -207,7 +207,32 @@ const data = await res.json();
 - Método: DELETE
 - Path: /api/v1/application
 - Descrição: Desativa uma aplicação (set isActive=false)
-- Payload: headers `Authorization`
+- Payload: body `{ "clientId": "..." }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/application" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"clientId":"client_123abc"}'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { clientId: 'client_123abc' };
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/application`, {
+  method: 'DELETE',
+  headers: {
+    Authorization: process.env.WOOVI_APP_ID,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
 
 ### Create a new application
 

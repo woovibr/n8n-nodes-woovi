@@ -75,6 +75,7 @@ describe('Woovi Node - Application', () => {
   describe('Application: delete', () => {
     it('should delete an application using AppID auth', async () => {
       const items = [{ json: {} }] as INodeExecutionData[];
+      const clientId = 'client_123abc';
 
       (mockExecuteFunctions.getInputData as jest.Mock).mockReturnValue(items);
       (mockExecuteFunctions.getNodeParameter as jest.Mock).mockImplementation(
@@ -84,6 +85,8 @@ describe('Woovi Node - Application', () => {
               return 'application';
             case 'operation':
               return 'delete';
+            case 'clientId':
+              return clientId;
             default:
               return undefined;
           }
@@ -94,7 +97,9 @@ describe('Woovi Node - Application', () => {
 
       await woovi.execute.call(mockExecuteFunctions);
 
-      expect(apiRequestMock).toHaveBeenCalledWith('DELETE', '/application');
+      expect(apiRequestMock).toHaveBeenCalledWith('DELETE', '/application', {
+        clientId,
+      });
     });
   });
 });
