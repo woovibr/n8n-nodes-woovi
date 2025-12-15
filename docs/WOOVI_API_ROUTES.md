@@ -62,6 +62,24 @@ Este documento lista as rotas da API Woovi (v1) com: título da rota, método, d
 - Descrição: Lista contas da empresa
 - Payload: headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/application" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/application`, {
+  method: 'DELETE',
+  headers: { Authorization: process.env.WOOVI_APP_ID },
+});
+const data = await res.json();
+```
+
 ### Create a new Account
 
 - Método: POST
@@ -189,7 +207,32 @@ const data = await res.json();
 - Método: DELETE
 - Path: /api/v1/application
 - Descrição: Desativa uma aplicação (set isActive=false)
-- Payload: headers `Authorization`
+- Payload: body `{ "clientId": "..." }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X DELETE \
+  "$WOOVI_BASE_URL/api/v1/application" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"clientId":"client_123abc"}'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { clientId: 'client_123abc' };
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/application`, {
+  method: 'DELETE',
+  headers: {
+    Authorization: process.env.WOOVI_APP_ID,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
 
 ### Create a new application
 
@@ -197,6 +240,34 @@ const data = await res.json();
 - Path: /api/v1/application
 - Descrição: Cria uma aplicação para a companhia (retorna clientId/clientSecret/appID)
 - Payload: body `{ "accountId": "...", "application": { "name": "Test API", "type": "API" } }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/application" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"accountId":"507f1f77bcf86cd799439011","application":{"name":"Test API","type":"API"}}'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = {
+  accountId: '507f1f77bcf86cd799439011',
+  application: { name: 'Test API', type: 'API' },
+};
+const res = await fetch(`${process.env.WOOVI_BASE_URL}/api/v1/application`, {
+  method: 'POST',
+  headers: {
+    Authorization: process.env.WOOVI_APP_ID,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(body),
+});
+const data = await res.json();
+```
 
 ---
 
@@ -209,12 +280,62 @@ const data = await res.json();
 - Descrição: Valor do cashback exclusivo que ainda falta receber pelo usuário
 - Payload: path `taxID`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/cashback-fidelity/balance/123456789" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const taxID = '123456789';
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/cashback-fidelity/balance/${taxID}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
+
 ### Create or get cashback
 
 - Método: POST
 - Path: /api/v1/cashback-fidelity
 - Descrição: Cria ou retorna cashback existente para um taxID
 - Payload: body `{ "taxID": 11111111111, "value": 100 }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/cashback-fidelity" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"taxID": 11111111111,"value":100 }'
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const body = { taxID: '11111111111', value: 100 };
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/cashback-fidelity`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: process.env.WOOVI_APP_ID,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  },
+);
+const data = await res.json();
+```
 
 ---
 
@@ -1266,7 +1387,6 @@ const req = http.request(options, function (res) {
 
   res.on('end', function () {
     const body = Buffer.concat(chunks);
-    console.log(body.toString());
   });
 });
 
@@ -1755,6 +1875,27 @@ const data = await res.json();
 - Path: /api/v1/statement
 - Descrição: Recupera lançamentos do extrato da conta da empresa
 - Payload: query `start`, `end`, `skip`, `limit`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X GET \
+  "$WOOVI_BASE_URL/api/v1/statement?start=2020-01-01T00%3A00%3A00Z&end=2020-12-01T17%3A00%3A00Z&skip=0&limit=20" \
+  -H "Authorization: $WOOVI_APP_ID"
+```
+
+**Exemplo JavaScript (fetch)**
+
+```js
+const res = await fetch(
+  `${process.env.WOOVI_BASE_URL}/api/v1/statement?start=${start}&end=${end}&skip=${skip}&limit=${limit}`,
+  {
+    method: 'GET',
+    headers: { Authorization: process.env.WOOVI_APP_ID },
+  },
+);
+const data = await res.json();
+```
 
 ---
 

@@ -285,6 +285,44 @@
     },
     {
       "parameters": {
+        "resource": "application",
+        "operation": "create",
+        "accountId": "507f1f77bcf86cd799439011",
+        "name": "Test API",
+        "type": "API"
+      },
+      "id": "create-application-node",
+      "name": "Create Application",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2700, 600],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "application",
+        "operation": "delete",
+        "clientId": "client_123abc"
+      },
+      "id": "delete-application-node",
+      "name": "Delete Application",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2720, 640],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "resource": "account",
         "operation": "withdraw",
         "accountId": "acc123",
@@ -295,6 +333,43 @@
       "type": "n8n-nodes-woovi.woovi",
       "typeVersion": 1,
       "position": [2700, 560],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "cashbackFidelity",
+        "operation": "getByTaxId",
+        "taxID": "123456789"
+      },
+      "id": "get-cashback-balance-node",
+      "name": "Get Cashback Balance",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2690, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "cashbackFidelity",
+        "operation": "create",
+        "taxID": "123456789",
+        "value": 100
+      },
+      "id": "create-cashback-node",
+      "name": "Create Cashback",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [2710, 560],
       "credentials": {
         "wooviApi": {
           "id": "1",
@@ -994,6 +1069,27 @@
         "wooviApi": {
           "id": "1",
           "name": "Woovi API account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "statement",
+        "operation": "list",
+        "start": "2020-01-01T00:00:00Z",
+        "end": "2020-12-01T17:00:00Z",
+        "skip": 0,
+        "limit": 20
+      },
+      "id": "list-statement-node",
+      "name": "List Statement",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [3600, 520],
+      "credentials": {
+        "wooviApi": {
+          "id": "1",
+          "name": "Woovi account"
         }
       }
     },
