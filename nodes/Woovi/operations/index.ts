@@ -54,6 +54,8 @@ import { getPayment } from './getPayment';
 import { listPsps } from './listPsps';
 import { createPartnerCompany } from './createPartnerCompany';
 import { createPartnerApplication } from './createPartnerApplication';
+import { createApplication } from './createApplication';
+import { deleteApplication } from './deleteApplication';
 import { getPartnerCompany } from './getPartnerCompany';
 import { listPartnerCompanies } from './listPartnerCompanies';
 import { listWebhooks } from './listWebhooks';
@@ -63,6 +65,7 @@ import { getWebhookIps } from './getWebhookIps';
 import { validateTaxId } from './validateTaxId';
 import { validatePixKey } from './validatePixKey';
 import { listTransactions } from './listTransactions';
+import { listStatement } from './listStatement';
 import { getTransaction } from './getTransaction';
 import { listDisputes } from './listDisputes';
 import { getDispute } from './getDispute';
@@ -79,6 +82,8 @@ import { createTransfer } from './createTransfer';
 import { decodeEmv } from './decodeEmv';
 import { getCompany } from './getCompany';
 import { getReceipt } from './getReceipt';
+import { getCashbackBalance } from './getCashbackBalance';
+import { createCashbackFidelity } from './createCashbackFidelity';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -182,6 +187,9 @@ export const wooviOperations: Record<
     list: listTransactions,
     get: getTransaction,
   },
+  statement: {
+    list: listStatement,
+  },
   dispute: {
     list: listDisputes,
     get: getDispute,
@@ -210,5 +218,13 @@ export const wooviOperations: Record<
   },
   receipt: {
     getReceiptPdf: getReceipt,
+  },
+  application: {
+    create: createApplication,
+    delete: deleteApplication,
+  },
+  cashbackFidelity: {
+    getByTaxId: getCashbackBalance,
+    create: createCashbackFidelity,
   },
 };
