@@ -78,6 +78,10 @@ import { createAccount } from './createAccount';
 import { withdrawAccount } from './withdrawAccount';
 import { getAccount } from './getAccount';
 import { listAccounts } from './listAccounts';
+import { createTransfer } from './createTransfer';
+import { decodeEmv } from './decodeEmv';
+import { getCompany } from './getCompany';
+import { getReceipt } from './getReceipt';
 import { getCashbackBalance } from './getCashbackBalance';
 import { createCashbackFidelity } from './createCashbackFidelity';
 
@@ -202,6 +206,18 @@ export const wooviOperations: Record<
     withdraw: withdrawAccount,
     get: getAccount,
     list: listAccounts,
+  },
+  transfer: {
+    create: createTransfer,
+  },
+  decode: {
+    emv: decodeEmv,
+  },
+  company: {
+    get: getCompany,
+  },
+  receipt: {
+    getReceiptPdf: getReceipt,
   },
   application: {
     create: createApplication,
