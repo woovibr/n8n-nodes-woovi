@@ -12,6 +12,8 @@ import { qrCodeStaticProperties } from './QrCodeStatic';
 import { disputeProperties } from './Dispute';
 import { decodeProperties } from './Decode';
 import { transferProperties } from './Transfer';
+import { companyProperties } from './Company';
+import { receiptProperties } from './Receipt';
 import { paymentProperties } from './Payment';
 import { pspProperties } from './Psp';
 import { partnerProperties } from './Partner';
@@ -40,6 +42,8 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...transactionProperties,
   ...disputeProperties,
   ...transferProperties,
+  ...receiptProperties,
+  ...companyProperties,
   ...accountRegisterProperties,
   ...accountProperties,
 ];

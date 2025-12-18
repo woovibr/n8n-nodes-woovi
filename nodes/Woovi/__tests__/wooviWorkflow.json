@@ -119,6 +119,32 @@
     },
     {
       "parameters": {
+        "resource": "company",
+        "operation": "get"
+      },
+      "id": "get-company-node",
+      "name": "Get Company",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1000, 360],
+      "credentials": { "wooviApi": { "id": "1", "name": "Woovi account" } }
+    },
+    {
+      "parameters": {
+        "resource": "receipt",
+        "operation": "getReceiptPdf",
+        "receiptType": "pix-in",
+        "endToEndId": "E12345678202406201221abcdef12345"
+      },
+      "id": "get-receipt-node",
+      "name": "Get Receipt PDF",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1000, 420],
+      "credentials": { "wooviApi": { "id": "1", "name": "Woovi account" } }
+    },
+    {
+      "parameters": {
         "resource": "transfer",
         "operation": "create",
         "value": 100,

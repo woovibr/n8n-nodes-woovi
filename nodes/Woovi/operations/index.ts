@@ -77,6 +77,8 @@ import { getAccount } from './getAccount';
 import { listAccounts } from './listAccounts';
 import { createTransfer } from './createTransfer';
 import { decodeEmv } from './decodeEmv';
+import { getCompany } from './getCompany';
+import { getReceipt } from './getReceipt';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -202,5 +204,11 @@ export const wooviOperations: Record<
   },
   decode: {
     emv: decodeEmv,
+  },
+  company: {
+    get: getCompany,
+  },
+  receipt: {
+    getReceiptPdf: getReceipt,
   },
 };
