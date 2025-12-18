@@ -1507,6 +1507,16 @@ const data = await res.json();
 - Descrição: Transfere valores entre contas
 - Payload: body `{ "value": 100, "fromPixKey": "...", "toPixKey": "...", "correlationID": "..." }`, headers `Authorization`
 
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/transfer" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -d '{"value":100,"fromPixKey":"from@openpix.com.br","toPixKey":"to@openpix.com.br","correlationID":"123e4567-e89b-12d3-a456-426614174000"}'
+```
+
 ---
 
 ## Webhook
@@ -1641,6 +1651,16 @@ const data = await res.json();
 - Path: /api/v1/decode/emv
 - Descrição: Faz parse do EMV/PIX QR e resolve localizações COB/REC quando possível
 - Payload: body `{ "emv": "..." }`, headers `Authorization`
+
+**Exemplo curl**
+
+```bash
+curl -X POST \
+  "$WOOVI_BASE_URL/api/v1/decode/emv" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: $WOOVI_APP_ID" \
+  -d '{"emv":"000201..."}'
+```
 
 ---
 

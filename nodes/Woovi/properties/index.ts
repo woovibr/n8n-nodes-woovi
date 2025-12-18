@@ -10,6 +10,8 @@ import { subscriptionProperties } from './Subscription';
 import { pixKeyProperties } from './PixKey';
 import { qrCodeStaticProperties } from './QrCodeStatic';
 import { disputeProperties } from './Dispute';
+import { decodeProperties } from './Decode';
+import { transferProperties } from './Transfer';
 import { paymentProperties } from './Payment';
 import { pspProperties } from './Psp';
 import { partnerProperties } from './Partner';
@@ -29,6 +31,7 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...subscriptionProperties,
   ...pixKeyProperties,
   ...qrCodeStaticProperties,
+  ...decodeProperties,
   ...paymentProperties,
   ...pspProperties,
   ...partnerProperties,
@@ -36,6 +39,7 @@ export const wooviNodesProperties: INodeProperties[] = [
   ...fraudValidationProperties,
   ...transactionProperties,
   ...disputeProperties,
+  ...transferProperties,
   ...accountRegisterProperties,
   ...accountProperties,
 ];

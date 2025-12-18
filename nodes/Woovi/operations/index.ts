@@ -75,6 +75,8 @@ import { createAccount } from './createAccount';
 import { withdrawAccount } from './withdrawAccount';
 import { getAccount } from './getAccount';
 import { listAccounts } from './listAccounts';
+import { createTransfer } from './createTransfer';
+import { decodeEmv } from './decodeEmv';
 
 export type OperationHandler = (
   this: IExecuteFunctions,
@@ -194,5 +196,11 @@ export const wooviOperations: Record<
     withdraw: withdrawAccount,
     get: getAccount,
     list: listAccounts,
+  },
+  transfer: {
+    create: createTransfer,
+  },
+  decode: {
+    emv: decodeEmv,
   },
 };
