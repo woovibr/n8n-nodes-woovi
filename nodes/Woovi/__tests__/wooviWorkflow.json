@@ -104,6 +104,63 @@
     },
     {
       "parameters": {
+        "resource": "decode",
+        "operation": "emv",
+        "emv": "00020126780014br.gov.bcb.pix0136..."
+      },
+      "id": "decode-emv-node",
+      "name": "Decode EMV",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [950, 460],
+      "credentials": {
+        "wooviApi": { "id": "1", "name": "Woovi account" }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "company",
+        "operation": "get"
+      },
+      "id": "get-company-node",
+      "name": "Get Company",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1000, 360],
+      "credentials": { "wooviApi": { "id": "1", "name": "Woovi account" } }
+    },
+    {
+      "parameters": {
+        "resource": "receipt",
+        "operation": "getReceiptPdf",
+        "receiptType": "pix-in",
+        "endToEndId": "E12345678202406201221abcdef12345"
+      },
+      "id": "get-receipt-node",
+      "name": "Get Receipt PDF",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [1000, 420],
+      "credentials": { "wooviApi": { "id": "1", "name": "Woovi account" } }
+    },
+    {
+      "parameters": {
+        "resource": "transfer",
+        "operation": "create",
+        "value": 100,
+        "fromPixKey": "from@openpix.com.br",
+        "toPixKey": "to@openpix.com.br",
+        "correlationID": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "id": "create-transfer-node",
+      "name": "Create Transfer",
+      "type": "n8n-nodes-woovi.woovi",
+      "typeVersion": 1,
+      "position": [980, 520],
+      "credentials": { "wooviApi": { "id": "1", "name": "Woovi account" } }
+    },
+    {
+      "parameters": {
         "resource": "charge",
         "operation": "getQrImageBase64",
         "id": "fe7834b4060c488a9b0f89811be5f5cf",
