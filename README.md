@@ -42,6 +42,29 @@ Se você deseja usar o ambiente de sandbox, abra as credenciais `Woovi API` no n
 
 - All requests require the `Authorization` header with your AppID (set it in the `Woovi API` credential used by the node).
 
+## Webhook signature verification
+
+The **Woovi Trigger** node verifies that every incoming webhook was really sent by
+Woovi, and answers `401` to anything it cannot verify.
+
+If you select a **Woovi API** credential on the trigger, the node looks the webhook
+up by its URL — registering it when it does not exist yet — and reads that webhook's
+`hmacSecretKey` from the API. It then verifies the `x-openpix-signature` header
+(HMAC-SHA1 over the raw request body). Nothing else to configure. The node only
+deletes a webhook it registered itself; one you created in the Woovi dashboard is
+left alone.
+
+Without a credential — or when listening to `ALL`, which the API has no single
+webhook for — fill the optional **HMAC Secret Key** field with the secret shown for
+that webhook in the Woovi dashboard.
+
+As a last resort, **Webhook Public Key** verifies the `x-webhook-signature` header
+instead (RSA-SHA256 over the raw request body, base64). A malformed key fails
+closed: every request is rejected.
+
+A trigger with none of the three set keeps accepting webhooks unverified, so
+existing workflows are not broken by an upgrade.
+
 ## Using implemented routes in n8n
 
 The package currently implements several Woovi endpoints for n8n:
